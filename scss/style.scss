@@ -1,0 +1,81 @@
+/*
+	Template Name: Varsity
+	Author : MarkUps.io
+	Author URI: http://www.markups.io/
+	Version: 1.0
+
+*/
+
+
+/* BASE - Base tyles, Variables, Mixins, etc. */
+
+
+@import 'base/_variables.scss';
+@import 'base/_mixins.scss';
+@import 'base/_base.scss';
+
+/* MODULES - Individual site components */
+
+@import 'modules/_typography.scss';
+@import 'modules/_buttons.scss';
+
+
+
+/* LAYOUTS - Page layout styles */
+
+
+
+/*==================
+ HEADER SECTION
+====================*/
+
+@import 'layouts/_header.scss';
+
+/*==================
+ NAVBAR SECTION
+====================*/
+
+@import 'layouts/_nav.scss';
+
+/* ALL SECTION */
+
+@import 'modules/_sections.scss';
+
+/*==================
+ FOOTER
+====================*/
+
+@import 'layouts/_footer.scss';
+
+/*==================
+ THEME COLOR
+====================*/
+@import 'modules/_theme-color.scss';
+
+/*==================
+ RESPONSIVE DESIGN
+====================*/
+
+@import 'modules/_responsive.scss';
+
+/* Floating WhatsApp Button */
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  color: #fff;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  text-align: center;
+  font-size: 30px;
+  line-height: 55px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+  z-index: 9999;
+}
+
+.whatsapp-float:hover {
+  background-color: #20ba5a;
+  color: #fff;
+}
