@@ -256,7 +256,7 @@ footer ul li a i:hover{
   <input type="text" id="name" placeholder="Student Name" required style="width:100%;padding:10px;margin-bottom:10px;">
   <input type="email" id="email" placeholder="School" required style="width:100%;padding:10px;margin-bottom:10px;">
   <input type="email" id="email" placeholder="Class" required style="width:100%;padding:10px;margin-bottom:10px;">
-  <input type="tel" id="phone" placeholder="Phone Number" required style="width:100%;padding:10px;margin-bottom:15px;">
+  <input type="tel" id="phone" placeholder="Mobile" required style="width:100%;padding:10px;margin-bottom:15px;">
   <button id="submitEnroll" style="width:100%;padding:12px;background:#25D366;color:#fff;font-weight:bold;border:none;border-radius:6px;cursor:pointer;">Send via WhatsApp</button>
   <button id="closeForm" style="width:100%;padding:12px;margin-top:10px;background:#ccc;color:#000;font-weight:bold;border:none;border-radius:6px;cursor:pointer;">Cancel</button>
 </div>
@@ -307,7 +307,7 @@ submitEnroll.onclick = () => {
   }
 
   // Pre-fill WhatsApp message
-  const message = `Hello! I want to enroll in NextGen Robotics Academy.\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`;
+  const message = `Hello! I want to enroll in NextGen Robotics Academy.\nStudentName: ${name}\nSchool: ${school}\nClass: ${class}\nMobile: ${mobile}`;
   const whatsappURL = `https://wa.me/919830068336?text=${encodeURIComponent(message)}`;
   
   window.open(whatsappURL, '_blank'); // open WhatsApp chat in new tab
@@ -316,6 +316,7 @@ submitEnroll.onclick = () => {
 
 </body>
 </html>
+
 
 
 
