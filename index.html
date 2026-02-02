@@ -250,16 +250,49 @@ footer ul li a i:hover{
   </div>
 </section>
 
-<!-- POPUP WHATSAPP ENROLL FORM -->
+
+  <!-- POPUP WHATSAPP ENROLL FORM -->
 <div id="enrollForm" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;color:#000;padding:30px;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.3);z-index:999;width:90%;max-width:400px;">
   <h2>Enroll Now</h2>
-  <input type="text" id="name" placeholder="Student Name" required style="width:100%;padding:10px;margin-bottom:10px;">
-  <input type="email" id="email" placeholder="School" required style="width:100%;padding:10px;margin-bottom:10px;">
-  <input type="email" id="email" placeholder="Class" required style="width:100%;padding:10px;margin-bottom:10px;">
-  <input type="tel" id="phone" placeholder="Mobile" required style="width:100%;padding:10px;margin-bottom:15px;">
+  <input type="text" id="studentName" placeholder="Student Name" required style="width:100%;padding:10px;margin-bottom:10px;">
+  <input type="text" id="school" placeholder="School" required style="width:100%;padding:10px;margin-bottom:10px;">
+  <input type="text" id="className" placeholder="Class" required style="width:100%;padding:10px;margin-bottom:10px;">
+  <input type="tel" id="mobile" placeholder="Mobile" required style="width:100%;padding:10px;margin-bottom:15px;">
   <button id="submitEnroll" style="width:100%;padding:12px;background:#25D366;color:#fff;font-weight:bold;border:none;border-radius:6px;cursor:pointer;">Send via WhatsApp</button>
   <button id="closeForm" style="width:100%;padding:12px;margin-top:10px;background:#ccc;color:#000;font-weight:bold;border:none;border-radius:6px;cursor:pointer;">Cancel</button>
 </div>
+
+<script>
+const enrollBtn = document.getElementById("enrollBtn");
+const enrollForm = document.getElementById("enrollForm");
+const closeForm = document.getElementById("closeForm");
+
+enrollBtn.onclick = () => enrollForm.style.display = "block";
+closeForm.onclick = () => enrollForm.style.display = "none";
+
+// WhatsApp Form Submission
+const submitEnroll = document.getElementById("submitEnroll");
+submitEnroll.onclick = () => {
+  const name = document.getElementById("studentName").value.trim();
+  const school = document.getElementById("school").value.trim();
+  const className = document.getElementById("className").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
+
+  if(!name || !school || !className || !mobile){
+    alert("Please fill all fields!");
+    return;
+  }
+
+  // Pre-fill WhatsApp message
+  const message = `Hello! I want to enroll in NextGen Robotics Academy.\nStudent Name: ${name}\nSchool: ${school}\nClass: ${className}\nMobile: ${mobile}`;
+  const whatsappURL = `https://wa.me/919830068336?text=${encodeURIComponent(message)}`;
+  
+  window.open(whatsappURL, '_blank'); // open WhatsApp chat in new tab
+};
+</script>
+
+
+
 
 <footer>
   <div class="footer-row">
@@ -316,6 +349,7 @@ submitEnroll.onclick = () => {
 
 </body>
 </html>
+
 
 
 
