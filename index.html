@@ -1,575 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NextGenRoboticX | Home</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NextGen Robotics Academy</title>
 
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+<!-- FONT AWESOME -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-  <!-- CSS -->
-  <link href="assets/css/font-awesome.css" rel="stylesheet">
-  <link href="assets/css/bootstrap.css" rel="stylesheet">
-  <link href="assets/css/slick.css" rel="stylesheet">
-  <link href="assets/css/jquery.fancybox.css" rel="stylesheet">
-  <link href="assets/css/theme-color/default-theme.css" rel="stylesheet">
-  <link href="assets/css/style.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:Arial,sans-serif;
+  background:#0b4fd6;
+  color:#fff;
+}
+a{text-decoration:none;color:inherit}
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+/* HEADER */
+header{
+  background:#083fa8;
+  padding:15px 30px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+.nav-container{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo{
+  font-size:24px;
+  font-weight:bold;
+}
+nav ul{
+  list-style:none;
+  display:flex;
+  gap:25px;
+}
+nav ul li{position:relative}
+nav ul li a{
+  color:#fff;
+  font-weight:500;
+  padding:8px 5px;
+}
+nav ul li a:hover{color:#ffcc00}
+
+/* DROPDOWNS */
+.has-dropdown>.dropdown{
+  display:none;
+  position:absolute;
+  top:100%;
+  left:0;
+  background:#fff;
+  min-width:260px;
+  list-style:none;
+  border-radius:4px;
+  z-index:2000;
+}
+.has-dropdown:hover>.dropdown{display:block}
+
+.has-submenu{position:relative}
+.has-submenu>.submenu{
+  display:none;
+  position:absolute;
+  top:0;
+  left:100%;
+  background:#fff;
+  min-width:260px;
+}
+.has-submenu:hover>.submenu{display:block}
+
+.dropdown li a,
+.submenu li a{
+  display:block;
+  padding:10px;
+  color:#000;
+}
+.dropdown li a:hover,
+.submenu li a:hover{
+  background:#f2f2f2;
+}
+
+/* MOBILE */
+.mobile-toggle{display:none;font-size:26px;cursor:pointer}
+@media(max-width:768px){
+  nav ul{
+    flex-direction:column;
+    display:none;
+    background:#083fa8;
+    width:100%;
+    padding:15px;
+  }
+  nav ul.active{display:flex}
+  .mobile-toggle{display:block}
+}
+
+/* HERO */
+.hero{
+  padding:90px 8%;
+  background:linear-gradient(135deg,#0b4fd6,#1a75ff);
+}
+.hero-inner{
+  display:flex;
+  align-items:center;
+  gap:50px;
+}
+.hero-text{flex:1}
+.hero-text h1{font-size:2.8rem}
+.hero-text p{font-size:1.2rem;margin:15px 0 25px}
+.enrollBtn{
+  padding:12px 26px;
+  background:#ffcc00;
+  color:#000;
+  font-weight:bold;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+.hero-image{flex:1}
+.hero-image img{
+  width:100%;
+  border-radius:16px;
+  box-shadow:0 25px 60px rgba(0,0,0,.5);
+}
+@media(max-width:900px){
+  .hero-inner{flex-direction:column;text-align:center}
+}
+
+/* FOOTER — ONE LINE */
+footer{
+  background:#083fa8;
+  padding:15px 30px;
+}
+.footer-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:25px;
+  flex-wrap:wrap;
+}
+
+footer ul{
+  list-style:none;
+  display:flex;
+  gap:16px;
+}
+footer ul li a i{
+  color:#ffffff;
+  font-size:20px;
+}
+footer ul li a i:hover{
+  color:#ffcc00;
+}
+</style>
 </head>
 
 <body>
 
-<!-- Scroll to Top -->
-<a class="scrollToTop" href="#">
-  <i class="fa fa-angle-up"></i>
-</a>
+<header>
+  <div class="nav-container">
+    <div class="logo">NextGen Robotics Academy, Kolkata</div>
+    <div class="mobile-toggle" id="menuToggle">&#9776;</div>
 
-<!-- Header -->
-<header id="mu-header">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
+    <nav>
+      <ul id="navMenu">
+        <li><a href="index.html">Home</a></li>
 
-        <div class="mu-header-area">
-          <div class="row">
+        <li class="has-dropdown">
+          <a href="#">Course ▾</a>
+          <ul class="dropdown">
+            <li><a href="learn-c-programming.html">Learn C Programming</a></li>
+            <li><a href="robotics-course-level-v1.0.html">Robotics Level v1.0</a></li>
+            <li><a href="robotics-course-level-v2.0.html">Robotics Level v2.0</a></li>
+            <li><a href="robotics-course-level-v3.0.html">Robotics Level v3.0</a></li>
+            <li><a href="engineering-project-on-robotics.html">Engineering Project</a></li>
+          </ul>
+        </li>
 
-            <!-- Left Info -->
-            <div class="col-lg-6 col-md-6 col-sm-12">
-              <div class="mu-header-top-left" style="white-space: nowrap;">
-                <span><i class="fa fa-graduation-cap"></i> NextGen Robotics Academy | </span>
-                <span><i class="fa fa-map-marker"></i> Golpark, Gariahat, Kolkata | </span>
-                <span><i class="fa fa-phone"></i> +91 9830068336 | </span>
-                <span><i class="fa fa-envelope"></i> sona2desai@gmail.com</span>
-              </div>
-            </div>
+        <li class="has-dropdown">
+          <a href="#">Project ▾</a>
+          <ul class="dropdown">
+            <li class="has-submenu">
+              <a href="#">Robotic Car ▸</a>
+              <ul class="submenu">
+                <li><a href="solar-powered-robotic-car.html">Solar Powered</a></li>
+                <li><a href="voice-controlled-robotic-car.html">Voice Controlled</a></li>
+                <li><a href="obstacle-avoiding-robotic-car.html">Obstacle Avoiding</a></li>
+                <li><a href="mobile-controlled-robotic-car.html">Mobile Controlled</a></li>
+                <li><a href="joystick-controlled-robotic-car.html">Joystick Controlled</a></li>
+                <li><a href="wifi-controlled-robotic-car.html">WiFi ESP8266</a></li>
+                <li><a href="robotic-car-hack-af-motor-shield.html">Hack AF Motor Shield</a></li>
+                <li><a href="obstacle-avoiding-robotic-car-on-breadboard.html">Breadboard Robot</a></li>
+                <li><a href="line-follower-robotic-car.html">Line Follower</a></li>
+              </ul>
+            </li>
 
-            <!-- Right Social -->
-            <div class="col-lg-6 col-md-6 col-sm-12 text-right">
-              <div class="mu-header-top-right">
-                <ul class="mu-top-social-nav">
-                  <li><a href="https://twitter.com/NextGenRoboticX"><i class="fa fa-twitter"></i></a></li>
-                  <li><a href="https://www.instagram.com/NextGenRoboticX/"><i class="fa fa-instagram"></i></a></li>
-                  <li><a href="https://www.facebook.com/NextGenRoboticX"><i class="fa fa-facebook"></i></a></li>
-                  <li><a href="https://www.linkedin.com/in/NextGenRoboticX/"><i class="fa fa-linkedin"></i></a></li>
-                  <li><a href="https://www.youtube.com/channel/UCTm1N5AvylPayb6J_8j8RfA"><i class="fa fa-youtube"></i></a></li>
-                </ul>
-              </div>
-            </div>
+            <li class="has-submenu">
+              <a href="#">Drone ▸</a>
+              <ul class="submenu">
+                <li><a href="make-and-fly-your-own-drone.html">Make and Fly Your Own Drone</a></li>
+                <li><a href="drone-flight-controller.html">Drone Flight Controller</a></li>
+              </ul>
+            </li>
 
-          </div>
-        </div>
+            <li class="has-submenu">
+              <a href="#">Robot ▸</a>
+              <ul class="submenu">
+                <li><a href="humanoid-robot.html">Humanoid Robot</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
 
-      </div>
-    </div>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="faculty.html">Faculty</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
   </div>
 </header>
-<!-- End Header -->
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h1>Build Your Future in Robotics & AI Tech</h1>
+      <p>Hands-on DIY Robotics • AI • IoT • Engineering Projects</p>
+      <button class="enrollBtn">ENROLL NOW</button>
+    </div>
+    <div class="hero-image">
+      <img src="assets/img/robotics-academy.jpg" alt="Robotics Academy">
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-row">
+    <span>© 2025 NextGen Robotics Academy</span>
+
+    <ul>
+      <li><a href="https://twitter.com/NextGenRoboticX" target="_blank"><i class="fa fa-twitter"></i></a></li>
+      <li><a href="https://www.instagram.com/NextGenRoboticX/" target="_blank"><i class="fa fa-instagram"></i></a></li>
+      <li><a href="https://www.facebook.com/NextGenRoboticX" target="_blank"><i class="fa fa-facebook"></i></a></li>
+      <li><a href="https://www.linkedin.com/in/NextGenRoboticX/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+      <li><a href="https://www.youtube.com/channel/UCTm1N5AvylPayb6J_8j8RfA" target="_blank"><i class="fa fa-youtube"></i></a></li>
+      <li class="whatsapp-footer">
+        <a href="https://wa.me/919830015498" target="_blank">
+          <i class="fa fa-whatsapp"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+menuToggle.onclick=()=>navMenu.classList.toggle("active");
+</script>
 
 </body>
 </html>
-
-  
-  <!-- Start menu -->
-  <section id="mu-menu">
-    <nav class="navbar navbar-default" role="navigation">  
-      <div class="container">
-        <div class="navbar-header">
-          <!-- FOR MOBILE VIEW COLLAPSED BUTTON -->
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-	
-	<!-- TEXT BASED LOGO -->
-       <!--  <a class="navbar-brand" href="index.html"><img src="assets/img/logo.png" alt="logo"></a> -->
-		 <a class="navbar-brand" href="index.html"></i><span>NextGenRoboticX</span></a>
-
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
-            <li class="active"><a href="index.html">Home</a></li>            
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Course <span class="fa fa-angle-down"></span></a>
-              <ul class="dropdown-menu" role="menu">
-				<li><a href="learn-c-programming.html">Learn C Programming</a></li>  			  
-				<li><a href="robotics-course-level-v1.0.html">Robotics Course Level v1.0</a></li>                
-				<li><a href="robotics-course-level-v2.0.html">Robotics Course Level v2.0</a></li>
-				<li><a href="robotics-course-level-v3.0.html">Robotics Course Level v3.0</a></li>
-				<li><a href="engineering-project-on-robotics.html">Engineering Project on Robotics</a></li>
-              </ul>
-            </li>
-			 <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Robotic Car<span class="fa fa-angle-down"></span></a>
-              <ul class="dropdown-menu" role="menu">
-				<li><a href="solar-powered-robotic-car.html">Solar Powered</a></li>
-				<li><a href="voice-controlled-robotic-car.html">Voice Controlled</a></li>
-				<li><a href="obstacle-avoiding-robotic-car.html">Obstacle Avoiding</a></li>
-				<li><a href="mobile-controlled-robotic-car.html">Mobile Controlled</a></li>
-				<li><a href="joystick-controlled-robotic-car.html">Joystick Controlled</a></li>
-				<li><a href="wifi-controlled-robotic-car.html">WeMos D1 R2 WiFi ESP8266</a></li>
-				<li><a href="robotic-car-hack-af-motor-shield.html">HACK-AF-MOTOR-SHIELD</a></li>
-				<li><a href="obstacle-avoiding-robotic-car-on-breadboard.html">Obstacle Avoiding on Breadboard</a></li>
-				<li><a href="line-follower-robotic-car.html">Line Follower Robotic Car</a></li>
-              </ul>
-            </li>
-				 <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Drone<span class="fa fa-angle-down"></span></a>
-              <ul class="dropdown-menu" role="menu">
-				<li><a href="make-and-fly-your-own-drone.html">Make and Fly Your Own Drone</a></li>
-				<li><a href="drone-flight-controller.html">Drone Flight Controller</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Robot <span class="fa fa-angle-down"></span></a>
-              <ul class="dropdown-menu" role="menu">
-				<li><a href="humanoid-robot.html">Humanoid Robot</a></li>
-              </ul>
-            </li> 
-				<li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">IOT <span class="fa fa-angle-down"></span></a>
-              <ul class="dropdown-menu" role="menu">
-				<li><a href="nodemcu-ESP8266-IOT-wifi-robotic-car.html">NodeMCU ESP8266 IOT WiFi</a></li>
-			    </ul>
-            </li>  			
-			 <li><a href="gallery.html">Gallery</a></li>
-			 
-             <li><a href="faculty.html">Faculty</a></li>               
-      <!--      <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li> -->
-          </ul>                     
-        </div><!--/.nav-collapse -->        
-      </div>     
-    </nav>
-  </section>
-  <!-- End menu -->
-  <!-- Start search box -->
-  <div id="mu-search">
-    <div class="mu-search-area">      
-      <button class="mu-search-close"><span class="fa fa-close"></span></button>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">            
-            <form class="mu-search-form">
-              <input type="search" placeholder="Type Your Keyword(s) & Hit Enter">              
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End search box -->
-  <!-- Start Slider -->
-  <section id="mu-slider">
-    <!-- Start single slider item -->
-    <div class="mu-slider-single">
-      <div class="mu-slider-img">
-        <figure>
-          <img src="assets/img/slider/1.png" alt="img">
-        </figure>
-      </div>
-      <div class="mu-slider-content">
-           <h4>Welcome To NextGenRoboticX</h4>
-        <span></span>
-        <h2>NextGen Robotics Academy</h2>
-        <p>Premier training institute in Kolkata where innovation meets education. We specialize in teaching Robotics & Artificial Intelligence to school students (Class 9–12) and providing hands-on project support for engineering students!</p>
-		<a href="#" class="mu-read-more-btn">Read More</a>
-      </div>
-    </div>
-	
-    <!-- Start single slider item -->
-    <div class="mu-slider-single">
-      <div class="mu-slider-img">
-        <figure>
-          <img src="assets/img/slider/2.png" alt="img">
-        </figure>
-      </div>
-	<div class="mu-slider-content">
-        <h4>Welcome To NextGenRoboticX</h4>
-        <span></span>
-        <h2>We Will Help You To Learn Robotics</h2>
-        <p>Guided by experienced and qualified engineers have in depth knowledge in VLSI & Embedded System.</p>
-        <a href="#" class="mu-read-more-btn">Read More</a>
-      </div>
-    </div>
-	
-    <!-- Start single slider item -->
-    <div class="mu-slider-single">
-      <div class="mu-slider-img">
-        <figure>
-          <img src="assets/img/slider/3.png" alt="img">
-        </figure>
-      </div>
-      <div class="mu-slider-content">
-        <h4>Welcome To NextGenRoboticX</h4>
-        <span></span>
-        <h2>We Will Help You To Make and Fly Your Own Drone</h2>
-        <p>Let's research together with Technologies and your Innovative Ideas to make Drone!</p>
-        <a href="#" class="mu-read-more-btn">Read More</a>
-      </div>
-    </div>
-	
-    <!-- Start single slider item -->
-    <div class="mu-slider-single">
-      <div class="mu-slider-img">
-        <figure>
-          <img src="assets/img/slider/4.png" alt="img">
-        </figure>
-      </div>
-      <div class="mu-slider-content">
-        <h4>Welcome To NextGenRoboticX</h4>
-        <span></span>
-        <h2>We Will Help You To Learn Electronics Component and Embedded Systems</h2>
-        <p>Let's learn PCB design, make your own Electronics Circuit Board!</p>
-        <a href="#" class="mu-read-more-btn">Read More</a>
-      </div>
-    </div>	
-
-        <!-- Start single slider item -->
-    <div class="mu-slider-single">
-      <div class="mu-slider-img">
-        <figure>
-          <img src="assets/img/slider/5.png" alt="img">
-        </figure>
-      </div>
-      <div class="mu-slider-content">
-        <h4>Welcome To NextGenRoboticX</h4>
-        <span></span>
-        <h2>We Will Help You To Learn Embedded & Nano Tech</h2>
-        <p>Let's learn  VLSI and Nano technology, Build your own Robot!</p>
-        <a href="#" class="mu-read-more-btn">Read More</a>
-      </div>
-    </div>	
-  </section>
-
-  
-  <!-- End Slider -->
-  <!-- Start service  -->
-  <section id="mu-service">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 col-md-12">
-          <div class="mu-service-area">
-            <!-- Start single service -->
-            <div class="mu-service-single">
-              <span class="fa fa-book"></span>
-              <h3>E2E Robot Making</h3>
-              <p>Learn e2e Robot making. Know Mechanical and Electronics in Humanoid Robot!</p>
-            </div>
-            <!-- Start single service -->
-            <!-- Start single service -->
-            <div class="mu-service-single">
-              <span class="fa fa-users"></span>
-              <h3>Do it yourself (DIY) Robot</h3>
-              <p>Learn Hardware and Software in Robotics. Make you own DIY Robot!</p>
-            </div>
-            <!-- Start single service -->
-            <!-- Start single service -->
-            <div class="mu-service-single">
-              <span class="fa fa-table"></span>
-              <h3>Innovation in Robotics</h3>
-              <p>Innovate your Ideas in Robotics science. Become Architect of your own Robot!</p>
-            </div>
-            <!-- Start single service -->
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End service  -->
-
-  <!-- Start about us -->
-  <section id="mu-about-us">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="mu-about-us-area">           
-            <div class="row">
-              <div class="col-lg-6 col-md-6">
-                <div class="mu-about-us-left">
-                  <!-- Start Title -->
-                  <div class="mu-title">
-                    <h2>About NextGenRoboticX</h2>              
-                  </div>
-                  <!-- End Title -->
-                  <p>NextGenRoboticX - Robotics Academy provides theoretical and practical knowledge on Robotics Science to Engineering , BSC (CS) , MSC (CS) , BCA , MCA & School Students (class 8-12). We help them to Learn</p>
-			<!--	  <p>We help them to Learn</p> --> 
-                  <ul>
-                    <li>Hardware and Software in Robotics Science</li>
-					<li>Electronics component & PCB design</li>
-					<li>Embedded C programming</li>
-                    <li>Program a machine to follow Instructions</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-6">
-                <div class="mu-about-us-right">                            
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/CL4lbaCl_CA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </a>                
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End about us -->
-
-  <!-- Start about us counter -->
-  <section id="mu-abtus-counter">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="mu-abtus-counter-area">
-            <div class="row">
-              <!-- Start counter item -->
-              <div class="col-lg-3 col-md-3 col-sm-3">
-                <div class="mu-abtus-counter-single">
-                  <span class="fa fa-book"></span>
-                  <h4 class="counter">4</h4>
-                  <p>Course</p>
-                </div>
-              </div>
-              <!-- End counter item -->
-              <!-- Start counter item -->
-              <div class="col-lg-3 col-md-3 col-sm-3">
-                <div class="mu-abtus-counter-single">
-                  <span class="fa fa-users"></span>
-                  <h4 class="counter">15</h4>
-                  <p>Project</p>
-                </div>
-              </div>
-              <!-- End counter item -->
-              <!-- Start counter item -->
-              <div class="col-lg-3 col-md-3 col-sm-3">
-                <div class="mu-abtus-counter-single">
-                  <span class="fa fa-flask"></span>
-                  <h4 class="counter">1</h4>
-                  <p>Electronics Lab</p>
-                </div>
-              </div>
-              <!-- End counter item -->
-              <!-- Start counter item -->
-              <div class="col-lg-3 col-md-3 col-sm-3">
-                <div class="mu-abtus-counter-single no-border">
-                  <span class="fa fa-user-secret"></span>
-                  <h4 class="counter">2</h4>
-                  <p>IT professional</p>
-                </div>
-              </div>
-              <!-- End counter item -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-<!-- End about us counter -->
-  
-<!-- Start features section -->
-  <section id="mu-features">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 col-md-12">
-          <div class="mu-features-area">
-            <!-- Start Title -->
-            <div class="mu-title">
-              <h2>Our Features</h2>
-              <p>Salient Features of our Institute listed below!</p>
-            </div>
-            <!-- End Title -->
-            <!-- Start features content -->
-            <div class="mu-features-content">
-              <div class="row">
-                <div class="col-lg-4 col-md-4  col-sm-6">
-                  <div class="mu-single-feature">
-                    <span class="fa fa-book"></span>
-                    <h4>Project Based Learning</h4>
-                    <p>We offer Project Based Learning in which students acquire a deeper knowledge in completing a E2E project in classroom.</p>
-                    <a href="#">Read More</a>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                  <div class="mu-single-feature">
-                    <span class="fa fa-users"></span>
-                    <h4>Interactive Learning</h4>
-                    <p>We offer Interactive learning technique that engages students by having them actively participate in executing project activities.</p>
-                    <a href="#">Read More</a>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                  <div class="mu-single-feature">
-                    <span class="fa fa-laptop"></span>
-                    <h4>Online Learning</h4>
-                    <p>We help student to follow and learn from online content available in different science and technology sites and channels.</p>
-                    <a href="#">Read More</a>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                  <div class="mu-single-feature">
-                    <span class="fa fa-microphone"></span>
-                    <h4>Hands on Training</h4>
-                    <p>We offer Hands-on training to the student by allowing them to get her hands directly on whatever they are learning.</p>
-                    <a href="#">Read More</a>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                  <div class="mu-single-feature">
-                    <span class="fa fa-film"></span>
-                    <h4>Value Added Course</h4>
-                    <p>We offer Value added courses which help our students to develop their own skills and knowledge in Robotics.</p>
-                    <a href="#">Read More</a>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                  <div class="mu-single-feature">
-                    <span class="fa fa-certificate"></span>
-                    <h4>Certificate</h4>
-                    <p>After successfull completion of the course , students are eligible to get cetrificate.</p>
-                    <a href="#">Read More</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- End features content -->
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End features section -->
-
-  <!-- Start latest course section -->
-
-            <!-- End Title -->
-            <!-- Start latest course content -->
-
-            <!-- End latest course content -->
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End latest course section -->
-
-  <!-- Start our teacher -->
-
-            <!-- end title -->
-            <!-- begain our teacher content -->
-           
-            <!-- End our teacher content -->           
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End our teacher -->
-
-
-  </section>
-  <!-- End testimonial -->
-
-  <!-- Start from blog -->
- 
-  <!-- End from blog -->
-
-  <!-- Start footer -->
-  <!-- Start footer -->
-  <footer id="mu-footer">
-    <!-- start footer top -->
-    <div class="mu-footer-top">
-      <div class="container">
-        <div class="mu-footer-top-area">
-          <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3">
-              <div class="mu-footer-widget">
-                <h4>Information</h4>
-                <ul>
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="">Course</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-              <div class="mu-footer-widget">
-                <h4>Student Help</h4>
-                <ul>
-                  <li><a href="">Get Started</a></li>
-                  <li><a href="#">My Questions</a></li>
-                   	 
-                </ul>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-              <div class="mu-footer-widget">
-                <h4>Location</h4>
-                <p>Golpark , Gariahat, Kolkata</p>
-				<p>www.NextGenRoboticX.com</p>             
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-              <div class="mu-footer-widget">
-                <h4>Contact</h4>
-                <address>
-                  <p></p>
-                  <p>Phone: +919830068336</p>
-                  <p>Email: sona2desai@gmail.com</p>
-                </address>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- end footer top -->
-    <!-- start footer bottom -->
-    <div class="mu-footer-bottom">
-      <div class="container">
-        <div class="mu-footer-bottom-area">
-<p>All Right Reserved | Designed by <a href="https://www.sona2desai" rel="nofollow">NextGenRoboticX - NextGen Robotics Academy  &copy; 2020</a></p>
-
-       </div>
-      </div>
-    </div>
-    <!-- end footer bottom -->
-  </footer>
-  <!-- End footer -->
-  
-  <!-- Floating WhatsApp Button -->
-<a href="https://wa.me/919830068336" target="_blank" 
-   style="position:fixed;bottom:20px;right:20px;background:#25D366;color:white;
-          border-radius:50%;width:60px;height:60px;text-align:center;
-          font-size:30px;box-shadow: 2px 2px 5px rgba(0,0,0,0.3);z-index:1000;display:flex;align-items:center;justify-content:center;">
-    <i class="fa fa-whatsapp"></i>
-</a>
-
-
-  <!-- jQuery library -->
-  <script src="assets/js/jquery.min.js"></script>  
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="assets/js/bootstrap.js"></script>   
-  <!-- Slick slider -->
-  <script type="text/javascript" src="assets/js/slick.js"></script>
-  <!-- Counter -->
-  <script type="text/javascript" src="assets/js/waypoints.js"></script>
-  <script type="text/javascript" src="assets/js/jquery.counterup.js"></script>  
-  <!-- Mixit slider -->
-  <script type="text/javascript" src="assets/js/jquery.mixitup.js"></script>
-  <!-- Add fancyBox -->        
-  <script type="text/javascript" src="assets/js/jquery.fancybox.pack.js"></script>
-  
-  
-  <!-- Custom js -->
-  <script src="assets/js/custom.js"></script> 
-
-  </body>
-</html>
-
-
-
