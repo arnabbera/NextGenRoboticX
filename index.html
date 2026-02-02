@@ -88,13 +88,22 @@ nav ul li a:hover{color:#ffcc00}
 @media(max-width:768px){
   nav ul{
     flex-direction:column;
-    display:none;
+    display:none; /* hidden by default */
     background:#083fa8;
     width:100%;
     padding:15px;
+    position:absolute;
+    top:60px; /* below header */
+    left:0;
+    z-index:1000;
   }
-  nav ul.active{display:flex}
-  .mobile-toggle{display:block}
+  nav ul.active{
+    display:flex;
+  }
+  .mobile-toggle{
+    display:block;
+    color:#fff;
+  }
 }
 
 /* HERO */
@@ -241,7 +250,7 @@ footer ul li a i:hover{
       <h1>Build Your Future in Robotics & AI Tech</h1>
       <p>Hands-on DIY Robotics • AI • IoT • Engineering Projects</p>
 
-      <!-- UPDATED ENROLL NOW BUTTON -->
+      <!-- ENROLL NOW BUTTON -->
       <a href="#" class="enrollBtn" id="enrollBtn">ENROLL NOW</a>
     </div>
     <div class="hero-image">
@@ -261,7 +270,34 @@ footer ul li a i:hover{
   <button id="closeForm" style="width:100%;padding:12px;margin-top:10px;background:#ccc;color:#000;font-weight:bold;border:none;border-radius:6px;cursor:pointer;">Cancel</button>
 </div>
 
+<footer>
+  <div class="footer-row">
+    <span>© 2025 NextGen Robotics Academy, Gariahat, Golpark</span>
+
+    <ul>
+      <li><a href="https://twitter.com/NextGenRoboticX" target="_blank"><i class="fa fa-twitter"></i></a></li>
+      <li><a href="https://www.instagram.com/NextGenRoboticX/" target="_blank"><i class="fa fa-instagram"></i></a></li>
+      <li><a href="https://www.facebook.com/NextGenRoboticX" target="_blank"><i class="fa fa-facebook"></i></a></li>
+      <li><a href="https://www.linkedin.com/in/NextGenRoboticX/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+      <li><a href="https://www.youtube.com/channel/UCTm1N5AvylPayb6J_8j8RfA" target="_blank"><i class="fa fa-youtube"></i></a></li>
+      <li class="whatsapp-footer">
+        <a href="https://wa.me/919830068336" target="_blank">
+          <i class="fa fa-whatsapp"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
 <script>
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
+
+menuToggle.addEventListener("click", () => {
+  navMenu.classList.toggle("active");
+});
+
+// Enroll Form Popup
 const enrollBtn = document.getElementById("enrollBtn");
 const enrollForm = document.getElementById("enrollForm");
 const closeForm = document.getElementById("closeForm");
@@ -282,63 +318,10 @@ submitEnroll.onclick = () => {
     return;
   }
 
-  // Pre-fill WhatsApp message
   const message = `Hello! I want to enroll in NextGen Robotics Academy.\nStudent Name: ${name}\nSchool: ${school}\nClass: ${className}\nMobile: ${mobile}`;
   const whatsappURL = `https://wa.me/919830068336?text=${encodeURIComponent(message)}`;
   
-  window.open(whatsappURL, '_blank'); // open WhatsApp chat in new tab
-};
-</script>
-
-<footer>
-  <div class="footer-row">
-    <span>© 2025 NextGen Robotics Academy</span>
-
-    <ul>
-      <li><a href="https://twitter.com/NextGenRoboticX" target="_blank"><i class="fa fa-twitter"></i></a></li>
-      <li><a href="https://www.instagram.com/NextGenRoboticX/" target="_blank"><i class="fa fa-instagram"></i></a></li>
-      <li><a href="https://www.facebook.com/NextGenRoboticX" target="_blank"><i class="fa fa-facebook"></i></a></li>
-      <li><a href="https://www.linkedin.com/in/NextGenRoboticX/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-      <li><a href="https://www.youtube.com/channel/UCTm1N5AvylPayb6J_8j8RfA" target="_blank"><i class="fa fa-youtube"></i></a></li>
-      <li class="whatsapp-footer">
-        <a href="https://wa.me/919830068336" target="_blank">
-          <i class="fa fa-whatsapp"></i>
-        </a>
-      </li>
-    </ul>
-  </div>
-</footer>
-
-<script>
-const menuToggle = document.getElementById("menuToggle");
-const navMenu = document.getElementById("navMenu");
-menuToggle.onclick = () => navMenu.classList.toggle("active");
-
-// Enroll Form Popup
-const enrollBtn = document.getElementById("enrollBtn");
-const enrollForm = document.getElementById("enrollForm");
-const closeForm = document.getElementById("closeForm");
-
-enrollBtn.onclick = () => enrollForm.style.display = "block";
-closeForm.onclick = () => enrollForm.style.display = "none";
-
-// WhatsApp Form Submission
-const submitEnroll = document.getElementById("submitEnroll");
-submitEnroll.onclick = () => {
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-
-  if(!name || !email || !phone){
-    alert("Please fill all fields!");
-    return;
-  }
-
-  // Pre-fill WhatsApp message
-  const message = `Hello! I want to enroll in NextGen Robotics Academy.\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`;
-  const whatsappURL = `https://wa.me/919830068336?text=${encodeURIComponent(message)}`;
-  
-  window.open(whatsappURL, '_blank'); // open WhatsApp chat in new tab
+  window.open(whatsappURL, '_blank');
 };
 </script>
 
