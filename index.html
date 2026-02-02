@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NextGen Robotics Academy,Kolkata</title>
+<title>NextGen Robotics Academy</title>
 
 <!-- FONT AWESOME -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -250,8 +250,7 @@ footer ul li a i:hover{
   </div>
 </section>
 
-
-  <!-- POPUP WHATSAPP ENROLL FORM -->
+<!-- POPUP WHATSAPP ENROLL FORM -->
 <div id="enrollForm" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;color:#000;padding:30px;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.3);z-index:999;width:90%;max-width:400px;">
   <h2>Enroll Now</h2>
   <input type="text" id="studentName" placeholder="Student Name" required style="width:100%;padding:10px;margin-bottom:10px;">
@@ -291,12 +290,9 @@ submitEnroll.onclick = () => {
 };
 </script>
 
-
-
-
 <footer>
   <div class="footer-row">
-    <span>© 2025 NextGen Robotics Academy, Gariahat, Golpark</span>
+    <span>© 2025 NextGen Robotics Academy</span>
 
     <ul>
       <li><a href="https://twitter.com/NextGenRoboticX" target="_blank"><i class="fa fa-twitter"></i></a></li>
@@ -330,9 +326,8 @@ closeForm.onclick = () => enrollForm.style.display = "none";
 const submitEnroll = document.getElementById("submitEnroll");
 submitEnroll.onclick = () => {
   const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("school").value.trim();
-  const phone = document.getElementById("class").value.trim();
-  const phone = document.getElementById("mobile").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
 
   if(!name || !email || !phone){
     alert("Please fill all fields!");
@@ -340,7 +335,7 @@ submitEnroll.onclick = () => {
   }
 
   // Pre-fill WhatsApp message
-  const message = `Hello! I want to enroll in NextGen Robotics Academy.\nStudentName: ${name}\nSchool: ${school}\nClass: ${class}\nMobile: ${mobile}`;
+  const message = `Hello! I want to enroll in NextGen Robotics Academy.\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`;
   const whatsappURL = `https://wa.me/919830068336?text=${encodeURIComponent(message)}`;
   
   window.open(whatsappURL, '_blank'); // open WhatsApp chat in new tab
@@ -349,11 +344,3 @@ submitEnroll.onclick = () => {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
