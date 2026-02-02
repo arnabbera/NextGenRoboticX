@@ -297,8 +297,9 @@ closeForm.onclick = () => enrollForm.style.display = "none";
 const submitEnroll = document.getElementById("submitEnroll");
 submitEnroll.onclick = () => {
   const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("school").value.trim();
+  const phone = document.getElementById("class").value.trim();
+  const phone = document.getElementById("mobile").value.trim();
 
   if(!name || !email || !phone){
     alert("Please fill all fields!");
@@ -315,6 +316,7 @@ submitEnroll.onclick = () => {
 
 </body>
 </html>
+
 
 
 
