@@ -154,6 +154,18 @@ footer ul li a i{
 footer ul li a i:hover{
   color:#ffcc00;
 }
+
+.enrollBtn{
+  display:inline-block;
+  padding:12px 26px;
+  background:#ffcc00;
+  color:#000;
+  font-weight:bold;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  text-align:center;
+}
 </style>
 </head>
 
@@ -228,13 +240,25 @@ footer ul li a i:hover{
     <div class="hero-text">
       <h1>Build Your Future in Robotics & AI Tech</h1>
       <p>Hands-on DIY Robotics • AI • IoT • Engineering Projects</p>
-      <button class="enrollBtn">ENROLL NOW</button>
+
+      <!-- UPDATED ENROLL NOW BUTTON -->
+      <a href="#" class="enrollBtn" id="enrollBtn">ENROLL NOW</a>
     </div>
     <div class="hero-image">
       <img src="assets/img/robotics-academy.jpg" alt="Robotics Academy">
     </div>
   </div>
 </section>
+
+<!-- POPUP WHATSAPP ENROLL FORM -->
+<div id="enrollForm" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;color:#000;padding:30px;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.3);z-index:999;width:90%;max-width:400px;">
+  <h2>Enroll Now</h2>
+  <input type="text" id="name" placeholder="Full Name" required style="width:100%;padding:10px;margin-bottom:10px;">
+  <input type="email" id="email" placeholder="Email" required style="width:100%;padding:10px;margin-bottom:10px;">
+  <input type="tel" id="phone" placeholder="Phone Number" required style="width:100%;padding:10px;margin-bottom:15px;">
+  <button id="submitEnroll" style="width:100%;padding:12px;background:#25D366;color:#fff;font-weight:bold;border:none;border-radius:6px;cursor:pointer;">Send via WhatsApp</button>
+  <button id="closeForm" style="width:100%;padding:12px;margin-top:10px;background:#ccc;color:#000;font-weight:bold;border:none;border-radius:6px;cursor:pointer;">Cancel</button>
+</div>
 
 <footer>
   <div class="footer-row">
@@ -256,7 +280,36 @@ footer ul li a i:hover{
 </footer>
 
 <script>
-menuToggle.onclick=()=>navMenu.classList.toggle("active");
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
+menuToggle.onclick = () => navMenu.classList.toggle("active");
+
+// Enroll Form Popup
+const enrollBtn = document.getElementById("enrollBtn");
+const enrollForm = document.getElementById("enrollForm");
+const closeForm = document.getElementById("closeForm");
+
+enrollBtn.onclick = () => enrollForm.style.display = "block";
+closeForm.onclick = () => enrollForm.style.display = "none";
+
+// WhatsApp Form Submission
+const submitEnroll = document.getElementById("submitEnroll");
+submitEnroll.onclick = () => {
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+
+  if(!name || !email || !phone){
+    alert("Please fill all fields!");
+    return;
+  }
+
+  // Pre-fill WhatsApp message
+  const message = `Hello! I want to enroll in NextGen Robotics Academy.\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`;
+  const whatsappURL = `https://wa.me/919830015498?text=${encodeURIComponent(message)}`;
+  
+  window.open(whatsappURL, '_blank'); // open WhatsApp chat in new tab
+};
 </script>
 
 </body>
