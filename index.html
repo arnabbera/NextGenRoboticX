@@ -254,7 +254,8 @@ footer ul li a i:hover{
       <a href="#" class="enrollBtn" id="enrollBtn">ENROLL NOW</a>
     </div>
     <div class="hero-image">
-      <img src="assets/img/robotics-academy.jpg" alt="Robotics Academy">
+  
+	  <img id="heroSlider" src="assets/img/slider/robotics-academy1.jpg" alt="Robotics Academy">
     </div>
   </div>
 </section>
@@ -325,7 +326,28 @@ submitEnroll.onclick = () => {
 };
 </script>
 
+<script>
+/* HERO IMAGE AUTO SLIDER — NO OTHER CHANGES */
+const heroImages = [
+  "assets/img/slider/robotics-academy1.jpg",
+  "assets/img/slider/robotics-academy2.jpg",
+  "assets/img/slider/robotics-academy3.jpg",
+  "assets/img/slider/robotics-academy4.jpg"
+  // add more images here if needed
+];
+
+let heroIndex = 0;
+const heroImg = document.getElementById("heroSlider");
+
+setInterval(() => {
+  heroIndex = (heroIndex + 1) % heroImages.length;
+  heroImg.src = heroImages[heroIndex];
+}, 3000); // changes every 3 seconds
+</script>
+
+
 </body>
 </html>
+
 
 
