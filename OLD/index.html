@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NextGen Robotics Academy</title>
+
+<!-- FONT AWESOME -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:Arial,sans-serif;
+  background:#0b4fd6;
+  color:#fff;
+}
+a{text-decoration:none;color:inherit}
+
+/* HEADER */
+header{
+  background:#083fa8;
+  padding:15px 30px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+.nav-container{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo{
+  font-size:24px;
+  font-weight:bold;
+}
+nav ul{
+  list-style:none;
+  display:flex;
+  gap:25px;
+}
+nav ul li{position:relative}
+nav ul li a{
+  color:#fff;
+  font-weight:500;
+  padding:8px 5px;
+}
+nav ul li a:hover{color:#ffcc00}
+
+/* DROPDOWNS */
+.has-dropdown>.dropdown{
+  display:none;
+  position:absolute;
+  top:100%;
+  left:0;
+  background:#fff;
+  min-width:260px;
+  list-style:none;
+  border-radius:4px;
+  z-index:2000;
+}
+.has-dropdown:hover>.dropdown{display:block}
+
+.has-submenu{position:relative}
+.has-submenu>.submenu{
+  display:none;
+  position:absolute;
+  top:0;
+  left:100%;
+  background:#fff;
+  min-width:260px;
+}
+.has-submenu:hover>.submenu{display:block}
+
+.dropdown li a,
+.submenu li a{
+  display:block;
+  padding:10px;
+  color:#000;
+}
+.dropdown li a:hover,
+.submenu li a:hover{
+  background:#f2f2f2;
+}
+
+/* MOBILE */
+.mobile-toggle{display:none;font-size:26px;cursor:pointer}
+@media(max-width:768px){
+  nav ul{
+    flex-direction:column;
+    display:none; /* hidden by default */
+    background:#083fa8;
+    width:100%;
+    padding:15px;
+    position:absolute;
+    top:60px; /* below header */
+    left:0;
+    z-index:1000;
+  }
+  nav ul.active{
+    display:flex;
+  }
+  .mobile-toggle{
+    display:block;
+    color:#fff;
+  }
+}
+
+/* HERO */
+.hero{
+  padding:90px 8%;
+  background:linear-gradient(135deg,#0b4fd6,#1a75ff);
+}
+.hero-inner{
+  display:flex;
+  align-items:center;
+  gap:50px;
+}
+.hero-text{flex:1}
+.hero-text h1{font-size:2.8rem}
+.hero-text p{font-size:1.2rem;margin:15px 0 25px}
+.enrollBtn{
+  padding:12px 26px;
+  background:#ffcc00;
+  color:#000;
+  font-weight:bold;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+.hero-image{flex:1}
+.hero-image img{
+  width:100%;
+  border-radius:16px;
+  box-shadow:0 25px 60px rgba(0,0,0,.5);
+}
+@media(max-width:900px){
+  .hero-inner{flex-direction:column;text-align:center}
+}
+
+/* FOOTER — ONE LINE */
+footer{
+  background:#083fa8;
+  padding:15px 30px;
+}
+.footer-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:25px;
+  flex-wrap:wrap;
+}
+
+footer ul{
+  list-style:none;
+  display:flex;
+  gap:16px;
+}
+footer ul li a i{
+  color:#ffffff;
+  font-size:20px;
+}
+footer ul li a i:hover{
+  color:#ffcc00;
+}
+
+.enrollBtn{
+  display:inline-block;
+  padding:12px 26px;
+  background:#ffcc00;
+  color:#000;
+  font-weight:bold;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav-container">
+    <div class="logo">NextGen Robotics Academy</div>
+    <div class="mobile-toggle" id="menuToggle">&#9776;</div>
+
+    <nav>
+      <ul id="navMenu">
+        <li><a href="index.html">Home</a></li>
+
+        <li class="has-dropdown">
+          <a href="#">Course ▾</a>
+          <ul class="dropdown">
+            <li><a href="learn-c-programming.html">Learn C Programming</a></li>
+            <li><a href="robotics-course-level-v1.0.html">Robotics Level v1.0</a></li>
+            <li><a href="robotics-course-level-v2.0.html">Robotics Level v2.0</a></li>
+            <li><a href="robotics-course-level-v3.0.html">Robotics Level v3.0</a></li>
+            <li><a href="engineering-project-on-robotics.html">Engineering Project</a></li>
+          </ul>
+        </li>
+
+        <li class="has-dropdown">
+          <a href="#">Project ▾</a>
+          <ul class="dropdown">
+            <li class="has-submenu">
+              <a href="#">Robotic Car ▸</a>
+              <ul class="submenu">
+                <li><a href="solar-powered-robotic-car.html">Solar Powered</a></li>
+                <li><a href="voice-controlled-robotic-car.html">Voice Controlled</a></li>
+                <li><a href="obstacle-avoiding-robotic-car.html">Obstacle Avoiding</a></li>
+                <li><a href="mobile-controlled-robotic-car.html">Mobile Controlled</a></li>
+                <li><a href="joystick-controlled-robotic-car.html">Joystick Controlled</a></li>
+                <li><a href="wifi-controlled-robotic-car.html">WiFi ESP8266</a></li>
+                <li><a href="robotic-car-hack-af-motor-shield.html">Hack AF Motor Shield</a></li>
+                <li><a href="obstacle-avoiding-robotic-car-on-breadboard.html">Breadboard Robot</a></li>
+                <li><a href="line-follower-robotic-car.html">Line Follower</a></li>
+              </ul>
+            </li>
+
+            <li class="has-submenu">
+              <a href="#">Drone ▸</a>
+              <ul class="submenu">
+                <li><a href="make-and-fly-your-own-drone.html">Make and Fly Your Own Drone</a></li>
+                <li><a href="drone-flight-controller.html">Drone Flight Controller</a></li>
+              </ul>
+            </li>
+
+            <li class="has-submenu">
+              <a href="#">Robot ▸</a>
+              <ul class="submenu">
+                <li><a href="humanoid-robot.html">Humanoid Robot</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="faculty.html">Faculty</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h1>Build Your Future in Robotics & AI Tech</h1>
+      <p>Hands-on DIY Robotics • AI • IoT • Engineering Projects</p>
+
+      <!-- ENROLL NOW BUTTON -->
+      <a href="#" class="enrollBtn" id="enrollBtn">ENROLL NOW</a>
+    </div>
+    <div class="hero-image">
+  
+	  <img id="heroSlider" src="assets/img/slider/robotics-academy1.jpg" alt="Robotics Academy">
+    </div>
+  </div>
+</section>
+
+<!-- POPUP WHATSAPP ENROLL FORM -->
+<div id="enrollForm" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;color:#000;padding:30px;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.3);z-index:999;width:90%;max-width:400px;">
+  <h2>Enroll Now</h2>
+  <input type="text" id="studentName" placeholder="Student Name" required style="width:100%;padding:10px;margin-bottom:10px;">
+  <input type="text" id="school" placeholder="School" required style="width:100%;padding:10px;margin-bottom:10px;">
+  <input type="text" id="className" placeholder="Class" required style="width:100%;padding:10px;margin-bottom:10px;">
+  <input type="tel" id="mobile" placeholder="Mobile" required style="width:100%;padding:10px;margin-bottom:15px;">
+  <button id="submitEnroll" style="width:100%;padding:12px;background:#25D366;color:#fff;font-weight:bold;border:none;border-radius:6px;cursor:pointer;">Send via WhatsApp</button>
+  <button id="closeForm" style="width:100%;padding:12px;margin-top:10px;background:#ccc;color:#000;font-weight:bold;border:none;border-radius:6px;cursor:pointer;">Cancel</button>
+</div>
+
+<footer>
+  <div class="footer-row">
+    <span>©NextGen Robotics Academy, Gariahat, Golpark</span>
+
+    <ul>
+      <li><a href="https://twitter.com/NextGenRoboticX" target="_blank"><i class="fa fa-twitter"></i></a></li>
+      <li><a href="https://www.instagram.com/NextGenRoboticX/" target="_blank"><i class="fa fa-instagram"></i></a></li>
+      <li><a href="https://www.facebook.com/NextGenRoboticX" target="_blank"><i class="fa fa-facebook"></i></a></li>
+      <li><a href="https://www.linkedin.com/in/NextGenRoboticX/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+      <li><a href="https://www.youtube.com/channel/UCTm1N5AvylPayb6J_8j8RfA" target="_blank"><i class="fa fa-youtube"></i></a></li>
+      <li class="whatsapp-footer">
+        <a href="https://wa.me/919830068336" target="_blank">
+          <i class="fa fa-whatsapp"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
+
+menuToggle.addEventListener("click", () => {
+  navMenu.classList.toggle("active");
+});
+
+// Enroll Form Popup
+const enrollBtn = document.getElementById("enrollBtn");
+const enrollForm = document.getElementById("enrollForm");
+const closeForm = document.getElementById("closeForm");
+
+enrollBtn.onclick = () => enrollForm.style.display = "block";
+closeForm.onclick = () => enrollForm.style.display = "none";
+
+// WhatsApp Form Submission
+const submitEnroll = document.getElementById("submitEnroll");
+submitEnroll.onclick = () => {
+  const name = document.getElementById("studentName").value.trim();
+  const school = document.getElementById("school").value.trim();
+  const className = document.getElementById("className").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
+
+  if(!name || !school || !className || !mobile){
+    alert("Please fill all fields!");
+    return;
+  }
+
+  const message = `Hello! I want to enroll in NextGen Robotics Academy.\nStudent Name: ${name}\nSchool: ${school}\nClass: ${className}\nMobile: ${mobile}`;
+  const whatsappURL = `https://wa.me/919830068336?text=${encodeURIComponent(message)}`;
+  
+  window.open(whatsappURL, '_blank');
+};
+</script>
+
+<script>
+/* HERO IMAGE AUTO SLIDER — NO OTHER CHANGES */
+const heroImages = [
+  "assets/img/slider/robotics-academy1.jpg",
+  "assets/img/slider/robotics-academy2.jpg",
+  "assets/img/slider/robotics-academy3.jpg",
+  "assets/img/slider/robotics-academy4.jpg"
+  // add more images here if needed
+];
+
+let heroIndex = 0;
+const heroImg = document.getElementById("heroSlider");
+
+setInterval(() => {
+  heroIndex = (heroIndex + 1) % heroImages.length;
+  heroImg.src = heroImages[heroIndex];
+}, 3000); // changes every 3 seconds
+</script>
+
+
+</body>
+</html>
+
+
+
