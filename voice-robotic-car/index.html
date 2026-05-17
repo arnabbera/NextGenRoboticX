@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Controlled Robotic Car | NextGenRoboticX</title>
+    <meta name="description" content="Build a professional voice controlled robotic car using ESP8266 and Android. Step-by-step guide by NextGenRoboticX.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html" class="logo">
+            <i class="fas fa-robot"></i> <span>NextGen<span>RoboticX</span></span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">Home</a></li>
+            <li><a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">Courses</a></li>
+            <li><a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">Projects</a></li>
+            <li><a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">Faculty</a></li>
+            <li><a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">Contact</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobileMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background-image: linear-gradient(rgba(11, 12, 16, 0.7), rgba(11, 12, 16, 0.9)), url('voice_robotic_car_hero.png');">
+        <div class="hero-content">
+            <h1>Voice Controlled <br><span>Robotic Car</span></h1>
+            <p>Master the art of voice-activated robotics. Build a sophisticated RC car that obeys your every command using ESP8266 and advanced speech recognition.</p>
+            <a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html" class="btn btn-primary">Start Building</a>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section id="about">
+        <div class="section-header">
+            <h2>Project Innovation</h2>
+        </div>
+        <div class="intro-content">
+            <div class="intro-text">
+                <p>The <strong>Voice Controlled Robotic Car</strong> by NextGenRoboticX is a cutting-edge project that bridges the gap between human speech and machine action. Utilizing the power of the <strong>Wemos D1 R2 WiFi-Esp8266</strong> board, this project enables seamless control via a custom Android application.</p>
+                <p>Whether you're a beginner or an advanced maker, this guide provides everything you need to implement real-time voice processing and motor control logic. Transform your spoken words into precise mechanical movements.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-microphone"></i> Intelligent Voice Recognition</li>
+                    <li><i class="fas fa-wifi"></i> Low-latency WiFi Communication</li>
+                    <li><i class="fas fa-mobile-alt"></i> Dedicated Android Interface</li>
+                    <li><i class="fas fa-cogs"></i> Precise L298N Motor Calibration</li>
+                </ul>
+            </div>
+            <div class="intro-image">
+                <div style="width: 100%; max-width: 450px; height: 300px; background: var(--surface-color); border-radius: 20px; border: 1px solid var(--secondary-color); display: flex; align-items: center; justify-content: center; font-size: 5rem; color: var(--secondary-color); opacity: 0.5;">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hardware Section -->
+    <section id="hardware" style="background-color: #0d1117;">
+        <div class="section-header">
+            <h2>Core Hardware</h2>
+            <p style="color: var(--text-muted);">Essential components for your Voice Controlled Robot</p>
+        </div>
+        <div class="hardware-grid">
+            <div class="hardware-card">
+                <div class="hardware-icon"><i class="fas fa-microchip"></i></div>
+                <h3>Wemos D1 R2</h3>
+                <p>An ESP8266-based board that provides the necessary processing power and WiFi connectivity for handling voice commands.</p>
+                <a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html" style="margin-top: 1rem; display: block; font-size: 0.9rem;">Details →</a>
+            </div>
+            <div class="hardware-card">
+                <div class="hardware-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <h3>L298N Driver</h3>
+                <p>A dual H-bridge motor driver that translates digital signals from the Wemos board into high-current power for the motors.</p>
+                <a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html" style="margin-top: 1rem; display: block; font-size: 0.9rem;">Details →</a>
+            </div>
+            <div class="hardware-card">
+                <div class="hardware-icon"><i class="fas fa-battery-full"></i></div>
+                <h3>Power Source</h3>
+                <p>Reliable Li-ion batteries providing the necessary voltage for both the controller board and the high-torque gear motors.</p>
+                <a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html" style="margin-top: 1rem; display: block; font-size: 0.9rem;">Details →</a>
+            </div>
+            <div class="hardware-card">
+                <div class="hardware-icon"><i class="fas fa-tools"></i></div>
+                <h3>Robotic Chassis</h3>
+                <p>A high-quality 4WD chassis designed for stability and durability, perfectly suited for voice-controlled navigation.</p>
+                <a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html" style="margin-top: 1rem; display: block; font-size: 0.9rem;">Details →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Circuit Section -->
+    <section id="circuit">
+        <div class="section-header">
+            <h2>Circuit Architecture</h2>
+        </div>
+        <div class="circuit-container">
+            <div class="circuit-img" style="background: #1f2833; height: 400px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 20px; border: 2px dashed var(--secondary-color);">
+                <i class="fas fa-project-diagram" style="font-size: 4rem; color: var(--secondary-color);"></i>
+                <p style="color: var(--text-muted);">Voice Car Circuit: Wemos D1 R2 & L298N Integration</p>
+                <a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html" class="btn btn-primary" style="padding: 0.5rem 1.5rem; background: var(--secondary-color);">View Schematic</a>
+            </div>
+            <p style="margin-top: 2rem; color: var(--text-muted);">The circuit design focuses on isolating power for the motors while maintaining a common ground for logic signals. Ensure all connections are secure for voice command reliability.</p>
+        </div>
+    </section>
+
+    <!-- Code Section -->
+    <section id="code" style="background-color: #0d1117;">
+        <div class="section-header">
+            <h2>Command Logic</h2>
+        </div>
+        <div class="code-wrapper" style="max-width: 900px; margin: 0 auto;">
+            <pre><code>
+// Voice Control Implementation - NextGenRoboticX
+#include &lt;ESP8266WiFi.h&gt;
+
+void processCommand(String voiceInput) {
+  voiceInput.toLowerCase();
+  
+  if (voiceInput.indexOf("forward") >= 0) {
+    moveForward();
+  } else if (voiceInput.indexOf("backward") >= 0) {
+    moveBackward();
+  } else if (voiceInput.indexOf("left") >= 0) {
+    turnLeft();
+  } else if (voiceInput.indexOf("right") >= 0) {
+    turnRight();
+  } else {
+    stopRobot();
+  }
+}
+
+// ... setup and loop functions ...
+            </code></pre>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html" class="btn btn-primary">Get Full Source Code</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>NextGen<span>RoboticX</span></h3>
+                <p>Innovating the future of robotics education. Join thousands of students building professional-grade robotic systems.</p>
+                <div class="social-links" style="display: flex; gap: 15px;">
+                    <a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html"><i class="fab fa-github"></i></a>
+                    <a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">AI Courses</a></li>
+                    <li><a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">Robotic Levels</a></li>
+                    <li><a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">Project Gallery</a></li>
+                    <li><a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">Faculty</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">Documentation</a></li>
+                    <li><a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">Video Tutorials</a></li>
+                    <li><a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">Components Shop</a></li>
+                    <li><a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">Forums</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;"><i class="fas fa-map-marker-alt" style="color: var(--primary-color); margin-right: 10px;"></i> Kolkata, WB, INDIA</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;"><i class="fas fa-phone-alt" style="color: var(--primary-color); margin-right: 10px;"></i> (91) 9830068336</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;"><i class="fas fa-envelope-open-text" style="color: var(--primary-color); margin-right: 10px;"></i> contact@nextgenroboticx.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 NextGenRoboticX. All Rights Reserved. | <a href="https://www.nextgenroboticx.com/voice-controlled-robotic-car.html">www.nextgenroboticx.com</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

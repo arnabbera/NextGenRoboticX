@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joystick Controlled Robotic Car | NextGenRoboticX</title>
+    <meta name="description" content="Build a long-range joystick controlled robotic car using Arduino Nano and NRF24L01. Professional robotics project by NextGenRoboticX.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html" class="logo">
+            <i class="fas fa-robot"></i> <span>NextGen<span>RoboticX</span></span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">Home</a></li>
+            <li><a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">Courses</a></li>
+            <li><a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">Projects</a></li>
+            <li><a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">Faculty</a></li>
+            <li><a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">Contact</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobileMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background-image: linear-gradient(rgba(11, 12, 16, 0.7), rgba(11, 12, 16, 0.9)), url('joystick_robotic_car_hero.png');">
+        <div class="hero-content">
+            <h1>Joystick Controlled <br><span>Robotic Car</span></h1>
+            <p>Experience precision control with the NextGenRoboticX Joystick Car. Learn to use NRF24L01 RF modules and Arduino Nano to build a high-performance remote-controlled vehicle.</p>
+            <a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html" class="btn btn-primary">Download Project Guide</a>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section id="about">
+        <div class="section-header">
+            <h2>Project Overview</h2>
+        </div>
+        <div class="intro-content">
+            <div class="intro-text">
+                <p>The <strong>Joystick Controlled Robotic Car</strong> is a sophisticated RF-based project that demonstrates long-range wireless communication and precise mechanical control. By utilizing the <strong>NRF24L01 RF Module</strong>, this system provides a stable 2.4GHz link between the handheld joystick transmitter and the robotic receiver.</p>
+                <p>In this project, you will learn how to interface analog joystick modules with an <strong>Arduino Nano</strong>, convert positional data into digital packets, and transmit them wirelessly to a motor-driven chassis. This project is a perfect introduction to RF telemetry and custom remote control systems.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-satellite-dish"></i> 2.4GHz RF Communication (NRF24L01)</li>
+                    <li><i class="fas fa-gamepad"></i> Precision Dual-axis Joystick Control</li>
+                    <li><i class="fas fa-microchip"></i> Compact Arduino Nano Integration</li>
+                    <li><i class="fas fa-bolt"></i> High-Torque L298N Motor Driving</li>
+                </ul>
+            </div>
+            <div class="intro-image">
+                <div style="width: 100%; max-width: 450px; height: 300px; background: var(--surface-color); border-radius: 20px; border: 1px solid var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 5rem; color: var(--primary-color); opacity: 0.5;">
+                    <i class="fas fa-wifi"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hardware Section -->
+    <section id="hardware" style="background-color: #0d1117;">
+        <div class="section-header">
+            <h2>System Components</h2>
+            <p style="color: var(--text-muted);">High-performance hardware for seamless RF control</p>
+        </div>
+        <div class="hardware-grid">
+            <div class="hardware-card">
+                <div class="hardware-icon"><i class="fas fa-microchip"></i></div>
+                <h3>Arduino Nano</h3>
+                <p>The compact yet powerful brain of both the transmitter and receiver. Ideal for space-constrained robotic builds.</p>
+                <a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html" style="margin-top: 1rem; display: block; font-size: 0.9rem;">View Specs →</a>
+            </div>
+            <div class="hardware-card">
+                <div class="hardware-icon"><i class="fas fa-broadcast-tower"></i></div>
+                <h3>NRF24L01 Module</h3>
+                <p>A highly integrated, ultra-low power 2.4GHz RF transceiver for the world-wide ISM band. Perfect for remote robotics.</p>
+                <a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html" style="margin-top: 1rem; display: block; font-size: 0.9rem;">View Specs →</a>
+            </div>
+            <div class="hardware-card">
+                <div class="hardware-icon"><i class="fas fa-gamepad"></i></div>
+                <h3>Joystick Module</h3>
+                <p>Dual-axis analog potentiometer module that provides precise X and Y coordinates for intuitive steering and speed control.</p>
+                <a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html" style="margin-top: 1rem; display: block; font-size: 0.9rem;">View Specs →</a>
+            </div>
+            <div class="hardware-card">
+                <div class="hardware-icon"><i class="fas fa-car"></i></div>
+                <h3>4WD Chassis</h3>
+                <p>A durable mechanical base with 4 high-RPM gear motors, designed for high mobility and stability during RF navigation.</p>
+                <a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html" style="margin-top: 1rem; display: block; font-size: 0.9rem;">View Specs →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Circuit Section -->
+    <section id="circuit">
+        <div class="section-header">
+            <h2>RF Architecture</h2>
+        </div>
+        <div class="circuit-container">
+            <div class="circuit-img" style="background: #1f2833; height: 400px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 20px; border: 2px dashed var(--primary-color);">
+                <i class="fas fa-project-diagram" style="font-size: 4rem; color: var(--primary-color);"></i>
+                <p style="color: var(--text-muted);">Joystick Transmitter & Receiver Schematic</p>
+                <a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html" class="btn btn-primary" style="padding: 0.5rem 1.5rem;">View Full Circuit</a>
+            </div>
+            <p style="margin-top: 2rem; color: var(--text-muted);">Ensure the NRF24L01 modules have a stable 3.3V power supply (ideally with a decoupling capacitor) to prevent transmission drops and signal noise.</p>
+        </div>
+    </section>
+
+    <!-- Code Section -->
+    <section id="code" style="background-color: #0d1117;">
+        <div class="section-header">
+            <h2>Transmitter Logic</h2>
+        </div>
+        <div class="code-wrapper" style="max-width: 900px; margin: 0 auto;">
+            <pre><code>
+// NRF24L01 Joystick Transmitter - NextGenRoboticX
+#include &lt;SPI.h&gt;
+#include &lt;nRF24L01.h&gt;
+#include &lt;RF24.h&gt;
+
+RF24 radio(9, 10); // CE, CSN
+const byte address[6] = "00001";
+
+void setup() {
+  radio.begin();
+  radio.openWritingPipe(address);
+  radio.setPALevel(RF24_PA_MIN);
+  radio.stopListening();
+}
+
+void loop() {
+  int xVal = analogRead(A0);
+  int yVal = analogRead(A1);
+  
+  int data[2] = {xVal, yVal};
+  radio.write(&data, sizeof(data));
+  delay(50);
+}
+            </code></pre>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html" class="btn btn-primary">Download Complete Code</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>NextGen<span>RoboticX</span></h3>
+                <p>Pioneering the future of STEM education with professional robotics projects and hands-on learning experiences.</p>
+                <div class="social-links" style="display: flex; gap: 15px;">
+                    <a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Information</h4>
+                <ul>
+                    <li><a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">About Us</a></li>
+                    <li><a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">Features</a></li>
+                    <li><a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">Courses</a></li>
+                    <li><a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">Sitemap</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Student Help</h4>
+                <ul>
+                    <li><a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">Get Started</a></li>
+                    <li><a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">Download Files</a></li>
+                    <li><a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">Academic News</a></li>
+                    <li><a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">My Questions</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;"><i class="fas fa-map-marker-alt" style="color: var(--primary-color); margin-right: 10px;"></i> Kolkata, WB, INDIA</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;"><i class="fas fa-phone" style="color: var(--primary-color); margin-right: 10px;"></i> (91) 9830068336</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;"><i class="fas fa-envelope" style="color: var(--primary-color); margin-right: 10px;"></i> roboin.in@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 NextGenRoboticX. All Rights Reserved. | <a href="https://www.nextgenroboticx.com/joystick-controlled-robotic-car.html">www.nextgenroboticx.com</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

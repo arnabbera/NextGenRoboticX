@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | NextGenRoboticX</title>
+    <meta name="description" content="View our project photographs including Solar, WiFi, Bluetooth, Drone, and more.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Dropdown CSS from Index */
+        .dropdown { position: relative; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: rgba(31, 40, 51, 0.95); backdrop-filter: blur(10px); min-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); padding: 1rem 0; z-index: 1000; }
+        .dropdown:hover > .dropdown-menu { display: block; animation: fadeIn 0.3s ease; }
+        .dropdown-menu li { list-style: none; }
+        .dropdown-menu li a { display: block; padding: 0.8rem 1.5rem; color: var(--text-main); transition: all 0.2s ease; }
+        .dropdown-menu li a:hover { background: rgba(0, 229, 255, 0.1); color: var(--primary-color); padding-left: 2rem; }
+        .sub-dropdown { position: relative; }
+        .sub-dropdown-menu { display: none; position: absolute; top: 0; left: 100%; background: rgba(31, 40, 51, 0.95); backdrop-filter: blur(10px); min-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); padding: 1rem 0; }
+        .sub-dropdown:hover > .sub-dropdown-menu { display: block; animation: fadeIn 0.3s ease; }
+        .dropdown-toggle::after { content: ' ▾'; font-size: 0.8em; }
+        .sub-dropdown-toggle::after { content: ' ▸'; font-size: 0.8em; float: right; }
+
+        @media (max-width: 992px) {
+            .dropdown-menu, .sub-dropdown-menu { position: static; display: none; background: transparent; box-shadow: none; border: none; padding-left: 1rem; }
+            .dropdown:hover > .dropdown-menu, .sub-dropdown:hover > .sub-dropdown-menu { display: block; }
+        }
+
+        /* Gallery Specific Styles */
+        .hero {
+            height: 40vh;
+            min-height: 350px;
+            background-image: linear-gradient(to right, rgba(11, 12, 16, 0.9), rgba(11, 12, 16, 0.5)), url('https://www.nextgenroboticx.com/assets/img/gallery/big/13.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 60px;
+            margin-top: 0;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .hero-content {
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: -webkit-linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .gallery-container {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 4rem;
+        }
+
+        .filter-btn {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-color);
+            color: var(--bg-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 20px rgba(0, 229, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            aspect-ratio: 4/3;
+            animation: fadeIn 0.5s ease-out;
+            background-color: var(--surface-color);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 229, 255, 0.25);
+            z-index: 10;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 3rem 1.5rem 1.5rem;
+            background: linear-gradient(to top, rgba(11, 12, 16, 0.95), rgba(11, 12, 16, 0.7) 60%, transparent);
+            color: var(--text-main);
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            pointer-events: none;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h3 {
+            font-size: 1.3rem;
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .gallery-item.hide {
+            display: none;
+        }
+
+        /* Lightbox CSS */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(11, 12, 16, 0.95);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 10px;
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.2);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            object-fit: contain;
+        }
+
+        .lightbox-caption {
+            text-align: center;
+            color: var(--primary-color);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: -10px;
+            color: var(--text-muted);
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+            line-height: 1;
+        }
+
+        .lightbox-close:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            NextGen<span>RoboticX</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Course</a>
+                <ul class="dropdown-menu">
+                    <li><a href="learn-c-programming.html">Learn C Programming</a></li>
+                    <li><a href="robotics-course-level-v1.0.html">Robotics Level v1.0</a></li>
+                    <li><a href="robotics-course-level-v2.0.html">Robotics Level v2.0</a></li>
+                    <li><a href="robotics-course-level-v3.0.html">Robotics Level v3.0</a></li>
+                    <li><a href="engineering-project-on-robotics.html">Engineering Project</a></li>
+                </ul>
+            </li>
+            <li><a href="gallery.html" class="active">Gallery</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Project</a>
+                <ul class="dropdown-menu">
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle">Robotic Car</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="solar-powered-robotic-car.html">Solar Powered</a></li>
+                            <li><a href="voice-robotic-car/index.html">Voice Controlled</a></li>
+                            <li><a href="obstacle-avoiding-robotic-car.html">Obstacle Avoiding</a></li>
+                            <li><a href="bluetooth-robotic-car/index.html">Bluetooth Controlled</a></li>
+                            <li><a href="joystick-robotic-car/index.html">Joystick Controlled</a></li>
+                            <li><a href="wifi-robotic-car/index.html">WiFi ESP8266</a></li>
+                            <li><a href="robotic-car-hack-af-motor-shield.html">Hack AF Motor Shield</a></li>
+                            <li><a href="obstacle-avoiding-robotic-car-on-breadboard.html">Breadboard Robot</a></li>
+                            <li><a href="line-follower-robotic-car.html">Line Follower</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle">Drone</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="make-and-fly-your-own-drone.html">Make and Fly Your Own Drone</a></li>
+                            <li><a href="drone-flight-controller.html">Drone Flight Controller</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle">Robot</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="humanoid-robot.html">Humanoid Robot</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="faculty.html">Faculty</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Our Gallery</h1>
+            <p>We have captured some of our project photographs!</p>
+        </div>
+    </header>
+
+    <!-- Gallery Section -->
+    <section class="gallery-container">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="solar">Solar Car</button>
+            <button class="filter-btn" data-filter="wifi">WiFi Car</button>
+            <button class="filter-btn" data-filter="obstacle">Obstacle Avoiding Car</button>
+            <button class="filter-btn" data-filter="bluetooth">Bluetooth Car</button>
+            <button class="filter-btn" data-filter="joystick">Joystick</button>
+            <button class="filter-btn" data-filter="drone">Drone</button>
+            <button class="filter-btn" data-filter="robot">Robot</button>
+            <button class="filter-btn" data-filter="pcb">PCB</button>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item" data-category="wifi">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/wifi1.jpg" alt="WiFi Car">
+                <div class="gallery-overlay">
+                    <h3>WiFi Car</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="wifi">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/wifi2.jpg" alt="WiFi Car">
+                <div class="gallery-overlay">
+                    <h3>WiFi Car</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="wifi">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/wifi3.jpg" alt="WiFi Car">
+                <div class="gallery-overlay">
+                    <h3>WiFi Car</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="bluetooth">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/blue1.jpg" alt="Bluetooth Car">
+                <div class="gallery-overlay">
+                    <h3>Bluetooth Car</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="bluetooth">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/blue2.jpg" alt="Bluetooth Car">
+                <div class="gallery-overlay">
+                    <h3>Bluetooth Car</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="bluetooth">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/blue3.jpg" alt="Voice Control RC">
+                <div class="gallery-overlay">
+                    <h3>Voice Control RC</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="obstacle">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/4.jpg" alt="Obstacle Avoiding RC">
+                <div class="gallery-overlay">
+                    <h3>Obstacle Avoiding RC</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="obstacle">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/obs1.jpg" alt="Obstacle Avoiding RC">
+                <div class="gallery-overlay">
+                    <h3>Obstacle Avoiding RC</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="obstacle">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/obs2.jpg" alt="Obstacle Avoiding RC">
+                <div class="gallery-overlay">
+                    <h3>Obstacle Avoiding RC</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="drone">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/5.jpg" alt="Drone">
+                <div class="gallery-overlay">
+                    <h3>Drone</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="joystick">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/6.jpg" alt="Joystick Control RC">
+                <div class="gallery-overlay">
+                    <h3>Joystick Control RC</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="drone">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/7.jpg" alt="Drone">
+                <div class="gallery-overlay">
+                    <h3>Drone</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="bluetooth">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/8.jpg" alt="Voice Control RC">
+                <div class="gallery-overlay">
+                    <h3>Voice Control RC</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="obstacle">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/9.jpg" alt="Obstacle Avoiding RC">
+                <div class="gallery-overlay">
+                    <h3>Obstacle Avoiding RC</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="joystick">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/10.jpg" alt="Joystick Control RC">
+                <div class="gallery-overlay">
+                    <h3>Joystick Control RC</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="solar">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/11.jpg" alt="Solar Car">
+                <div class="gallery-overlay">
+                    <h3>Solar Car</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="drone">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/12.jpg" alt="Drone">
+                <div class="gallery-overlay">
+                    <h3>Drone</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="robot">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/13.jpg" alt="Humanoid Robot">
+                <div class="gallery-overlay">
+                    <h3>Humanoid Robot</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="pcb">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/obstacle.jpg" alt="PCB">
+                <div class="gallery-overlay">
+                    <h3>PCB</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="pcb">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/receiver.jpg" alt="PCB">
+                <div class="gallery-overlay">
+                    <h3>PCB</h3>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="pcb">
+                <img src="https://www.nextgenroboticx.com/assets/img/gallery/big/transmitter.jpg" alt="PCB">
+                <div class="gallery-overlay">
+                    <h3>PCB</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <span class="lightbox-close" id="lightbox-close">&times;</span>
+            <img src="" alt="Gallery Image" class="lightbox-img" id="lightbox-img">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Information</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Course</a></li>
+                    <li><a href="#">Event</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Student Help</h4>
+                <ul>
+                    <li><a href="#">Get Started</a></li>
+                    <li><a href="#">My Questions</a></li>
+                    <li><a href="#">Download Files</a></li>
+                    <li><a href="#">Latest Course</a></li>
+                    <li><a href="#">Academic News</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p class="newsletter">Get latest update, news & academic offers</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+
+            <div class="footer-col contact-info">
+                <h4>Contact</h4>
+                <p>📞 +91 9830068336</p>
+                <p>✉️ sona2desai@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>All Right Reserved | Designed by NextGenRoboticX - NextGen Robotics Academy © 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Dropdown toggle for mobile and touch devices
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle, .sub-dropdown-toggle');
+        
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const menu = toggle.nextElementSibling;
+                const parentLi = toggle.parentElement;
+                
+                // Close sibling menus
+                const siblings = parentLi.parentElement.children;
+                for (let sibling of siblings) {
+                    if (sibling !== parentLi) {
+                        const siblingMenu = sibling.querySelector('.dropdown-menu, .sub-dropdown-menu');
+                        if (siblingMenu) siblingMenu.style.display = '';
+                    }
+                }
+
+                // Toggle current menu
+                if (menu.style.display === 'block') {
+                    menu.style.display = '';
+                } else {
+                    menu.style.display = 'block';
+                }
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown') && !e.target.closest('.sub-dropdown')) {
+                document.querySelectorAll('.dropdown-menu, .sub-dropdown-menu').forEach(menu => {
+                    menu.style.display = '';
+                });
+            }
+        });
+
+        // Gallery Filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                galleryItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.classList.remove('hide');
+                    } else {
+                        item.classList.add('hide');
+                    }
+                });
+            });
+        });
+
+        // Lightbox Functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const lightboxClose = document.getElementById('lightbox-close');
+
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const img = item.querySelector('img');
+                const caption = item.querySelector('h3').innerText;
+                
+                lightboxImg.src = img.src;
+                lightboxCaption.innerText = caption;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        // Close lightbox on outside click
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
