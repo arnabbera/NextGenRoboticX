@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Self-Driving Robot | NextGen Robotics Academy</title>
+    <meta name="description" content="Build an Autonomous Self-Driving Robot featuring multi-sensor scanning, intelligent obstacle avoidance, and adaptive pathfinding.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Dropdown CSS from Index */
+        .dropdown { position: relative; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: rgba(31, 40, 51, 0.95); backdrop-filter: blur(10px); min-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); padding: 1rem 0; z-index: 1000; }
+        .dropdown:hover > .dropdown-menu { display: block; animation: fadeIn 0.3s ease; }
+        .dropdown-menu li { list-style: none; }
+        .dropdown-menu li a { display: block; padding: 0.8rem 1.5rem; color: var(--text-main); transition: all 0.2s ease; }
+        .dropdown-menu li a:hover { background: rgba(0, 229, 255, 0.1); color: var(--primary-color); padding-left: 2rem; }
+        .sub-dropdown { position: relative; }
+        .sub-dropdown-menu { display: none; position: absolute; top: 0; left: 100%; background: rgba(31, 40, 51, 0.95); backdrop-filter: blur(10px); min-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); padding: 1rem 0; }
+        .sub-dropdown:hover > .sub-dropdown-menu { display: block; animation: fadeIn 0.3s ease; }
+        .dropdown-toggle::after { content: ' ▾'; font-size: 0.8em; }
+        .sub-dropdown-toggle::after { content: ' ▸'; font-size: 0.8em; float: right; }
+
+        @media (max-width: 992px) {
+            .dropdown-menu, .sub-dropdown-menu { position: static; display: none; background: transparent; box-shadow: none; border: none; padding-left: 1rem; }
+            .dropdown:hover > .dropdown-menu, .sub-dropdown:hover > .sub-dropdown-menu { display: block; }
+        }
+
+        /* Project Specific Styles */
+        .project-hero {
+            height: 50vh;
+            min-height: 400px;
+            background-image: linear-gradient(to right, rgba(11, 12, 16, 0.95), rgba(11, 12, 16, 0.7)), url('images/self-driving robot/702209561_10164547161728817_8646291720944295892_n.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .project-hero h1 {
+            font-size: 3.8rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            background: -webkit-linear-gradient(45deg, var(--primary-color), var(--secondary-color), #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .project-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 4rem 5%;
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 4rem;
+        }
+
+        .project-content h2 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin: 2.5rem 0 1.2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .project-content p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-content ul {
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .project-content ul li {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 0.6rem;
+            line-height: 1.6;
+        }
+
+        /* Responsive Photo Gallery Grid */
+        .robot-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 2rem 0 3rem;
+        }
+
+        .gallery-card {
+            position: relative;
+            aspect-ratio: 4/3;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(0, 229, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 25px rgba(0, 229, 255, 0.35);
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-card::after {
+            content: '🔍 Zoom';
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: rgba(11, 12, 16, 0.85);
+            color: var(--primary-color);
+            text-align: center;
+            padding: 8px 0;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-card:hover::after {
+            transform: translateY(0);
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(11, 12, 16, 0.95);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            text-align: center;
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 12px;
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.25);
+            border: 2px solid rgba(0, 229, 255, 0.3);
+            object-fit: contain;
+        }
+
+        .lightbox-caption {
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            margin-top: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -45px; right: -10px;
+            color: var(--text-muted);
+            font-size: 42px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .lightbox-close:hover {
+            color: var(--primary-color);
+        }
+
+        .code-wrapper {
+            background: #011627;
+            padding: 2rem;
+            border-radius: 15px;
+            overflow-x: auto;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .code-wrapper pre {
+            color: #d6deeb;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(31, 40, 51, 0.5);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 1rem;
+        }
+
+        .sidebar ul li a {
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .sidebar ul li a:hover, .sidebar ul li a.active {
+            color: var(--primary-color);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 992px) {
+            .project-container { grid-template-columns: 1fr; gap: 2rem; }
+            .sidebar { position: static; }
+            .project-hero h1 { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            NextGen<span>RoboticX</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Course</a>
+                <ul class="dropdown-menu">
+                    <li><a href="learn-c-programming.html">Learn C Programming</a></li>
+                    <li><a href="robotics-course-level-v1.0.html">Robotics Level v1.0</a></li>
+                    <li><a href="robotics-course-level-v2.0.html">Robotics Level v2.0</a></li>
+                    <li><a href="robotics-course-level-v3.0.html">Robotics Level v3.0</a></li>
+                    <li><a href="engineering-project-on-robotics.html">Engineering Project</a></li>
+                </ul>
+            </li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle active">Project</a>
+                <ul class="dropdown-menu">
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle active">Robotic Car</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="solar-powered-robotic-car.html">Solar Powered</a></li>
+                            <li><a href="voice-robotic-car.html">Voice Controlled</a></li>
+                            <li><a href="obstacle-avoiding-robotic-car.html">Obstacle Avoiding</a></li>
+                            <li><a href="bluetooth-robotic-car.html">Bluetooth Controlled</a></li>
+                            <li><a href="joystick-robotic-car.html">Joystick Controlled</a></li>
+                            <li><a href="wifi-robotic-car.html">WiFi ESP8266</a></li>
+                            <li><a href="nodemcu-ESP8266-IOT-wifi-robotic-car.html">NodeMCU WiFi IOT</a></li>
+                            <li><a href="robotic-car-hack-af-motor-shield.html">Hack AF Motor Shield</a></li>
+                            <li><a href="obstacle-avoiding-robotic-car-on-breadboard.html">Breadboard Robot</a></li>
+                            <li><a href="line-follower-robotic-car.html">Line Follower</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle">Drone</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="make-and-fly-your-own-drone.html">Make and Fly Your Own Drone</a></li>
+                            <li><a href="drone-flight-controller.html">Drone Flight Controller</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle active">Robot</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="humanoid-robot.html">Humanoid Robot</a></li>
+                            <li><a href="self-driving-robot.html" class="active">Self-Driving Robot</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="faculty.html">Faculty</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Project Hero Section -->
+    <header class="project-hero">
+        <div>
+            <h1>Autonomous<br>Self-Driving Robot</h1>
+            <p style="color: var(--text-muted); font-size: 1.2rem;">Lidar-inspired Sensor Arrays | Smart Obstacle Avoidance | NextGenRoboticX</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="project-container">
+        <div class="project-content">
+            <p>Welcome to the premium <strong>Self-Driving Robot Project</strong> by NextGen Robotics Academy. This state-of-the-art system implements autonomous steering, real-time spatial path planning, and advanced distance evaluations using specialized radar-sweeping servo setups.</p>
+            
+            <p>Unlike simple bumpers, the Self-Driving Robot proactively scans 180 degrees in front of its trajectory, measures surrounding clearances, and executes sophisticated mathematical steering calculations to navigate narrow corridors and unstructured environments entirely on its own.</p>
+
+            <ul>
+                <li><i class="fas fa-check-circle" style="color: var(--primary-color);"></i> 180° Panoramic Distance Radar Sweep</li>
+                <li><i class="fas fa-check-circle" style="color: var(--primary-color);"></i> Real-time Adaptive Decision Logic</li>
+                <li><i class="fas fa-check-circle" style="color: var(--primary-color);"></i> Multi-cell Lithium Battery Power Train</li>
+                <li><i class="fas fa-check-circle" style="color: var(--primary-color);"></i> Robust 4-Wheel Drive Performance</li>
+            </ul>
+
+            <h2>Project Image Gallery</h2>
+            <p>Click on any of the live construction photos of our self-driving robot to view hardware setups, wiring details, and sensor orientations in full size.</p>
+
+            <div class="robot-gallery">
+                <div class="gallery-card" onclick="openLightbox('images/self-driving robot/701961191_10164547161943817_7006051840879242298_n.jpg', 'Chassis Construction and Wiring Topology')">
+                    <img src="images/self-driving robot/701961191_10164547161943817_7006051840879242298_n.jpg" alt="Self-Driving Robot">
+                </div>
+                <div class="gallery-card" onclick="openLightbox('images/self-driving robot/702064421_10164547161818817_3373220036104927364_n.jpg', 'Power Rails & Geared Driver Integration')">
+                    <img src="images/self-driving robot/702064421_10164547161818817_3373220036104927364_n.jpg" alt="Self-Driving Robot">
+                </div>
+                <div class="gallery-card" onclick="openLightbox('images/self-driving robot/702084751_10164547162108817_1976142865281116553_n.jpg', 'Distance Sweeper Assembly Detail')">
+                    <img src="images/self-driving robot/702084751_10164547162108817_1976142865281116553_n.jpg" alt="Self-Driving Robot">
+                </div>
+                <div class="gallery-card" onclick="openLightbox('images/self-driving robot/702094729_10164547162023817_8895874616480750839_n.jpg', 'Top Acrylic Plate Hardware Overlay')">
+                    <img src="images/self-driving robot/702094729_10164547162023817_8895874616480750839_n.jpg" alt="Self-Driving Robot">
+                </div>
+                <div class="gallery-card" onclick="openLightbox('images/self-driving robot/702162257_10164547161883817_3621989608314500506_n.jpg', 'Complete Assembled Top-Down Profile')">
+                    <img src="images/self-driving robot/702162257_10164547161883817_3621989608314500506_n.jpg" alt="Self-Driving Robot">
+                </div>
+                <div class="gallery-card" onclick="openLightbox('images/self-driving robot/702209561_10164547161728817_8646291720944295892_n.jpg', 'Live Field-Testing Navigation Phase')">
+                    <img src="images/self-driving robot/702209561_10164547161728817_8646291720944295892_n.jpg" alt="Self-Driving Robot">
+                </div>
+                <div class="gallery-card" onclick="openLightbox('images/self-driving robot/702240757_10164547161648817_1583398835855502564_n.jpg', 'Front Ultrasonic Sensor Shield Mounting')">
+                    <img src="images/self-driving robot/702240757_10164547161648817_1583398835855502564_n.jpg" alt="Self-Driving Robot">
+                </div>
+                <div class="gallery-card" onclick="openLightbox('images/self-driving robot/703055374_10164547162158817_565417558515492104_n.jpg', 'Li-ion Multi-Cell Power Controller Wiring')">
+                    <img src="images/self-driving robot/703055374_10164547162158817_565417558515492104_n.jpg" alt="Self-Driving Robot">
+                </div>
+            </div>
+
+            <h2>Key Hardware Specifications</h2>
+            <ul>
+                <li><strong>Microcontroller Core:</strong> Arduino Uno compatible R3 controller platform with fast analog-digital conversions.</li>
+                <li><strong>Proximity Array:</strong> HC-SR04 ultrasonic distance sensor with 2cm-400cm capability, mounted on a Micro SG90 180° servo.</li>
+                <li><strong>Actuation & Steering:</strong> 4 high-speed yellow BO DC motors connected to L298N high-current dual-bridge controller.</li>
+                <li><strong>Chassis & Power Train:</strong> Dual-layer heavy-duty acrylic chassis, powered by an dual 18650 high-discharge Li-ion series array (8.4V total rail).</li>
+            </ul>
+
+            <h2>Source Code - Autonomous Steering Algorithm</h2>
+            <div class="code-wrapper">
+<pre><code>// Autonomous Self-Driving Navigation Logic
+#include &lt;Servo.h&gt;
+
+const int trigPin = A0;
+const int echoPin = A1;
+const int motorL1 = 5;
+const int motorL2 = 6;
+const int motorR1 = 9;
+const int motorR2 = 10;
+
+Servo radarServo;
+int thresholdDistance = 30; // Threshold limit in cm
+
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(motorL1, OUTPUT);
+  pinMode(motorL2, OUTPUT);
+  pinMode(motorR1, OUTPUT);
+  pinMode(motorR2, OUTPUT);
+  
+  radarServo.attach(11);
+  radarServo.write(90); // Center position
+  delay(1000);
+}
+
+int checkDistance() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  long duration = pulseIn(echoPin, HIGH);
+  return duration * 0.034 / 2;
+}
+
+void loop() {
+  int centerDist = checkDistance();
+  
+  if (centerDist > thresholdDistance) {
+    moveForward();
+  } else {
+    stopMoving();
+    
+    // Scan Left
+    radarServo.write(150);
+    delay(500);
+    int leftDist = checkDistance();
+    
+    // Scan Right
+    radarServo.write(30);
+    delay(500);
+    int rightDist = checkDistance();
+    
+    // Return to Center
+    radarServo.write(90);
+    delay(500);
+    
+    if (leftDist > rightDist && leftDist > thresholdDistance) {
+      turnLeft();
+      delay(800);
+    } else if (rightDist > leftDist && rightDist > thresholdDistance) {
+      turnRight();
+      delay(800);
+    } else {
+      moveBackward();
+      delay(1000);
+      turnRight();
+      delay(800);
+    }
+  }
+}
+
+void moveForward() {
+  digitalWrite(motorL1, HIGH);
+  digitalWrite(motorL2, LOW);
+  digitalWrite(motorR1, HIGH);
+  digitalWrite(motorR2, LOW);
+}
+
+void stopMoving() {
+  digitalWrite(motorL1, LOW);
+  digitalWrite(motorL2, LOW);
+  digitalWrite(motorR1, LOW);
+  digitalWrite(motorR2, LOW);
+}
+
+void turnLeft() {
+  digitalWrite(motorL1, LOW);
+  digitalWrite(motorL2, HIGH);
+  digitalWrite(motorR1, HIGH);
+  digitalWrite(motorR2, LOW);
+}
+
+void turnRight() {
+  digitalWrite(motorL1, HIGH);
+  digitalWrite(motorL2, LOW);
+  digitalWrite(motorR1, LOW);
+  digitalWrite(motorR2, HIGH);
+}
+
+void moveBackward() {
+  digitalWrite(motorL1, LOW);
+  digitalWrite(motorL2, HIGH);
+  digitalWrite(motorR1, LOW);
+  digitalWrite(motorR2, HIGH);
+}</code></pre>
+            </div>
+
+        </div>
+
+        <div class="sidebar">
+            <h3>More Projects</h3>
+            <ul>
+                <li><a href="solar-powered-robotic-car.html">Solar Powered Robotic Car</a></li>
+                <li><a href="voice-robotic-car.html">Voice Controlled Robotic Car</a></li>
+                <li><a href="obstacle-avoiding-robotic-car.html">Obstacle Avoiding Robotic Car</a></li>
+                <li><a href="bluetooth-robotic-car.html">Bluetooth Controlled Robotic Car</a></li>
+                <li><a href="joystick-robotic-car.html">Joystick Controlled Robotic Car</a></li>
+                <li><a href="wifi-robotic-car.html">WiFi ESP8266 Robotic Car</a></li>
+                <li><a href="make-and-fly-your-own-drone.html">Make and Fly Your Own Drone</a></li>
+                <li><a href="drone-flight-controller.html">Drone Flight Controller</a></li>
+                <li><a href="humanoid-robot.html">Humanoid Robot</a></li>
+                <li><a href="self-driving-robot.html" class="active">Self-Driving Robot</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <span class="lightbox-close" id="lightbox-close">&times;</span>
+            <img src="" alt="Gallery Image" class="lightbox-img" id="lightbox-img">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Information</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Course</a></li>
+                    <li><a href="#">Event</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Student Help</h4>
+                <ul>
+                    <li><a href="enroll.html">Get Started</a></li>
+                    <li><a href="#">My Questions</a></li>
+                    <li><a href="#">Download Files</a></li>
+                    <li><a href="#">Latest Course</a></li>
+                    <li><a href="#">Academic News</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p class="newsletter">Get latest update, news & academic offers</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit" style="padding: 0.8rem 1.2rem; border: none; background: var(--primary-color); color: var(--bg-color); font-weight: bold; border-radius: 0 5px 5px 0; cursor: pointer;">Subscribe</button>
+                </form>
+            </div>
+
+            <div class="footer-col contact-info">
+                <h4>Contact</h4>
+                <p>📞 +91 9830068336</p>
+                <p>✉️ info@nextgenroboticx.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p style="text-align: center; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; margin-top: 2rem;">All Right Reserved | Designed by NextGenRoboticX - NextGen Robotics Academy © 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple mobile menu toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Dropdown toggle for mobile and touch devices
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle, .sub-dropdown-toggle');
+        
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const menu = toggle.nextElementSibling;
+                const parentLi = toggle.parentElement;
+                
+                // Close sibling menus
+                const siblings = parentLi.parentElement.children;
+                for (let sibling of siblings) {
+                    if (sibling !== parentLi) {
+                        const siblingMenu = sibling.querySelector('.dropdown-menu, .sub-dropdown-menu');
+                        if (siblingMenu) siblingMenu.style.display = '';
+                    }
+                }
+
+                if (menu.style.display === 'block') {
+                    menu.style.display = '';
+                } else {
+                    menu.style.display = 'block';
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown') && !e.target.closest('.sub-dropdown')) {
+                document.querySelectorAll('.dropdown-menu, .sub-dropdown-menu').forEach(menu => {
+                    menu.style.display = '';
+                });
+            }
+        });
+
+        // Lightbox Functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const lightboxClose = document.getElementById('lightbox-close');
+
+        function openLightbox(src, desc) {
+            lightboxImg.src = src;
+            lightboxCaption.innerText = desc;
+            lightbox.classList.add('active');
+        }
+
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

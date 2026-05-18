@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NodeMCU ESP8266 IOT WiFi Robotic Car | NextGen Robotics Academy</title>
+    <meta name="description" content="Design and build an IoT WiFi controlled robotic car on a breadboard using NodeMCU ESP8266 development board, L293D motor driver IC, and a custom Android application.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Dropdown CSS from Index */
+        .dropdown { position: relative; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: rgba(31, 40, 51, 0.95); backdrop-filter: blur(10px); min-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); padding: 1rem 0; z-index: 1000; }
+        .dropdown:hover > .dropdown-menu { display: block; animation: fadeIn 0.3s ease; }
+        .dropdown-menu li { list-style: none; }
+        .dropdown-menu li a { display: block; padding: 0.8rem 1.5rem; color: var(--text-main); transition: all 0.2s ease; }
+        .dropdown-menu li a:hover { background: rgba(0, 229, 255, 0.1); color: var(--primary-color); padding-left: 2rem; }
+        .sub-dropdown { position: relative; }
+        .sub-dropdown-menu { display: none; position: absolute; top: 0; left: 100%; background: rgba(31, 40, 51, 0.95); backdrop-filter: blur(10px); min-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); padding: 1rem 0; }
+        .sub-dropdown:hover > .sub-dropdown-menu { display: block; animation: fadeIn 0.3s ease; }
+        .dropdown-toggle::after { content: ' ▾'; font-size: 0.8em; }
+        .sub-dropdown-toggle::after { content: ' ▸'; font-size: 0.8em; float: right; }
+
+        @media (max-width: 992px) {
+            .dropdown-menu, .sub-dropdown-menu { position: static; display: none; background: transparent; box-shadow: none; border: none; padding-left: 1rem; }
+            .dropdown:hover > .dropdown-menu, .sub-dropdown:hover > .sub-dropdown-menu { display: block; }
+        }
+
+        /* Project Specific Styles */
+        .project-hero {
+            height: 40vh;
+            min-height: 350px;
+            background-image: linear-gradient(to right, rgba(11, 12, 16, 0.95), rgba(11, 12, 16, 0.7)), url('images/nodemcu/project.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .project-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            background: -webkit-linear-gradient(45deg, var(--primary-color), var(--secondary-color), #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .project-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 5%;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+
+        .project-content h2 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin: 2.5rem 0 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .project-content p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-content ul {
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .project-content ul li {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Image Display Styles */
+        .project-image-box {
+            background: rgba(31, 40, 51, 0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .project-image-box img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0,229,255,0.1);
+        }
+
+        .project-image-box p {
+            font-size: 0.95rem;
+            color: var(--primary-color);
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* Video Container Styling */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            border: 2px solid rgba(0, 229, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            margin: 2rem 0;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Code Block Wrapper */
+        .code-wrapper {
+            background: #011627;
+            padding: 2rem;
+            border-radius: 15px;
+            overflow-x: auto;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .code-wrapper pre {
+            color: #d6deeb;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Download Button Styling */
+        .download-btn-container {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(255, 0, 255, 0.2));
+            color: #ffffff;
+            padding: 1rem 1.8rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 1px solid rgba(0, 229, 255, 0.4);
+            box-shadow: 0 5px 15px rgba(0, 229, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-color);
+            box-shadow: 0 10px 25px rgba(0, 229, 255, 0.3);
+            border-color: transparent;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(31, 40, 51, 0.5);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 1rem;
+        }
+
+        .sidebar ul li a {
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .sidebar ul li a:hover, .sidebar ul li a.active {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 992px) {
+            .project-container { grid-template-columns: 1fr; gap: 2rem; }
+            .sidebar { position: static; }
+            .project-hero h1 { font-size: 2.5rem; }
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            NextGen<span>RoboticX</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Course</a>
+                <ul class="dropdown-menu">
+                    <li><a href="learn-c-programming.html">Learn C Programming</a></li>
+                    <li><a href="robotics-course-level-v1.0.html">Robotics Level v1.0</a></li>
+                    <li><a href="robotics-course-level-v2.0.html">Robotics Level v2.0</a></li>
+                    <li><a href="robotics-course-level-v3.0.html">Robotics Level v3.0</a></li>
+                    <li><a href="engineering-project-on-robotics.html">Engineering Project</a></li>
+                </ul>
+            </li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle active">Project</a>
+                <ul class="dropdown-menu">
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle active">Robotic Car</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="solar-powered-robotic-car.html">Solar Powered</a></li>
+                            <li><a href="voice-robotic-car.html">Voice Controlled</a></li>
+                            <li><a href="obstacle-avoiding-robotic-car.html">Obstacle Avoiding</a></li>
+                            <li><a href="bluetooth-robotic-car.html">Bluetooth Controlled</a></li>
+                            <li><a href="joystick-robotic-car.html">Joystick Controlled</a></li>
+                            <li><a href="wifi-robotic-car.html">WiFi ESP8266</a></li>
+                            <li><a href="nodemcu-ESP8266-IOT-wifi-robotic-car.html" class="active">NodeMCU WiFi IOT</a></li>
+                            <li><a href="robotic-car-hack-af-motor-shield.html">Hack AF Motor Shield</a></li>
+                            <li><a href="obstacle-avoiding-robotic-car-on-breadboard.html">Breadboard Robot</a></li>
+                            <li><a href="line-follower-robotic-car.html">Line Follower</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle">Drone</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="make-and-fly-your-own-drone.html">Make and Fly Your Own Drone</a></li>
+                            <li><a href="drone-flight-controller.html">Drone Flight Controller</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle">Robot</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="humanoid-robot.html">Humanoid Robot</a></li>
+                            <li><a href="self-driving-robot.html">Self-Driving Robot</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="faculty.html">Faculty</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Project Hero Section -->
+    <header class="project-hero">
+        <div>
+            <h1>NodeMCU ESP8266<br>IOT WiFi Robotic Car</h1>
+            <p style="color: var(--text-muted); font-size: 1.2rem;">ESP8266 IoT Breadboard Robot Platform | NextGenRoboticX</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="project-container">
+        <div class="project-content">
+            <p>In this project, we will explain how to design and prototype a <strong>WiFi Controlled Robotic Car</strong> using the <strong>NodeMCU ESP8266 WiFi IoT Development Board</strong> and an <strong>L293D Motor Driver IC</strong> on a standard solderless breadboard. NodeMCU is an open-source interactive prototyping system that makes connecting hardware sensors to the internet extremely easy with simple scripting.</p>
+            <p>This mechatronics build establishes a local NodeMCU WiFi Access Point to pair with a smartphone. From there, steering commands are transmitted directly to the robot over HTTP via an Android steering application.</p>
+            
+            <div class="project-image-box">
+                <img src="images/nodemcu/project.jpg" alt="NodeMCU ESP8266 WiFi Robotic Car">
+                <p>Figure 1: Complete NodeMCU WiFi IoT Robotic Car Assembly</p>
+            </div>
+
+            <ul>
+                <li><i class="fas fa-wifi" style="color: var(--primary-color); margin-right: 0.5rem;"></i> Local NodeMCU Access Point (AP) mode setup.</li>
+                <li><i class="fas fa-microchip" style="color: var(--primary-color); margin-right: 0.5rem;"></i> Powerful 32-bit Tensilica LX106 core running at 80 MHz.</li>
+                <li><i class="fas fa-random" style="color: var(--primary-color); margin-right: 0.5rem;"></i> L293D dual motor driver managing motor directions and PWM speeds.</li>
+                <li><i class="fas fa-tools" style="color: var(--primary-color); margin-right: 0.5rem;"></i> Safe solderless breadboard circuit layout.</li>
+            </ul>
+
+            <h2>Project Demonstration Video</h2>
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/y4-y65QBGcQ" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <h2>Hardware Requirements</h2>
+            <ul>
+                <li><strong>Microcontroller:</strong> NodeMCU ESP8266 WiFi Development Board</li>
+                <li><strong>Motor Driver:</strong> L293D Motor Driver H-Bridge IC</li>
+                <li><strong>Motors:</strong> DC 3-6V BO Gear Motors & Plastic Tire Wheels</li>
+                <li><strong>Prototyping Platform:</strong> 400-Pin Solderless Breadboard & jumper wires</li>
+                <li><strong>Power Source:</strong> 9V Battery / external battery pack</li>
+                <li><strong>Chassis:</strong> Robotic Car Chassis kit</li>
+            </ul>
+
+            <h2>Core Component Deep-Dive</h2>
+
+            <h3>1. NodeMCU ESP8266 Board</h3>
+            <p>The NodeMCU integration is a highly versatile IoT module built around the Espressif ESP8266 System-on-Chip (SoC). Prototyping on breadboards is effortless since it features a dual in-line package (DIP) form factor, an onboard MicroUSB programmer slot, a Tensilica Xtensa 32-bit CPU running at 80MHz, and built-in WiFi antennas.</p>
+            
+            <div class="project-image-box">
+                <img src="images/nodemcu/esp8266.jpg" alt="NodeMCU ESP8266 Module">
+                <p>Figure 2: NodeMCU ESP8266 WiFi IoT Development Board</p>
+            </div>
+
+            <h4>NodeMCU Specifications</h4>
+            <ul>
+                <li>CPU: Tensilica Xtensa 32-bit RISC LX106 (80 MHz)</li>
+                <li>Operating Voltage: 3.3V (Onboard 5V to 3.3V regulators)</li>
+                <li>Digital I/O Pins: 16 GPIOs with PWM capabilities</li>
+                <li>Analog Input: 1 ADC Pin (0V - 1V max)</li>
+                <li>Memory: 4 MB Flash memory, 64 KB SRAM</li>
+                <li>Wireless: IEEE 802.11 b/g/n WiFi transceiver</li>
+            </ul>
+
+            <h3>2. L293D Motor Driver IC</h3>
+            <p>The L293D is a standard 16-pin H-Bridge motor driver chip. A single L293D IC can drive up to two bi-directional DC gear motors independently, providing continuous currents up to 600mA per channel.</p>
+            
+            <div class="project-image-box">
+                <img src="images/nodemcu/l293d.jpg" alt="L293D Motor Driver IC">
+                <p>Figure 3: L293D Dual H-Bridge Motor Driver IC</p>
+            </div>
+
+            <h4>L293D Specifications</h4>
+            <ul>
+                <li>Drives up to 2 DC gear motors independently.</li>
+                <li>Speed and direction control enabled via input/enable lines.</li>
+                <li>Output driving voltage capacity: 4.5V to 36V</li>
+                <li>Continuous motor currents: 600mA (1.2A brief peaks)</li>
+                <li>Automatic thermal shutdown protection.</li>
+            </ul>
+
+            <h3>3. BO Gear Motor with Wheel</h3>
+            <p>DC Battery Operated gear motors containing standard gearboxes to deliver high output torque for robotic wheel locomotion.</p>
+            
+            <div class="project-image-box">
+                <img src="images/nodemcu/wheel.jpg" alt="BO Geared Motor">
+                <p>Figure 4: BO Geared DC Motor & Wheel Assembly</p>
+            </div>
+
+            <h3>4. Breadboard and Chassis Platforms</h3>
+            <div class="project-image-box">
+                <img src="images/nodemcu/chassis.jpg" alt="Robotic Chassis Layout">
+                <p>Figure 5: Prototyping Robot Chassis Kit</p>
+            </div>
+
+            <h2>Circuit Architecture</h2>
+            <p>The NodeMCU and L293D IC are placed directly on the 400-pin breadboard. Connect NodeMCU pins <strong>D1, D2</strong> (for Left Motor) and <strong>D3, D4</strong> (for Right Motor) to L293D input pins. The NodeMCU 3.3V pin powers the driver logic, and a separate 9V battery connects to the L293D motor voltage supply line (Vcc2) to drive the high-current DC motors safely.</p>
+            
+            <div class="project-image-box">
+                <img src="images/nodemcu/circuit.jpg" alt="Circuit Schematic">
+                <p>Figure 6: Breadboard Circuit Hookup Schematic</p>
+            </div>
+
+            <h2>Flashing Code to NodeMCU</h2>
+            <p>Follow these steps to configure your Arduino IDE to upload code to the ESP8266:</p>
+            
+            <p><strong>Step 1:</strong> Go to <strong>File &gt; Preferences</strong>. Insert the custom ESP8266 boards URL into the <strong>Additional Board Manager URLs</strong> text box:</p>
+            <div class="code-wrapper">
+                <pre><code>http://arduino.esp8266.com/stable/package_esp8266com_index.json</code></pre>
+            </div>
+            
+            <div class="project-image-box">
+                <img src="images/nodemcu/url.jpg" alt="Preferences Config in Arduino IDE">
+                <p>Figure 7: Copying ESP8266 Board Manager URL</p>
+            </div>
+
+            <p><strong>Step 2:</strong> Go to <strong>Tools &gt; Boards &gt; Boards Manager</strong>. Search for <strong>esp8266</strong> and click <strong>Install</strong>.</p>
+            <div class="project-image-box">
+                <img src="images/nodemcu/dm.jpg" alt="Boards Manager Search in IDE">
+                <p>Figure 8: Installing ESP8266 Package in Arduino IDE</p>
+            </div>
+
+            <p><strong>Step 3:</strong> Select <strong>NodeMCU 0.9 (ESP-12 Module)</strong> or <strong>NodeMCU 1.0 (ESP-12E Module)</strong> under <strong>Tools &gt; Board</strong>.</p>
+            <div class="project-image-box">
+                <img src="images/nodemcu/selecting-nodemcu.jpg" alt="Selecting NodeMCU Board">
+                <p>Figure 9: Selecting the NodeMCU Target Board</p>
+            </div>
+
+            <p><strong>Step 4:</strong> Hook up NodeMCU to your computer using a micro-USB data cable. Select the assigned <strong>COM Port</strong> and set the upload speed to <strong>115200</strong>.</p>
+            <div class="project-image-box">
+                <img src="images/nodemcu/com.jpg" alt="COM Port Selection">
+                <p>Figure 10: Assigning Serial COM Port</p>
+            </div>
+
+            <h2>Arduino IDE WiFi Source Code</h2>
+            <p>Copy and upload the following code to the NodeMCU module. The code runs NodeMCU in soft Access Point mode, serving a local HTTP server on port 80 to parse incoming steering requests.</p>
+            
+            <div class="code-wrapper">
+<pre><code>// NodeMCU ESP8266 WiFi controlled Robotic Car - NextGenRoboticX
+#include &lt;ESP8266WiFi.h&gt;
+
+// WiFi Credentials (NodeMCU Access Point mode)
+const char* ssid = "NextGen_WiFi_Car";
+const char* password = "roboticscar123";
+
+WiFiServer server(80); // Start HTTP server on port 80
+
+// Motor driver pin connections (NodeMCU GPIO pins)
+const int MotorL1 = D1; // GPIO5 - L293D Input 1
+const int MotorL2 = D2; // GPIO4 - L293D Input 2
+const int MotorR1 = D3; // GPIO0 - L293D Input 3
+const int MotorR2 = D4; // GPIO2 - L293D Input 4
+
+void setup() {
+  Serial.begin(115200);
+  
+  pinMode(MotorL1, OUTPUT);
+  pinMode(MotorL2, OUTPUT);
+  pinMode(MotorR1, OUTPUT);
+  pinMode(MotorR2, OUTPUT);
+  
+  stopRobot();
+  
+  // Configure NodeMCU in Access Point Mode
+  Serial.print("Configuring Access Point...");
+  WiFi.softAP(ssid, password);
+  
+  IPAddress myIP = WiFi.softAPIP();
+  Serial.print("AP IP Address: ");
+  Serial.println(myIP);
+  
+  server.begin(); // Start the server
+  Serial.println("HTTP Server Started");
+}
+
+void loop() {
+  WiFiClient client = server.available();
+  if (!client) {
+    return;
+  }
+  
+  // Read the first line of the HTTP request
+  String request = client.readStringUntil('\r');
+  Serial.println(request);
+  client.flush();
+  
+  // Extract steering command from request (e.g. GET /forward)
+  if (request.indexOf("/forward") != -1) {
+    moveForward();
+  } else if (request.indexOf("/backward") != -1) {
+    moveBackward();
+  } else if (request.indexOf("/left") != -1) {
+    turnLeft();
+  } else if (request.indexOf("/right") != -1) {
+    turnRight();
+  } else if (request.indexOf("/stop") != -1) {
+    stopRobot();
+  }
+  
+  // Return HTTP response
+  client.println("HTTP/1.1 200 OK");
+  client.println("Content-Type: text/html");
+  client.println("");
+  client.println("<!DOCTYPE HTML>");
+  client.println("<html>");
+  client.println("<h3>NextGen WiFi Robotic Car Controller</h3>");
+  client.println("</html>");
+  delay(1);
+}
+
+void moveForward() {
+  digitalWrite(MotorL1, HIGH);
+  digitalWrite(MotorL2, LOW);
+  digitalWrite(MotorR1, HIGH);
+  digitalWrite(MotorR2, LOW);
+}
+
+void stopRobot() {
+  digitalWrite(MotorL1, LOW);
+  digitalWrite(MotorL2, LOW);
+  digitalWrite(MotorR1, LOW);
+  digitalWrite(MotorR2, LOW);
+}
+
+void turnLeft() {
+  digitalWrite(MotorL1, LOW);
+  digitalWrite(MotorL2, HIGH);
+  digitalWrite(MotorR1, HIGH);
+  digitalWrite(MotorR2, LOW);
+}
+
+void turnRight() {
+  digitalWrite(MotorL1, HIGH);
+  digitalWrite(MotorL2, LOW);
+  digitalWrite(MotorR1, LOW);
+  digitalWrite(MotorR2, HIGH);
+}
+
+void moveBackward() {
+  digitalWrite(MotorL1, LOW);
+  digitalWrite(MotorL2, HIGH);
+  digitalWrite(MotorR1, LOW);
+  digitalWrite(MotorR2, HIGH);
+}</code></pre>
+            </div>
+
+            <h2>Google Drive Project Downloads</h2>
+            <p>Download the fully validated source code files and the pre-compiled Android steering client package from our shared drives:</p>
+            
+            <div class="download-btn-container">
+                <a href="https://drive.google.com/file/d/10trvB7s8ql2KfEyx6joPcH2AdmMjdmar/view?usp=sharing" target="_blank" class="download-btn">
+                    <i class="fab fa-google-drive"></i> Download Project Code
+                </a>
+                <a href="https://drive.google.com/file/d/1jyaqSoBedEcajrxYsVoTFJVeymCa-hCc/view?usp=sharing" target="_blank" class="download-btn">
+                    <i class="fab fa-android"></i> Download Android App (.APK)
+                </a>
+            </div>
+
+        </div>
+
+        <div class="sidebar">
+            <h3>More Projects</h3>
+            <ul>
+                <li><a href="solar-powered-robotic-car.html">Solar Powered Robotic Car</a></li>
+                <li><a href="voice-robotic-car.html">Voice Controlled Robotic Car</a></li>
+                <li><a href="obstacle-avoiding-robotic-car.html">Obstacle Avoiding Robotic Car</a></li>
+                <li><a href="bluetooth-robotic-car.html">Bluetooth Controlled Robotic Car</a></li>
+                <li><a href="joystick-robotic-car.html">Joystick Controlled Robotic Car</a></li>
+                <li><a href="wifi-robotic-car.html">WiFi ESP8266</a></li>
+                <li><a href="nodemcu-ESP8266-IOT-wifi-robotic-car.html" class="active">NodeMCU WiFi IOT</a></li>
+                <li><a href="robotic-car-hack-af-motor-shield.html">Hack AF Motor Shield</a></li>
+                <li><a href="make-and-fly-your-own-drone.html">Make and Fly Your Own Drone</a></li>
+                <li><a href="drone-flight-controller.html">Drone Flight Controller</a></li>
+                <li><a href="humanoid-robot.html">Humanoid Robot</a></li>
+                <li><a href="self-driving-robot.html">Self-Driving Robot</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Information</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Course</a></li>
+                    <li><a href="#">Event</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Student Help</h4>
+                <ul>
+                    <li><a href="enroll.html">Get Started</a></li>
+                    <li><a href="#">My Questions</a></li>
+                    <li><a href="#">Download Files</a></li>
+                    <li><a href="#">Latest Course</a></li>
+                    <li><a href="#">Academic News</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p class="newsletter">Get latest update, news & academic offers</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit" style="padding: 0.8rem 1.2rem; border: none; background: var(--primary-color); color: var(--bg-color); font-weight: bold; border-radius: 0 5px 5px 0; cursor: pointer;">Subscribe</button>
+                </form>
+            </div>
+
+            <div class="footer-col contact-info">
+                <h4>Contact</h4>
+                <p>📞 +91 9830068336</p>
+                <p>✉️ info@nextgenroboticx.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p style="text-align: center; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; margin-top: 2rem;">All Right Reserved | Designed by NextGenRoboticX - NextGen Robotics Academy © 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple mobile menu toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Dropdown toggle for mobile and touch devices
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle, .sub-dropdown-toggle');
+        
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const menu = toggle.nextElementSibling;
+                const parentLi = toggle.parentElement;
+                
+                // Close sibling menus
+                const siblings = parentLi.parentElement.children;
+                for (let sibling of siblings) {
+                    if (sibling !== parentLi) {
+                        const siblingMenu = sibling.querySelector('.dropdown-menu, .sub-dropdown-menu');
+                        if (siblingMenu) siblingMenu.style.display = '';
+                    }
+                }
+
+                if (menu.style.display === 'block') {
+                    menu.style.display = '';
+                } else {
+                    menu.style.display = 'block';
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown') && !e.target.closest('.sub-dropdown')) {
+                document.querySelectorAll('.dropdown-menu, .sub-dropdown-menu').forEach(menu => {
+                    menu.style.display = '';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

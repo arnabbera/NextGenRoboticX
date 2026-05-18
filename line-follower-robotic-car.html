@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Line Follower Robotic Car | NextGen Robotics Academy</title>
+    <meta name="description" content="Design and develop an autonomous Line Follower robotic car using IR sensors.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Dropdown CSS from Index */
+        .dropdown { position: relative; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: rgba(31, 40, 51, 0.95); backdrop-filter: blur(10px); min-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); padding: 1rem 0; z-index: 1000; }
+        .dropdown:hover > .dropdown-menu { display: block; animation: fadeIn 0.3s ease; }
+        .dropdown-menu li { list-style: none; }
+        .dropdown-menu li a { display: block; padding: 0.8rem 1.5rem; color: var(--text-main); transition: all 0.2s ease; }
+        .dropdown-menu li a:hover { background: rgba(0, 229, 255, 0.1); color: var(--primary-color); padding-left: 2rem; }
+        .sub-dropdown { position: relative; }
+        .sub-dropdown-menu { display: none; position: absolute; top: 0; left: 100%; background: rgba(31, 40, 51, 0.95); backdrop-filter: blur(10px); min-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); padding: 1rem 0; }
+        .sub-dropdown:hover > .sub-dropdown-menu { display: block; animation: fadeIn 0.3s ease; }
+        .dropdown-toggle::after { content: ' ▾'; font-size: 0.8em; }
+        .sub-dropdown-toggle::after { content: ' ▸'; font-size: 0.8em; float: right; }
+
+        @media (max-width: 992px) {
+            .dropdown-menu, .sub-dropdown-menu { position: static; display: none; background: transparent; box-shadow: none; border: none; padding-left: 1rem; }
+            .dropdown:hover > .dropdown-menu, .sub-dropdown:hover > .sub-dropdown-menu { display: block; }
+        }
+
+        /* Project Specific Styles */
+        .project-hero {
+            height: 40vh;
+            min-height: 350px;
+            background-image: linear-gradient(to right, rgba(11, 12, 16, 0.95), rgba(11, 12, 16, 0.7)), url('images/linefollower/project.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .project-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            background: -webkit-linear-gradient(45deg, var(--primary-color), var(--secondary-color), #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .project-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 5%;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+
+        .project-content h2 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin: 2.5rem 0 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .project-content h4 {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin: 1rem 0 0.5rem;
+        }
+
+        .project-content p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-content ul {
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .project-content ul li {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .project-img {
+            width: 100%;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .project-img-half {
+            width: 48%;
+            display: inline-block;
+        }
+
+        .project-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 229, 255, 0.2);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(31, 40, 51, 0.5);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 1rem;
+        }
+
+        .sidebar ul li a {
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .sidebar ul li a:hover, .sidebar ul li a.active {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 992px) {
+            .project-container { grid-template-columns: 1fr; gap: 2rem; }
+            .sidebar { position: static; }
+            .project-hero h1 { font-size: 2.5rem; }
+            .project-img-half { width: 100%; display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            NextGen<span>RoboticX</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Course</a>
+                <ul class="dropdown-menu">
+                    <li><a href="learn-c-programming.html">Learn C Programming</a></li>
+                    <li><a href="robotics-course-level-v1.0.html">Robotics Level v1.0</a></li>
+                    <li><a href="robotics-course-level-v2.0.html">Robotics Level v2.0</a></li>
+                    <li><a href="robotics-course-level-v3.0.html">Robotics Level v3.0</a></li>
+                    <li><a href="engineering-project-on-robotics.html">Engineering Project</a></li>
+                </ul>
+            </li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle active">Project</a>
+                <ul class="dropdown-menu">
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle active">Robotic Car</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="solar-powered-robotic-car.html">Solar Powered</a></li>
+                            <li><a href="voice-robotic-car.html">Voice Controlled</a></li>
+                            <li><a href="obstacle-avoiding-robotic-car.html">Obstacle Avoiding</a></li>
+                            <li><a href="bluetooth-robotic-car.html">Bluetooth Controlled</a></li>
+                            <li><a href="joystick-robotic-car.html">Joystick Controlled</a></li>
+                            <li><a href="wifi-robotic-car.html">WiFi ESP8266</a></li>
+                            <li><a href="nodemcu-ESP8266-IOT-wifi-robotic-car.html">NodeMCU WiFi IOT</a></li>
+                            <li><a href="robotic-car-hack-af-motor-shield.html">Hack AF Motor Shield</a></li>
+                            <li><a href="obstacle-avoiding-robotic-car-on-breadboard.html">Breadboard Robot</a></li>
+                            <li><a href="line-follower-robotic-car.html" class="active">Line Follower</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle">Drone</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="make-and-fly-your-own-drone.html">Make and Fly Your Own Drone</a></li>
+                            <li><a href="drone-flight-controller.html">Drone Flight Controller</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle">Robot</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="humanoid-robot.html">Humanoid Robot</a></li>
+                            <li><a href="self-driving-robot.html">Self-Driving Robot</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="faculty.html">Faculty</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Project Hero Section -->
+    <header class="project-hero">
+        <div>
+            <h1>Line Follower Robotic Car</h1>
+            <p style="color: var(--text-muted); font-size: 1.2rem;">Autonomous Robotics Project | NextGenRoboticX</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="project-container">
+        <div class="project-content">
+            <p>In this project, we will explain how to design and develop a <strong>Line Follower Robotic Car</strong>. This is an autonomous robotic car which detects and follows a black line drawn on a white floor. It uses two IR sensors to detect the white/black surface, and a transistor-based motor driver is used to send the command to the motors.</p>
+
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/Cjbj4w_vN7o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <ul>
+                <li>Input units consist of sensors that detect the white path on a black surface or the black path on a white surface.</li>
+                <li>QRD1114 IR reflective line/object sensor and CNY70 reflective optical sensor are the most commonly used sensors for line follower robots.</li>
+            </ul>
+
+            <h2>Concepts of IR sensor based Line Follower</h2>
+            <p>The concept of the line follower is related to light reflection behavior. When light falls on a white surface, it is almost fully reflected. In the case of a black surface, the light is completely absorbed.</p>
+            
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                <img src="images/linefollower/concept1.jpg" alt="Light Reflected" class="project-img project-img-half" onerror="this.src='https://via.placeholder.com/400x300/1F2833/00E5FF?text=White+Surface'">
+                <img src="images/linefollower/concept2.jpg" alt="Light Absorbed" class="project-img project-img-half" onerror="this.src='https://via.placeholder.com/400x300/1F2833/00E5FF?text=Black+Surface'">
+            </div>
+            
+            <p>We use IR Transmitters and IR receivers (photo diodes) for sending and receiving light. When infrared rays fall on the white surface, they reflect back and are detected by the photodiodes, generating voltage changes. When IR light falls on the black surface, it is absorbed, and the photo diode receives no light.</p>
+
+            <h2>Working Principle</h2>
+            <p>The line follower robot senses the black line using the IR sensors and sends a signal to a transistor-based motor driver. The motor driver then powers the motors according to the sensors' output.</p>
+            <p>We use two IR sensor modules (left and right) and 2 transistors to power the motors.</p>
+
+            <ul>
+                <li><strong>Moving Forward:</strong> When both left and right sensors sense white, the robot moves forward.</li>
+            </ul>
+            <img src="images/linefollower/wp1.jpg" alt="Move Forward" class="project-img" onerror="this.src='https://via.placeholder.com/800x300/1F2833/00E5FF?text=Moving+Forward'">
+
+            <ul>
+                <li><strong>Turning Left:</strong> If the left sensor detects the black line, the robot turns left.</li>
+            </ul>
+            <img src="images/linefollower/wp3.jpg" alt="Turn Left" class="project-img" onerror="this.src='https://via.placeholder.com/800x300/1F2833/00E5FF?text=Turning+Left'">
+
+            <ul>
+                <li><strong>Turning Right:</strong> If the right sensor detects the black line, the robot turns right until both sensors return to the white surface.</li>
+            </ul>
+            <img src="images/linefollower/wp4.jpg" alt="Turn Right" class="project-img" onerror="this.src='https://via.placeholder.com/800x300/1F2833/00E5FF?text=Turning+Right'">
+
+            <ul>
+                <li><strong>Stop:</strong> If both sensors detect the black line, the robot stops.</li>
+            </ul>
+            <img src="images/linefollower/wp5.jpg" alt="Stop" class="project-img" onerror="this.src='https://via.placeholder.com/800x300/1F2833/00E5FF?text=Stop'">
+
+            <h2>Hardware Requirement</h2>
+            <ul>
+                <li>2 Transistor base motor drivers (BC-547)</li>
+                <li>Motor: DC 3-6v BO Gear Motor With Plastic Tire Wheel</li>
+                <li>2 IR Sensors</li>
+                <li>External Power: 9V Battery</li>
+                <li>Robot chassis</li>
+            </ul>
+
+            <h2>Project Diagram</h2>
+            <img src="images/linefollower/linefollower.jpg" alt="Line Follower Diagram" class="project-img" onerror="this.src='https://via.placeholder.com/800x600/1F2833/00E5FF?text=Project+Diagram'">
+
+            <h2>Benefits & Applications</h2>
+            <h4>Advantages</h4>
+            <ul>
+                <li>Robot movement is fully automatic.</li>
+                <li>Used for long-distance autonomous applications.</li>
+                <li>Fit-and-forget system design.</li>
+            </ul>
+
+            <h4>Limitations</h4>
+            <ul>
+                <li>Always needs a high-contrast path to run on (e.g., black line on white).</li>
+                <li>Potential instability on different line thicknesses or sharp, hard angles.</li>
+            </ul>
+
+            <h4>Applications</h4>
+            <ul>
+                <li><strong>Industrial:</strong> Automated equipment carriers replacing traditional conveyor belts.</li>
+                <li><strong>Automobile:</strong> Basis for automatic cars running on roads with embedded magnets/lines.</li>
+                <li><strong>Domestic:</strong> Floor cleaning and other domestic chores.</li>
+                <li><strong>Guidance:</strong> Providing path guidance in public places like museums and shopping malls.</li>
+            </ul>
+
+        </div>
+
+        <div class="sidebar">
+            <h3>More Projects</h3>
+            <ul>
+                <li><a href="solar-powered-robotic-car.html">Solar Powered Robotic Car</a></li>
+                <li><a href="voice-robotic-car.html">Voice Controlled Robotic Car</a></li>
+                <li><a href="obstacle-avoiding-robotic-car.html">Obstacle Avoiding Robotic Car</a></li>
+                <li><a href="bluetooth-robotic-car.html">Bluetooth Controlled Robotic Car</a></li>
+                <li><a href="make-and-fly-your-own-drone.html">Make and Fly Your Own Drone</a></li>
+                <li><a href="drone-flight-controller.html">Drone Flight Controller</a></li>
+                <li><a href="humanoid-robot.html">Humanoid Robot</a></li>
+                <li><a href="self-driving-robot.html">Self-Driving Robot</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Information</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Course</a></li>
+                    <li><a href="#">Event</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Student Help</h4>
+                <ul>
+                    <li><a href="enroll.html">Get Started</a></li>
+                    <li><a href="#">My Questions</a></li>
+                    <li><a href="#">Download Files</a></li>
+                    <li><a href="#">Latest Course</a></li>
+                    <li><a href="#">Academic News</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p class="newsletter">Get latest update, news & academic offers</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit" style="padding: 0.8rem 1.2rem; border: none; background: var(--primary-color); color: var(--bg-color); font-weight: bold; border-radius: 0 5px 5px 0; cursor: pointer;">Subscribe</button>
+                </form>
+            </div>
+
+            <div class="footer-col contact-info">
+                <h4>Contact</h4>
+                <p>📞 +91 9830068336</p>
+                <p>✉️ info@nextgenroboticx.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p style="text-align: center; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; margin-top: 2rem;">All Right Reserved | Designed by NextGenRoboticX - NextGen Robotics Academy © 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple mobile menu toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Dropdown toggle for mobile and touch devices
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle, .sub-dropdown-toggle');
+        
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const menu = toggle.nextElementSibling;
+                const parentLi = toggle.parentElement;
+                
+                // Close sibling menus
+                const siblings = parentLi.parentElement.children;
+                for (let sibling of siblings) {
+                    if (sibling !== parentLi) {
+                        const siblingMenu = sibling.querySelector('.dropdown-menu, .sub-dropdown-menu');
+                        if (siblingMenu) siblingMenu.style.display = '';
+                    }
+                }
+
+                if (menu.style.display === 'block') {
+                    menu.style.display = '';
+                } else {
+                    menu.style.display = 'block';
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown') && !e.target.closest('.sub-dropdown')) {
+                document.querySelectorAll('.dropdown-menu, .sub-dropdown-menu').forEach(menu => {
+                    menu.style.display = '';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

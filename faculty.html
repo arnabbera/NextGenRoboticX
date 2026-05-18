@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty | NextGenRoboticX</title>
+    <meta name="description" content="NextGen Robotics Academy Faculty Profile. Meet our experts in Robotics, IoT, and Embedded Systems.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Dropdown CSS from Index */
+        .dropdown { position: relative; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: rgba(31, 40, 51, 0.95); backdrop-filter: blur(10px); min-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); padding: 1rem 0; z-index: 1000; }
+        .dropdown:hover > .dropdown-menu { display: block; animation: fadeIn 0.3s ease; }
+        .dropdown-menu li { list-style: none; }
+        .dropdown-menu li a { display: block; padding: 0.8rem 1.5rem; color: var(--text-main); transition: all 0.2s ease; }
+        .dropdown-menu li a:hover { background: rgba(0, 229, 255, 0.1); color: var(--primary-color); padding-left: 2rem; }
+        .sub-dropdown { position: relative; }
+        .sub-dropdown-menu { display: none; position: absolute; top: 0; left: 100%; background: rgba(31, 40, 51, 0.95); backdrop-filter: blur(10px); min-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); padding: 1rem 0; }
+        .sub-dropdown:hover > .sub-dropdown-menu { display: block; animation: fadeIn 0.3s ease; }
+        .dropdown-toggle::after { content: ' ▾'; font-size: 0.8em; }
+        .sub-dropdown-toggle::after { content: ' ▸'; font-size: 0.8em; float: right; }
+
+        @media (max-width: 992px) {
+            .dropdown-menu, .sub-dropdown-menu { position: static; display: none; background: transparent; box-shadow: none; border: none; padding-left: 1rem; }
+            .dropdown:hover > .dropdown-menu, .sub-dropdown:hover > .sub-dropdown-menu { display: block; }
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            NextGen<span>RoboticX</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Course</a>
+                <ul class="dropdown-menu">
+                    <li><a href="learn-c-programming.html">Learn C Programming</a></li>
+                    <li><a href="robotics-course-level-v1.0.html">Robotics Level v1.0</a></li>
+                    <li><a href="robotics-course-level-v2.0.html">Robotics Level v2.0</a></li>
+                    <li><a href="robotics-course-level-v3.0.html">Robotics Level v3.0</a></li>
+                    <li><a href="engineering-project-on-robotics.html">Engineering Project</a></li>
+                </ul>
+            </li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Project</a>
+                <ul class="dropdown-menu">
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle">Robotic Car</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="solar-powered-robotic-car.html">Solar Powered</a></li>
+                            <li><a href="voice-robotic-car.html">Voice Controlled</a></li>
+                            <li><a href="obstacle-avoiding-robotic-car.html">Obstacle Avoiding</a></li>
+                            <li><a href="bluetooth-robotic-car.html">Bluetooth Controlled</a></li>
+                            <li><a href="joystick-robotic-car.html">Joystick Controlled</a></li>
+                            <li><a href="wifi-robotic-car.html">WiFi ESP8266</a></li>
+                            <li><a href="nodemcu-ESP8266-IOT-wifi-robotic-car.html">NodeMCU WiFi IOT</a></li>
+                            <li><a href="robotic-car-hack-af-motor-shield.html">Hack AF Motor Shield</a></li>
+                            <li><a href="obstacle-avoiding-robotic-car-on-breadboard.html">Breadboard Robot</a></li>
+                            <li><a href="line-follower-robotic-car.html">Line Follower</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle">Drone</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="make-and-fly-your-own-drone.html">Make and Fly Your Own Drone</a></li>
+                            <li><a href="drone-flight-controller.html">Drone Flight Controller</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-dropdown">
+                        <a href="#" class="sub-dropdown-toggle">Robot</a>
+                        <ul class="sub-dropdown-menu">
+                            <li><a href="humanoid-robot.html">Humanoid Robot</a></li>
+                            <li><a href="self-driving-robot.html">Self-Driving Robot</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="faculty.html" class="active">Faculty</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Expert Faculty</h1>
+            <p>Guiding the next generation of innovators in Robotics, IoT, and Embedded Systems.</p>
+        </div>
+    </header>
+
+    <!-- Faculty Profile Section -->
+    <section class="profile-section">
+        <div class="profile-image-container">
+            <img src="images/faculty/profile.png" alt="Sona Desai Bera - Faculty" class="profile-image">
+        </div>
+        <div class="profile-details">
+            <h2>SONA DESAI</h2>
+            <div class="profile-title">Founder and Faculty @NextGen Robotics Academy</div>
+            
+            <p class="profile-description">
+                At the very beginning, thanks for reading this page. I invite & welcome you all to NextGen Robotics Academy (NextGenRoboticX). Let's study Robotics & learn how to apply Technology & your Innovative Idea to build Robots.
+            </p>
+
+            <ul class="education-list">
+                <li><strong>Bachelor of Engineering (B.E)</strong> in Electronics</li>
+                <li><strong>Advanced Post Graduate Diploma</strong> in Embedded Design</li>
+                <li><strong>Master of Technology (M.Tech)</strong> in VLSI Design & Embedded Technology</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Experience & Skills Section -->
+    <section class="experience-skills">
+        <h2 class="section-title">Experience & Expertise</h2>
+        
+        <div class="grid-container">
+            <!-- Experience Card -->
+            <div class="card">
+                <h3>Industry Experience</h3>
+                <ul>
+                    <li>Wipro Ltd. Kolkata as a Tech Lead</li>
+                    <li>Alumnus Software Ltd. Kolkata as a Sr. Software Developer</li>
+                    <li>E2E Electronics project along with all sources like circuit diagram, PCB design, Hardware & Software coding</li>
+                </ul>
+            </div>
+
+            <!-- Hardware & Embedded Card -->
+            <div class="card">
+                <h3>Hardware & Microcontrollers</h3>
+                <div class="skills-container">
+                    <span class="skill-tag">Atmel Family</span>
+                    <span class="skill-tag">AVR</span>
+                    <span class="skill-tag">Arduino</span>
+                    <span class="skill-tag">Raspberry Pi</span>
+                    <span class="skill-tag">Texas MSP430xx</span>
+                    <span class="skill-tag">Renesas R8C</span>
+                    <span class="skill-tag">8051</span>
+                    <span class="skill-tag">ARM Cortex</span>
+                    <span class="skill-tag">PIC</span>
+                    <span class="skill-tag">IoT</span>
+                </div>
+                <ul style="margin-top: 1.5rem;">
+                    <li>Peripheral handling: Alphanumeric LCD, UART (RS 232, RS 485), EEPROM (24aaxx)</li>
+                    <li>RTC (DS 1307, PCF 8563), Infra-red Receiver, DAC, Bar graph, Shift Registers, Seven Segment LED</li>
+                </ul>
+            </div>
+
+            <!-- Software & Programming Card -->
+            <div class="card">
+                <h3>Software & Programming</h3>
+                <div class="skills-container">
+                    <span class="skill-tag">C</span>
+                    <span class="skill-tag">C++</span>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">HTML</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">Oracle</span>
+                    <span class="skill-tag">Embedded C</span>
+                    <span class="skill-tag">Data Structures</span>
+                    <span class="skill-tag">Operating Systems</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Information</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Course</a></li>
+                    <li><a href="#">Event</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Student Help</h4>
+                <ul>
+                    <li><a href="#">Get Started</a></li>
+                    <li><a href="#">My Questions</a></li>
+                    <li><a href="#">Download Files</a></li>
+                    <li><a href="#">Latest Course</a></li>
+                    <li><a href="#">Academic News</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p class="newsletter">Get latest update, news & academic offers</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+
+            <div class="footer-col contact-info">
+                <h4>Contact</h4>
+                <p>📞 +91 9830068336</p>
+                <p>✉️ sona2desai@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>All Right Reserved | Designed by NextGenRoboticX - NextGen Robotics Academy © 2020</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple mobile menu toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Dropdown toggle for mobile and touch devices
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle, .sub-dropdown-toggle');
+        
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const menu = toggle.nextElementSibling;
+                const parentLi = toggle.parentElement;
+                
+                // Close sibling menus
+                const siblings = parentLi.parentElement.children;
+                for (let sibling of siblings) {
+                    if (sibling !== parentLi) {
+                        const siblingMenu = sibling.querySelector('.dropdown-menu, .sub-dropdown-menu');
+                        if (siblingMenu) siblingMenu.style.display = '';
+                    }
+                }
+
+                if (menu.style.display === 'block') {
+                    menu.style.display = '';
+                } else {
+                    menu.style.display = 'block';
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown') && !e.target.closest('.sub-dropdown')) {
+                document.querySelectorAll('.dropdown-menu, .sub-dropdown-menu').forEach(menu => {
+                    menu.style.display = '';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
