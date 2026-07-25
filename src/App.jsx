@@ -1,7 +1,5 @@
-import LoginPage from "./features/auth/pages/LoginPage";
+import AppRouter from "./routes/AppRouter";
 
-function App() {
-  return <LoginPage />;
+export default function App() {
+  return <AppRouter />;
 }
-
-export default App;
