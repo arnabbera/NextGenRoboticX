@@ -5,6 +5,7 @@ import Dashboard from "../features/dashboard/pages/Dashboard";
 
 import Courses from "../features/courses/pages/Courses";
 import CourseDetails from "../features/courses/pages/CourseDetails";
+import LearningPage from "../features/learning/pages/LearningPage";
 
 import ProtectedRoute from "../components/ProtectedRoute";
 import MainLayout from "../layouts/MainLayout";
@@ -32,6 +33,8 @@ export default function AppRouter() {
             path="/courses/:courseId"
             element={<CourseDetails />}
           />
+		<Route path="/courses/:courseId/learn"	element={<LearningPage />}
+	/>
         </Route>
       </Routes>
     </BrowserRouter>
