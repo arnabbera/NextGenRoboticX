@@ -11,7 +11,9 @@ import MainLayout from "../layouts/MainLayout";
 
 export default function AppRouter() {
   return (
-    <BrowserRouter>
+    <BrowserRouter
+      basename={import.meta.env.PROD ? "/NextGenRoboticX_V2" : "/"}
+    >
       <Routes>
         {/* Public Route */}
         <Route path="/" element={<LoginPage />} />
@@ -24,13 +26,8 @@ export default function AppRouter() {
             </ProtectedRoute>
           }
         >
-          {/* Dashboard */}
           <Route path="/dashboard" element={<Dashboard />} />
-
-          {/* Courses */}
           <Route path="/courses" element={<Courses />} />
-
-          {/* Course Details */}
           <Route
             path="/courses/:courseId"
             element={<CourseDetails />}
