@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
 import { BookOpen, Clock, Users, Award } from "lucide-react";
 
 export default function CourseCard({ course }) {
   const {
+    id,
     title,
     level,
     duration,
@@ -20,7 +22,7 @@ export default function CourseCard({ course }) {
     Advanced: "bg-red-100 text-red-700",
   };
 
-  return (
+  const card = (
     <div className="overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       {/* Course Image */}
       <img
@@ -105,5 +107,15 @@ export default function CourseCard({ course }) {
         </button>
       </div>
     </div>
+  );
+
+  if (status === "Coming Soon") {
+    return card;
+  }
+
+  return (
+    <Link to={`/courses/${id}`} className="block">
+      {card}
+    </Link>
   );
 }

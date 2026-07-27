@@ -13,7 +13,15 @@ const courses = [
     image: "/images/courses/robotics.jpg",
     description:
       "Learn the fundamentals of robotics, electronics, sensors, actuators, and robot design through hands-on projects.",
+    learningOutcomes: [
+      "Understand the fundamentals of robotics",
+      "Learn electronics and basic circuits",
+      "Interface sensors and actuators",
+      "Build mobile robot projects",
+      "Develop problem-solving skills through robotics",
+    ],
   },
+
   {
     id: "arduino-programming",
     title: "Arduino Programming",
@@ -28,10 +36,18 @@ const courses = [
     image: "/images/courses/arduino.jpg",
     description:
       "Build real-world Arduino projects while learning Embedded C, GPIO, interrupts, PWM, serial communication, and sensors.",
+    learningOutcomes: [
+      "Write Arduino programs using Embedded C",
+      "Control LEDs, motors and sensors",
+      "Understand PWM and interrupts",
+      "Use Serial Communication",
+      "Build real-world Arduino projects",
+    ],
   },
+
   {
     id: "raspberry-pi",
-    title: "Raspberry Pi",
+    title: "Raspberry Pi Development",
     category: "IoT",
     level: "Intermediate",
     duration: "2 Months",
@@ -42,8 +58,16 @@ const courses = [
     certificate: true,
     image: "/images/courses/raspberrypi.jpg",
     description:
-      "Create Linux-based embedded and IoT applications using Raspberry Pi, Python, networking, and GPIO.",
+      "Create Linux-based embedded and IoT applications using Raspberry Pi, Python, networking, and GPIO through hands-on projects.",
+    learningOutcomes: [
+      "Install and configure Raspberry Pi OS",
+      "Program using Python",
+      "Interface GPIO devices",
+      "Build IoT applications",
+      "Deploy Raspberry Pi based projects",
+    ],
   },
+
   {
     id: "internet-of-things",
     title: "Internet of Things",
@@ -57,8 +81,16 @@ const courses = [
     certificate: true,
     image: "/images/courses/iot.jpg",
     description:
-      "Learn MQTT, cloud integration, ESP32, Wi-Fi, sensors, dashboards, and real-time IoT application development.",
+      "Learn MQTT, cloud integration, ESP32, Wi-Fi, sensors, dashboards, and real-time IoT application development through hands-on projects.",
+    learningOutcomes: [
+      "Understand IoT architecture",
+      "Program ESP32 boards",
+      "Connect sensors using MQTT",
+      "Integrate cloud platforms",
+      "Develop real-time IoT dashboards",
+    ],
   },
+
   {
     id: "embedded-systems",
     title: "Embedded Systems",
@@ -73,7 +105,38 @@ const courses = [
     image: "/images/courses/embedded.jpg",
     description:
       "Master microcontrollers, Embedded C, RTOS basics, memory management, communication protocols, and debugging.",
+    learningOutcomes: [
+      "Master Embedded C programming",
+      "Understand memory management",
+      "Learn communication protocols",
+      "Work with microcontrollers",
+      "Debug embedded applications",
+    ],
   },
+
+  {
+    id: "pcb-design-hardware-development",
+    title: "PCB Design & Hardware Development",
+    category: "Electronics",
+    level: "Intermediate",
+    duration: "2 Months",
+    chapters: 10,
+    students: 0,
+    progress: 0,
+    status: "Available",
+    certificate: true,
+    image: "/images/courses/pcb.jpg",
+    description:
+      "Learn PCB design, schematic creation, routing, prototyping, and hardware development.",
+    learningOutcomes: [
+      "Design professional electronic schematics",
+      "Create single and multi-layer PCB layouts",
+      "Understand PCB routing and DFM principles",
+      "Build hardware prototypes and validate designs",
+      "Prepare PCB files for manufacturing",
+    ],
+  },
+
   {
     id: "artificial-intelligence",
     title: "Artificial Intelligence",
@@ -88,7 +151,15 @@ const courses = [
     image: "/images/courses/ai.jpg",
     description:
       "Explore AI fundamentals, machine learning, computer vision, robotics intelligence, and practical AI applications.",
+    learningOutcomes: [
+      "Understand AI fundamentals",
+      "Learn Machine Learning concepts",
+      "Explore Computer Vision",
+      "Build AI-powered robotics projects",
+      "Develop practical AI applications",
+    ],
   },
+
   {
     id: "drone-technology",
     title: "Drone Technology",
@@ -103,7 +174,15 @@ const courses = [
     image: "/images/courses/drone.jpg",
     description:
       "Understand drone hardware, flight controllers, telemetry, GPS navigation, autonomous flight, and drone programming.",
+    learningOutcomes: [
+      "Understand drone hardware",
+      "Learn GPS navigation",
+      "Configure flight controllers",
+      "Develop autonomous flight logic",
+      "Build drone applications",
+    ],
   },
+
   {
     id: "sensors-and-actuators",
     title: "Sensors & Actuators",
@@ -118,6 +197,13 @@ const courses = [
     image: "/images/courses/sensors.jpg",
     description:
       "Learn how sensors, motors, relays, servos, and actuators interact with microcontrollers in robotics projects.",
+    learningOutcomes: [
+      "Understand different sensor types",
+      "Control DC and Servo motors",
+      "Interface relays and actuators",
+      "Design automation circuits",
+      "Build practical robotics projects",
+    ],
   },
 ];
 
