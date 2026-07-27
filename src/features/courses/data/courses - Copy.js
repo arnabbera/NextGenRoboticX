@@ -1,5 +1,3 @@
-const BASE = import.meta.env.BASE_URL;
-
 const courses = [
   {
     id: "robotics-foundation",
@@ -12,7 +10,7 @@ const courses = [
     progress: 0,
     status: "Available",
     certificate: true,
-    image: `${BASE}images/courses/robotics.jpg`,
+    image: "/images/courses/robotics.jpg",
     description:
       "Learn the fundamentals of robotics, electronics, sensors, actuators, and robot design through hands-on projects.",
     learningOutcomes: [
@@ -35,7 +33,7 @@ const courses = [
     progress: 0,
     status: "Available",
     certificate: true,
-    image: `${BASE}images/courses/arduino.jpg`,
+    image: "/images/courses/arduino.jpg",
     description:
       "Build real-world Arduino projects while learning Embedded C, GPIO, interrupts, PWM, serial communication, and sensors.",
     learningOutcomes: [
@@ -58,7 +56,7 @@ const courses = [
     progress: 0,
     status: "Available",
     certificate: true,
-    image: `${BASE}images/courses/raspberrypi.jpg`,
+    image: "/images/courses/raspberrypi.jpg",
     description:
       "Create Linux-based embedded and IoT applications using Raspberry Pi, Python, networking, and GPIO through hands-on projects.",
     learningOutcomes: [
@@ -81,7 +79,7 @@ const courses = [
     progress: 0,
     status: "Available",
     certificate: true,
-    image: `${BASE}images/courses/iot.jpg`,
+    image: "/images/courses/iot.jpg",
     description:
       "Learn MQTT, cloud integration, ESP32, Wi-Fi, sensors, dashboards, and real-time IoT application development through hands-on projects.",
     learningOutcomes: [
@@ -104,7 +102,7 @@ const courses = [
     progress: 0,
     status: "Available",
     certificate: true,
-    image: `${BASE}images/courses/embedded.jpg`,
+    image: "/images/courses/embedded.jpg",
     description:
       "Master microcontrollers, Embedded C, RTOS basics, memory management, communication protocols, and debugging.",
     learningOutcomes: [
@@ -127,7 +125,7 @@ const courses = [
     progress: 0,
     status: "Available",
     certificate: true,
-    image: `${BASE}images/courses/pcb.jpg`,
+    image: "/images/courses/pcb.jpg",
     description:
       "Learn PCB design, schematic creation, routing, prototyping, and hardware development.",
     learningOutcomes: [
@@ -150,7 +148,7 @@ const courses = [
     progress: 0,
     status: "Coming Soon",
     certificate: true,
-    image: `${BASE}images/courses/ai.jpg`,
+    image: "/images/courses/ai.jpg",
     description:
       "Explore AI fundamentals, machine learning, computer vision, robotics intelligence, and practical AI applications.",
     learningOutcomes: [
@@ -173,7 +171,7 @@ const courses = [
     progress: 0,
     status: "Coming Soon",
     certificate: true,
-    image: `${BASE}images/courses/drone.jpg`,
+    image: "/images/courses/drone.jpg",
     description:
       "Understand drone hardware, flight controllers, telemetry, GPS navigation, autonomous flight, and drone programming.",
     learningOutcomes: [
@@ -196,7 +194,7 @@ const courses = [
     progress: 0,
     status: "Available",
     certificate: true,
-    image: `${BASE}images/courses/sensors.jpg`,
+    image: "/images/courses/sensors.jpg",
     description:
       "Learn how sensors, motors, relays, servos, and actuators interact with microcontrollers in robotics projects.",
     learningOutcomes: [
