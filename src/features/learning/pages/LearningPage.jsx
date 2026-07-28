@@ -1,81 +1,125 @@
+import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+
 import courses from "../../courses/data/courses";
+import roboticsLessons from "../data/roboticsLessons";
+
+import ChapterSidebar from "../components/ChapterSidebar";
+import LessonViewer from "../components/LessonViewer";
+import ProgressBar from "../components/ProgressBar";
 
 export default function LearningPage() {
   const { courseId } = useParams();
 
+  // Find selected course
   const course = courses.find((c) => c.id === courseId);
 
+  // Load lessons (later this will depend on courseId)
+  const lessons = useMemo(() => {
+    return roboticsLessons;
+  }, [courseId]);
+
+  // Selected lesson
+  const [activeLessonId, setActiveLessonId] = useState(
+    lessons[0]?.id ?? null
+  );
+
+  // Course not found
   if (!course) {
     return (
-      <div className="p-8">
-        <h1 className="text-2xl font-bold text-red-600">
+      <div className="flex min-h-screen items-center justify-center bg-slate-100">
+        <h1 className="text-3xl font-bold text-red-600">
           Course not found
         </h1>
       </div>
     );
   }
 
+  // Active lesson
+  const activeLesson =
+    lessons.find((lesson) => lesson.id === activeLessonId) ||
+    lessons[0];
+
+  // Current lesson index
+  const activeIndex = lessons.findIndex(
+    (lesson) => lesson.id === activeLesson.id
+  );
+
+  // Progress
+  const completed = lessons.filter(
+    (lesson) => lesson.completed
+  ).length;
+
+  // Go to next lesson
+  const handleNext = () => {
+    if (activeIndex < lessons.length - 1) {
+      setActiveLessonId(lessons[activeIndex + 1].id);
+    }
+  };
+
+  // Go to previous lesson
+  const handlePrevious = () => {
+    if (activeIndex > 0) {
+      setActiveLessonId(lessons[activeIndex - 1].id);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-100">
+
       <div className="mx-auto max-w-7xl p-6">
 
-        <h1 className="mb-2 text-4xl font-bold">
-          {course.title}
-        </h1>
+        {/* Header */}
+        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
-        <p className="mb-8 text-slate-600">
-          Welcome to your learning workspace.
-        </p>
+          <div>
+            <h1 className="text-4xl font-bold">
+              {course.title}
+            </h1>
 
-        <div className="grid grid-cols-12 gap-6">
+            <p className="mt-2 text-slate-600">
+              Continue your learning journey.
+            </p>
+          </div>
+
+          <ProgressBar
+            completed={completed}
+            total={lessons.length}
+          />
+
+        </div>
+
+        {/* Main Layout */}
+        <div className="grid gap-6 lg:grid-cols-12">
 
           {/* Sidebar */}
+          <aside className="lg:col-span-3">
 
-          <div className="col-span-3 rounded-xl bg-white p-5 shadow">
+            <ChapterSidebar
+              lessons={lessons}
+              activeLessonId={activeLesson.id}
+              onSelect={setActiveLessonId}
+            />
 
-            <h2 className="mb-4 font-bold">
-              Chapters
-            </h2>
+          </aside>
 
-            {Array.from({ length: course.chapters }).map((_, i) => (
+          {/* Lesson */}
+          <main className="lg:col-span-9">
 
-              <button
-                key={i}
-                className="mb-2 w-full rounded-lg border p-3 text-left hover:bg-blue-50"
-              >
-                Chapter {i + 1}
-              </button>
+            <LessonViewer
+              lesson={activeLesson}
+              hasPrevious={activeIndex > 0}
+              hasNext={activeIndex < lessons.length - 1}
+              onPrevious={handlePrevious}
+              onNext={handleNext}
+            />
 
-            ))}
-
-          </div>
-
-          {/* Content */}
-
-          <div className="col-span-9 rounded-xl bg-white p-8 shadow">
-
-            <h2 className="text-3xl font-bold">
-              Chapter 1
-            </h2>
-
-            <p className="mt-5 leading-8 text-slate-700">
-
-              This is where your interactive eNotes will appear.
-
-            </p>
-
-            <div className="mt-8 aspect-video rounded-xl bg-slate-200 flex items-center justify-center">
-
-              YouTube Video
-
-            </div>
-
-          </div>
+          </main>
 
         </div>
 
       </div>
+
     </div>
   );
 }
