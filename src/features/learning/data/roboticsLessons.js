@@ -2,124 +2,208 @@ const roboticsLessons = [
   {
     id: 1,
     title: "Introduction to Robotics",
-    duration: "20 mins",
-    completed: false,
-    locked: false,
+    duration: "12 min",
+    description: "Understand what robotics is and where it is used.",
     video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     notes: `
-# Introduction to Robotics
+Robotics is a multidisciplinary field that combines:
 
-Robotics is a branch of engineering that combines
-mechanical engineering, electronics and software.
+• Mechanical Engineering
+• Electronics
+• Computer Science
+• Artificial Intelligence
 
-## Components of a Robot
+A robot is a programmable machine capable of carrying out tasks automatically or semi-automatically.
 
-• Controller
+Learning Outcomes
 
-• Sensors
-
-• Actuators
-
-• Power Supply
-
-• Chassis
-
-## Applications
-
-• Manufacturing
-
-• Healthcare
-
-• Agriculture
-
-• Defence
-
-• Home Automation
+• Understand robotics
+• Learn robot components
+• Explore real-world applications
 `,
+    codeExample: `// Arduino Blink Example
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1000);
+
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(1000);
+}`,
+    resources: [
+      {
+        title: "Chapter 1 Notes",
+        type: "pdf",
+        url: "#",
+      },
+      {
+        title: "Presentation Slides",
+        type: "ppt",
+        url: "#",
+      },
+    ],
+    quizId: "robotics-ch1",
+    completed: false,
+    locked: false,
   },
 
   {
     id: 2,
-    title: "Basic Electronics",
-    duration: "35 mins",
-    completed: false,
-    locked: false,
+    title: "History of Robotics",
+    duration: "15 min",
+    description: "Learn how robotics evolved over time.",
     video: "",
     notes: `
-Basic Electronics
+Topics Covered
 
-Voltage
-
-Current
-
-Resistance
-
-Ohm's Law
-
-Series Circuits
-
-Parallel Circuits
+• Ancient Automata
+• Industrial Robots
+• Modern Collaborative Robots
+• Humanoid Robots
 `,
+    codeExample: "",
+    resources: [],
+    quizId: "robotics-ch2",
+    completed: false,
+    locked: true,
   },
 
   {
     id: 3,
-    title: "Arduino Programming",
-    duration: "45 mins",
+    title: "Robot Components",
+    duration: "20 min",
+    description: "Understand the hardware of a robot.",
+    video: "",
+    notes: `
+Main Components
+
+• Controller
+• Sensors
+• Actuators
+• Power Supply
+• Chassis
+`,
+    codeExample: "",
+    resources: [],
+    quizId: "robotics-ch3",
     completed: false,
     locked: true,
-    video: "",
-    notes: "Arduino Basics",
   },
 
   {
     id: 4,
-    title: "Sensors",
-    duration: "30 mins",
+    title: "Introduction to Arduino",
+    duration: "18 min",
+    description: "Learn the Arduino ecosystem.",
+    video: "",
+    notes: `
+Arduino is an open-source electronics platform.
+
+Popular Boards
+
+• Arduino Uno
+• Nano
+• Mega
+• ESP32
+`,
+    codeExample: "",
+    resources: [],
+    quizId: "robotics-ch4",
     completed: false,
     locked: true,
-    video: "",
-    notes: "Sensors",
   },
 
   {
     id: 5,
-    title: "Motors",
-    duration: "40 mins",
+    title: "Sensors",
+    duration: "25 min",
+    description: "Learn different sensors used in robotics.",
+    video: "",
+    notes: `
+Common Sensors
+
+• Ultrasonic
+• IR
+• Temperature
+• Gas
+• Light
+`,
+    codeExample: "",
+    resources: [],
+    quizId: "robotics-ch5",
     completed: false,
     locked: true,
-    video: "",
-    notes: "Motors",
   },
 
   {
     id: 6,
-    title: "Robot Chassis",
-    duration: "30 mins",
+    title: "Motors",
+    duration: "22 min",
+    description: "Understand motors and motion control.",
+    video: "",
+    notes: `
+Types of Motors
+
+• DC Motor
+• Servo Motor
+• Stepper Motor
+• BLDC Motor
+`,
+    codeExample: "",
+    resources: [],
+    quizId: "robotics-ch6",
     completed: false,
     locked: true,
-    video: "",
-    notes: "Robot Chassis",
   },
 
   {
     id: 7,
-    title: "Obstacle Avoidance Robot",
-    duration: "60 mins",
+    title: "Building Your First Robot",
+    duration: "35 min",
+    description: "Assemble your first robot.",
+    video: "",
+    notes: `
+Project
+
+• Assemble chassis
+• Install motors
+• Connect Arduino
+• Upload code
+• Test movement
+`,
+    codeExample: "",
+    resources: [],
+    quizId: "robotics-ch7",
     completed: false,
     locked: true,
-    video: "",
-    notes: "Project",
   },
 
   {
     id: 8,
     title: "Final Project",
-    duration: "90 mins",
+    duration: "45 min",
+    description: "Complete the robotics foundation project.",
+    video: "",
+    notes: `
+Build a Line Following Robot
+
+Requirements
+
+• Arduino Nano
+• IR Sensors
+• Motor Driver
+• Battery
+• Chassis
+`,
+    codeExample: "",
+    resources: [],
+    quizId: "robotics-ch8",
     completed: false,
     locked: true,
-    video: "",
-    notes: "Capstone Project",
   },
 ];
 

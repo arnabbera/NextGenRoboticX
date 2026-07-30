@@ -3,23 +3,32 @@ import Topbar from "./Topbar";
 
 export default function Layout({ children }) {
   return (
-    <div className="flex h-screen bg-slate-100">
+    <div className="flex min-h-screen bg-slate-100">
 
       {/* Sidebar */}
-      <Sidebar />
+      <aside className="hidden lg:flex lg:w-72 lg:flex-shrink-0">
+        <Sidebar />
+      </aside>
 
-      {/* Main Area */}
-      <div className="flex flex-1 flex-col overflow-hidden">
+      {/* Main Content */}
+      <div className="flex min-w-0 flex-1 flex-col">
 
-        {/* Top Navigation */}
-        <Topbar />
+        {/* Sticky Top Navigation */}
+        <header className="sticky top-0 z-40 border-b border-slate-200 bg-white shadow-sm">
+          <Topbar />
+        </header>
 
-        {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-6">
-          {children}
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-y-auto">
+
+          <div className="mx-auto w-full max-w-screen-2xl p-6 lg:p-8">
+            {children}
+          </div>
+
         </main>
 
       </div>
+
     </div>
   );
 }

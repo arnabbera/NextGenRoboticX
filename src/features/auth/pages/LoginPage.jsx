@@ -2,7 +2,7 @@ import { Bot, Rocket, GraduationCap } from "lucide-react";
 import { Navigate } from "react-router-dom";
 
 import { loginWithGoogle } from "../services/authService";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function LoginPage() {
   const { user } = useAuth();

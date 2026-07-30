@@ -11,7 +11,7 @@ import {
   HelpCircle,
 } from "lucide-react";
 
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { logout } from "../../features/auth/services/authService";
 
 export default function Topbar() {

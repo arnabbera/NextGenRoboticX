@@ -8,6 +8,10 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  Trophy,
+  FileText,
+  Download,
+  Cpu,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
@@ -19,8 +23,8 @@ const menuItems = [
     icon: LayoutDashboard,
   },
   {
-    name: "Programs",
-    path: "/programs",
+    name: "Courses",
+    path: "/courses",
     icon: BookOpen,
   },
   {
@@ -29,9 +33,9 @@ const menuItems = [
     icon: FolderKanban,
   },
   {
-    name: "Students",
-    path: "/students",
-    icon: Users,
+    name: "Assessments",
+    path: "/assessments",
+    icon: FileText,
   },
   {
     name: "Certificates",
@@ -39,9 +43,24 @@ const menuItems = [
     icon: GraduationCap,
   },
   {
+    name: "Leaderboard",
+    path: "/leaderboard",
+    icon: Trophy,
+  },
+  {
+    name: "Downloads",
+    path: "/downloads",
+    icon: Download,
+  },
+  {
     name: "Careers",
     path: "/careers",
     icon: Briefcase,
+  },
+  {
+    name: "Students",
+    path: "/students",
+    icon: Users,
   },
   {
     name: "Settings",
@@ -56,36 +75,60 @@ export default function Sidebar() {
   return (
     <aside
       className={`${
-        collapsed ? "w-20" : "w-64"
-      } bg-slate-900 text-white transition-all duration-300 flex flex-col shadow-xl`}
+        collapsed ? "w-20" : "w-72"
+      } bg-slate-900 text-white transition-all duration-300 flex flex-col shadow-2xl`}
     >
       {/* Logo */}
-      <div className="flex items-center justify-between px-5 py-6 border-b border-slate-700">
-        {!collapsed && (
-          <div>
-            <h1 className="text-xl font-bold text-blue-400">
-              NextGenRoboticX
-            </h1>
-            <p className="text-xs text-slate-400">
-              Mission Control
-            </p>
-          </div>
-        )}
 
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="rounded-lg p-2 hover:bg-slate-700"
-        >
-          {collapsed ? (
-            <ChevronRight size={18} />
-          ) : (
-            <ChevronLeft size={18} />
+      <div className="border-b border-slate-800 p-5">
+
+        <div className="flex items-center justify-between">
+
+          {!collapsed && (
+
+            <div className="flex items-center gap-3">
+
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
+
+                <Cpu size={24} />
+
+              </div>
+
+              <div>
+
+                <h1 className="text-lg font-bold">
+                  NextGenRoboticX
+                </h1>
+
+                <p className="text-xs text-slate-400">
+                  Robotics Learning Platform
+                </p>
+
+              </div>
+
+            </div>
+
           )}
-        </button>
+
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="rounded-lg p-2 hover:bg-slate-800"
+          >
+            {collapsed ? (
+              <ChevronRight size={18} />
+            ) : (
+              <ChevronLeft size={18} />
+            )}
+          </button>
+
+        </div>
+
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 mt-4">
+
+      <nav className="flex-1 overflow-y-auto py-5">
+
         {menuItems.map((item) => {
           const Icon = item.icon;
 
@@ -94,10 +137,10 @@ export default function Sidebar() {
               key={item.name}
               to={item.path}
               className={({ isActive }) =>
-                `mx-3 mb-2 flex items-center gap-3 rounded-lg px-4 py-3 transition-all ${
+                `mx-3 mb-2 flex items-center gap-4 rounded-xl px-4 py-3 transition-all duration-200 ${
                   isActive
-                    ? "bg-blue-600 text-white"
-                    : "text-slate-300 hover:bg-slate-800"
+                    ? "bg-blue-600 text-white shadow-lg"
+                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
                 }`
               }
             >
@@ -111,19 +154,66 @@ export default function Sidebar() {
             </NavLink>
           );
         })}
+
       </nav>
 
-      {/* Footer */}
+      {/* Student Progress */}
+
       {!collapsed && (
-        <div className="border-t border-slate-700 p-4">
-          <p className="text-xs text-slate-400">
-            NextGenRoboticX
+
+        <div className="mx-4 mb-4 rounded-2xl bg-slate-800 p-4">
+
+          <p className="text-sm font-semibold">
+            Learning Progress
           </p>
-          <p className="text-xs text-slate-500">
-            Version 2.0
+
+          <p className="mt-1 text-xs text-slate-400">
+            Overall Completion
           </p>
+
+          <div className="mt-3 h-2 rounded-full bg-slate-700">
+
+            <div
+              className="h-2 rounded-full bg-blue-500"
+              style={{ width: "68%" }}
+            />
+
+          </div>
+
+          <p className="mt-2 text-sm font-semibold text-blue-400">
+            68%
+          </p>
+
         </div>
+
       )}
+
+      {/* Footer */}
+
+      {!collapsed && (
+
+        <div className="border-t border-slate-800 p-5">
+
+          <div className="rounded-xl bg-slate-800 p-4">
+
+            <h3 className="font-semibold">
+              NextGenRoboticX
+            </h3>
+
+            <p className="mt-1 text-xs text-slate-400">
+              AI • Robotics • IoT • Embedded Systems
+            </p>
+
+            <p className="mt-4 text-xs text-slate-500">
+              Version 2.0
+            </p>
+
+          </div>
+
+        </div>
+
+      )}
+
     </aside>
   );
 }
