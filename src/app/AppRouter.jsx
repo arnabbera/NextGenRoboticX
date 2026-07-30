@@ -10,7 +10,8 @@ import CourseDetails from "../features/courses/pages/CourseDetails";
 import LearningPage from "../features/learning/pages/LearningPage";
 
 import ProtectedRoute from "../components/ProtectedRoute";
-import MainLayout from "../layouts/MainLayout";
+
+import Layout from "../components/layout/Layout";
 
 export default function AppRouter() {
   return (
@@ -23,7 +24,8 @@ export default function AppRouter() {
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
-          <Route element={<MainLayout />}>
+
+		  <Route element={<Layout />}>
             <Route path="/dashboard" element={<Dashboard />} />
 
             <Route path="/courses" element={<Courses />} />
