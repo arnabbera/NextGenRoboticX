@@ -1,13 +1,30 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight, PlayCircle } from "lucide-react";
+import { auth } from "../../services/firebase/firebase";
+import { signInWithGoogle } from "../../services/firebase/authService";
 
 export default function Hero() {
+  const navigate = useNavigate();
+
+  const navigateAfterLogin = async (destination) => {
+    try {
+      if (!auth.currentUser) {
+        await signInWithGoogle();
+      }
+
+      navigate(destination);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <section className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-950 text-white">
       <div className="mx-auto flex min-h-[85vh] max-w-7xl flex-col items-center gap-12 px-6 py-16 lg:flex-row">
-        
+
         {/* Left */}
         <div className="flex-1">
+
           <span className="rounded-full bg-blue-600/20 px-4 py-2 text-sm text-blue-300">
             Robotics • AI • IoT • Embedded Systems
           </span>
@@ -27,22 +44,25 @@ export default function Hero() {
           </p>
 
           <div className="mt-10 flex flex-wrap gap-4">
-            <Link
-              to="/courses"
+
+            <button
+              onClick={() => navigateAfterLogin("/projects")}
               className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-4 font-semibold transition hover:bg-blue-700"
             >
               Start Learning
               <ArrowRight size={20} />
-            </Link>
+            </button>
 
-            <Link
-              to="/courses"
+            <button
+              onClick={() => navigateAfterLogin("/courses")}
               className="flex items-center gap-2 rounded-xl border border-white px-6 py-4 transition hover:bg-white hover:text-slate-900"
             >
               <PlayCircle size={20} />
               Explore Courses
-            </Link>
+            </button>
+
           </div>
+
         </div>
 
         {/* Right */}
@@ -53,6 +73,7 @@ export default function Hero() {
             className="max-h-[650px] w-auto drop-shadow-2xl"
           />
         </div>
+
       </div>
     </section>
   );

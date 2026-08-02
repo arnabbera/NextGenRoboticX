@@ -1,34 +1,25 @@
-export default function ProgressBar({ completed, total }) {
-  const percentage =
-    total === 0 ? 0 : Math.round((completed / total) * 100);
-
+export default function ProgressBar({ progress }) {
   return (
-    <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow">
+    <div className="rounded-2xl bg-white p-6 shadow">
 
-      <div className="mb-3 flex items-center justify-between">
+      <div className="mb-3 flex justify-between">
 
-        <div>
-          <h3 className="text-lg font-semibold">
-            Learning Progress
-          </h3>
+        <span className="font-semibold">
+          Course Progress
+        </span>
 
-          <p className="text-sm text-slate-500">
-            {completed} of {total} lessons completed
-          </p>
-        </div>
-
-        <div className="text-2xl font-bold text-blue-600">
-          {percentage}%
-        </div>
+        <span className="font-bold text-blue-600">
+          {progress}%
+        </span>
 
       </div>
 
       <div className="h-3 overflow-hidden rounded-full bg-slate-200">
 
         <div
-          className="h-full rounded-full bg-blue-600 transition-all duration-700"
+          className="h-full rounded-full bg-blue-600 transition-all duration-500"
           style={{
-            width: `${percentage}%`,
+            width: `${progress}%`,
           }}
         />
 

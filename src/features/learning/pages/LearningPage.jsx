@@ -1,120 +1,111 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import courses from "../../courses/data/courses";
-import roboticsLessons from "../data/roboticsLessons";
-
-import ChapterSidebar from "../components/ChapterSidebar";
-import LessonViewer from "../components/LessonViewer";
+import LessonHeader from "../components/LessonHeader";
 import ProgressBar from "../components/ProgressBar";
+import ChapterSidebar from "../components/ChapterSidebar";
+import VideoPlayer from "../components/VideoPlayer";
+import LessonNotes from "../components/LessonNotes";
+import PdfViewer from "../components/PdfViewer";
+import NavigationButtons from "../components/NavigationButtons";
+import QuizCard from "../components/QuizCard";
+
+import courses from "../../courses/data/courses";
+import { courseContent } from "../../courses/data/courseContent";
+import quizData from "../data/quizData";
 
 export default function LearningPage() {
   const { courseId } = useParams();
 
-  // Find selected course
   const course = courses.find((c) => c.id === courseId);
 
-  // Load lessons (later this will depend on courseId)
-  const lessons = useMemo(() => {
-    return roboticsLessons;
-  }, [courseId]);
-
-  // Selected lesson
-  const [activeLessonId, setActiveLessonId] = useState(
-    lessons[0]?.id ?? null
-  );
-
-  // Course not found
   if (!course) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-100">
-        <h1 className="text-3xl font-bold text-red-600">
-          Course not found
+      <div className="flex min-h-screen items-center justify-center">
+        <h1 className="text-4xl font-bold text-red-600">
+          Course Not Found
         </h1>
       </div>
     );
   }
 
-  // Active lesson
-  const activeLesson =
-    lessons.find((lesson) => lesson.id === activeLessonId) ||
-    lessons[0];
+  const chapters = courseContent[course.id]?.chapters || [];
 
-  // Current lesson index
-  const activeIndex = lessons.findIndex(
-    (lesson) => lesson.id === activeLesson.id
-  );
+  const [activeChapter, setActiveChapter] = useState(0);
 
-  // Progress
-  const completed = lessons.filter(
-    (lesson) => lesson.completed
-  ).length;
+  const lesson =
+    chapters[activeChapter] || {
+      title: "Coming Soon",
+      duration: "",
+      video: "",
+      pdf: "",
+      notes: "",
+      quiz: false,
+      project: false,
+    };
 
-  // Go to next lesson
-  const handleNext = () => {
-    if (activeIndex < lessons.length - 1) {
-      setActiveLessonId(lessons[activeIndex + 1].id);
-    }
-  };
+  const progress =
+    chapters.length === 0
+      ? 0
+      : Math.round(((activeChapter + 1) / chapters.length) * 100);
 
-  // Go to previous lesson
-  const handlePrevious = () => {
-    if (activeIndex > 0) {
-      setActiveLessonId(lessons[activeIndex - 1].id);
-    }
-  };
+  const questions =
+    quizData[course.id]?.[lesson.id] || [];
 
   return (
     <div className="min-h-screen bg-slate-100">
 
-      <div className="mx-auto max-w-7xl p-6">
+      <div className="mx-auto max-w-7xl space-y-6 p-6">
 
-        {/* Header */}
-        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <LessonHeader course={course} />
 
-          <div>
-            <h1 className="text-4xl font-bold">
-              {course.title}
-            </h1>
+        <ProgressBar progress={progress} />
 
-            <p className="mt-2 text-slate-600">
-              Continue your learning journey.
-            </p>
-          </div>
+        <div className="grid gap-6 lg:grid-cols-4">
 
-          <ProgressBar
-            completed={completed}
-            total={lessons.length}
-          />
-
-        </div>
-
-        {/* Main Layout */}
-        <div className="grid gap-6 lg:grid-cols-12">
-
-          {/* Sidebar */}
-          <aside className="lg:col-span-3">
+          <div className="lg:col-span-1">
 
             <ChapterSidebar
-              lessons={lessons}
-              activeLessonId={activeLesson.id}
-              onSelect={setActiveLessonId}
+              chapters={chapters}
+              activeChapter={activeChapter}
+              setActiveChapter={setActiveChapter}
             />
 
-          </aside>
+          </div>
 
-          {/* Lesson */}
-          <main className="lg:col-span-9">
+          <div className="space-y-6 lg:col-span-3">
 
-            <LessonViewer
-              lesson={activeLesson}
-              hasPrevious={activeIndex > 0}
-              hasNext={activeIndex < lessons.length - 1}
-              onPrevious={handlePrevious}
-              onNext={handleNext}
+            {lesson.video ? (
+              <VideoPlayer url={lesson.video} />
+            ) : (
+              <div className="rounded-3xl bg-white p-20 text-center shadow">
+                <h2 className="text-3xl font-bold">
+                  Video Coming Soon
+                </h2>
+
+                <p className="mt-4 text-slate-600">
+                  This lesson video has not been uploaded yet.
+                </p>
+              </div>
+            )}
+
+            <LessonNotes lesson={lesson} />
+
+            <PdfViewer pdf={lesson.pdf} />
+
+            {lesson.quiz && (
+              <QuizCard
+                questions={questions}
+              />
+            )}
+
+            <NavigationButtons
+              activeChapter={activeChapter}
+              totalChapters={chapters.length}
+              setActiveChapter={setActiveChapter}
             />
 
-          </main>
+          </div>
 
         </div>
 
