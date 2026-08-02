@@ -3,6 +3,8 @@ import {
   Hero,
   Stats,
   FeaturedCourses,
+  StudentProjects,
+  WhyChooseUs,
 } from "../components/home";
 
 export default function HomePage() {
@@ -12,6 +14,8 @@ export default function HomePage() {
       <Hero />
       <Stats />
       <FeaturedCourses />
+      <StudentProjects />
+      <WhyChooseUs />
     </div>
   );
 }
