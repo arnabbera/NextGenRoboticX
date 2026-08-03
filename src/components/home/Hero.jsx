@@ -68,7 +68,7 @@ export default function Hero() {
         {/* Right */}
         <div className="flex flex-1 justify-center">
           <img
-            src="/images/instructor.png"
+            src="/images/project.png"
             alt="Instructor"
             className="max-h-[650px] w-auto drop-shadow-2xl"
           />

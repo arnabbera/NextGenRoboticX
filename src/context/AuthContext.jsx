@@ -1,39 +1,92 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 import {
+  signInWithGoogle,
   login,
   register,
   logout,
-  signInWithGoogle,
   subscribeToAuthChanges,
+  getCurrentUserProfile,
 } from "../services/firebase/authService";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  /**
+   * Listen for Firebase Authentication changes
+   */
   useEffect(() => {
-    const unsubscribe = subscribeToAuthChanges((firebaseUser) => {
+    const unsubscribe = subscribeToAuthChanges(async (firebaseUser) => {
+      if (!firebaseUser) {
+        setUser(null);
+        setProfile(null);
+        setLoading(false);
+        return;
+      }
+
       setUser(firebaseUser);
+
+      try {
+        const firestoreProfile = await getCurrentUserProfile();
+        setProfile(firestoreProfile);
+      } catch (error) {
+        console.error("Failed to load profile", error);
+      }
+
       setLoading(false);
     });
 
     return unsubscribe;
   }, []);
 
+  /**
+   * Google Login
+   */
+  async function loginWithGoogle() {
+    setLoading(true);
+
+    try {
+      const result = await signInWithGoogle();
+
+      setUser(result.firebaseUser);
+      setProfile(result.profile);
+
+      return result;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  /**
+   * Logout
+   */
+  async function logoutUser() {
+    await logout();
+
+    setUser(null);
+    setProfile(null);
+  }
+
   const value = {
     user,
+    profile,
     loading,
 
     login,
-
     register,
 
-    logout,
+    loginWithGoogle,
 
-    signInWithGoogle,
+    logout: logoutUser,
 
     isAuthenticated: !!user,
   };
@@ -46,11 +99,5 @@ export function AuthProvider({ children }) {
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error("useAuth must be used inside AuthProvider");
-  }
-
-  return context;
+  return useContext(AuthContext);
 }

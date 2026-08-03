@@ -1,24 +1,34 @@
 import {
-  GoogleAuthProvider,
   signInWithPopup,
+  signOut,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
-  signOut,
   updateProfile,
-  onAuthStateChanged,
 } from "firebase/auth";
 
-import { auth } from "./firebase";
-
-const googleProvider = new GoogleAuthProvider();
+import { auth, googleProvider } from "./firebase";
+import {
+  createOrUpdateUser,
+  getUserProfile,
+} from "./userService";
 
 /**
- * Google Sign-In
+ * Google Login
  */
 export async function signInWithGoogle() {
   const result = await signInWithPopup(auth, googleProvider);
-  return result.user;
+
+  const firebaseUser = result.user;
+
+  // Create Firestore user OR update login statistics
+  const profile = await createOrUpdateUser(firebaseUser);
+
+  return {
+    firebaseUser,
+    profile,
+  };
 }
 
 /**
@@ -31,11 +41,16 @@ export async function login(email, password) {
     password
   );
 
-  return result.user;
+  const profile = await createOrUpdateUser(result.user);
+
+  return {
+    firebaseUser: result.user,
+    profile,
+  };
 }
 
 /**
- * Register User
+ * Register
  */
 export async function register(name, email, password) {
   const result = await createUserWithEmailAndPassword(
@@ -50,7 +65,12 @@ export async function register(name, email, password) {
     });
   }
 
-  return result.user;
+  const profile = await createOrUpdateUser(result.user);
+
+  return {
+    firebaseUser: result.user,
+    profile,
+  };
 }
 
 /**
@@ -61,32 +81,43 @@ export async function logout() {
 }
 
 /**
- * Reset Password
+ * Password Reset
  */
 export async function resetPassword(email) {
   await sendPasswordResetEmail(auth, email);
 }
 
 /**
- * Update Profile
- */
-export async function updateUserProfile(profile) {
-  if (!auth.currentUser) {
-    throw new Error("No authenticated user found.");
-  }
-
-  await updateProfile(auth.currentUser, profile);
-}
-
-/**
- * Current User
+ * Returns current Firebase user
  */
 export function getCurrentUser() {
   return auth.currentUser;
 }
 
 /**
- * Auth State Listener
+ * Returns Firestore profile
+ */
+export async function getCurrentUserProfile() {
+  if (!auth.currentUser) {
+    return null;
+  }
+
+  return await getUserProfile(auth.currentUser.uid);
+}
+
+/**
+ * Update Firebase profile
+ */
+export async function updateUserProfile(profile) {
+  if (!auth.currentUser) {
+    throw new Error("No authenticated user.");
+  }
+
+  await updateProfile(auth.currentUser, profile);
+}
+
+/**
+ * Auth Listener
  */
 export function subscribeToAuthChanges(callback) {
   return onAuthStateChanged(auth, callback);

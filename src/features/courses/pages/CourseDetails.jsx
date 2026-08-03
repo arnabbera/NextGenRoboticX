@@ -66,11 +66,13 @@ export default function CourseDetails() {
 
             </div>
 
+            {/* Fixed Route */}
+
             <Link
-              to={`/learn/${course.id}`}
-              className="mt-10 inline-flex rounded-xl bg-white px-8 py-4 font-semibold text-blue-700 transition hover:scale-105"
+              to={`/courses/${course.id}/learn`}
+              className="mt-10 inline-flex rounded-xl bg-white px-8 py-4 font-semibold text-blue-700 transition hover:scale-105 hover:shadow-xl"
             >
-              Start Learning →
+              🚀 Start Learning
             </Link>
 
           </div>
@@ -120,9 +122,7 @@ export default function CourseDetails() {
       <div className="mt-10 rounded-2xl bg-white p-8 shadow">
 
         <h2 className="mb-6 text-3xl font-bold">
-
           What You'll Learn
-
         </h2>
 
         <div className="grid gap-5 md:grid-cols-2">
@@ -134,10 +134,8 @@ export default function CourseDetails() {
               className="flex items-start gap-3 rounded-xl border p-4"
             >
 
-              <div className="text-green-600 text-xl">
-
+              <div className="text-xl text-green-600">
                 ✔
-
               </div>
 
               <div>{item}</div>
@@ -155,9 +153,7 @@ export default function CourseDetails() {
       <div className="mt-10 rounded-2xl bg-white p-8 shadow">
 
         <h2 className="mb-6 text-3xl font-bold">
-
           Course Information
-
         </h2>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -183,15 +179,13 @@ export default function CourseDetails() {
       <div className="mt-10 rounded-2xl bg-white p-8 shadow">
 
         <h2 className="mb-6 text-3xl font-bold">
-
           Instructor
-
         </h2>
 
         <div className="flex flex-col gap-6 md:flex-row md:items-center">
 
           <img
-            src="/images/instructor.jpg"
+            src="/images/instructor.png"
             alt="Instructor"
             className="h-28 w-28 rounded-full border object-cover"
           />
@@ -199,23 +193,16 @@ export default function CourseDetails() {
           <div>
 
             <h3 className="text-2xl font-bold">
-
-              Arnab Bera
-
+              Sona Bera
             </h3>
 
             <p className="mt-2 text-slate-600">
-
-              M.Tech • Electronics Engineer • AI & Robotics Trainer
-
+              M.Tech in VLSI & Embedded Systems	• Electronics Engineer • AI & Robotics Trainer
             </p>
 
             <p className="mt-4 leading-7 text-slate-600">
-
-              20+ years of experience in Embedded Systems,
-              OSS Solutions, Artificial Intelligence,
-              IoT, Robotics and Software Engineering.
-
+              10+ years of experience in Embedded Systems,
+              Artificial Intelligence, IoT, Robotics and Software Engineering.
             </p>
 
           </div>
@@ -233,15 +220,11 @@ function StatCard({ title, value }) {
     <div className="rounded-2xl bg-white p-6 text-center shadow">
 
       <div className="text-3xl font-bold text-blue-700">
-
         {value}
-
       </div>
 
       <div className="mt-2 text-slate-500">
-
         {title}
-
       </div>
 
     </div>
@@ -253,15 +236,11 @@ function Info({ label, value }) {
     <div className="rounded-xl border p-5">
 
       <div className="text-sm text-slate-500">
-
         {label}
-
       </div>
 
       <div className="mt-2 text-lg font-semibold">
-
         {value}
-
       </div>
 
     </div>
