@@ -1,97 +1,122 @@
-import {
-  CheckCircle2,
-  Lock,
-  PlayCircle,
-  FileQuestion,
-  Hammer,
-} from "lucide-react";
+import { CheckCircle2, PlayCircle, Circle } from "lucide-react";
 
-export default function ChapterSidebar({
-  chapters,
-  activeChapter,
-  setActiveChapter,
-}) {
+const chapters = [
+  {
+    id: 1,
+    title: "Introduction to Robotics",
+    status: "completed",
+  },
+  {
+    id: 2,
+    title: "Arduino Basics",
+    status: "current",
+  },
+  {
+    id: 3,
+    title: "Sensors & Actuators",
+    status: "pending",
+  },
+  {
+    id: 4,
+    title: "Motor Driver (L298N)",
+    status: "pending",
+  },
+  {
+    id: 5,
+    title: "Bluetooth Robot",
+    status: "pending",
+  },
+  {
+    id: 6,
+    title: "Obstacle Avoiding Robot",
+    status: "pending",
+  },
+  {
+    id: 7,
+    title: "Line Following Robot",
+    status: "pending",
+  },
+  {
+    id: 8,
+    title: "Voice Controlled Robot",
+    status: "pending",
+  },
+  {
+    id: 9,
+    title: "AI Robot Integration",
+    status: "pending",
+  },
+  {
+    id: 10,
+    title: "Final Project",
+    status: "pending",
+  },
+];
+
+export default function ChapterSidebar() {
   return (
-    <div className="rounded-3xl bg-white p-6 shadow">
+    <div className="rounded-3xl bg-white shadow-lg">
 
-      <h2 className="mb-6 text-2xl font-bold">
-        Course Curriculum
-      </h2>
+      <div className="border-b p-5">
 
-      <div className="space-y-4">
+        <h2 className="text-xl font-bold">
+          Course Curriculum
+        </h2>
 
-        {chapters.map((chapter, index) => {
-          const completed = index < activeChapter;
-          const current = index === activeChapter;
-          const locked = index > activeChapter + 1;
+      </div>
 
-          return (
-            <button
-              key={chapter.id}
-              disabled={locked}
-              onClick={() => setActiveChapter(index)}
-              className={`w-full rounded-2xl border p-4 text-left transition
+      <div className="max-h-[700px] overflow-y-auto">
 
-              ${
-                current
-                  ? "border-blue-600 bg-blue-600 text-white shadow-lg"
-                  : completed
-                  ? "border-green-500 bg-green-50"
-                  : locked
-                  ? "cursor-not-allowed bg-slate-100 opacity-60"
-                  : "hover:border-blue-300 hover:bg-slate-50"
-              }`}
-            >
-              <div className="flex items-center justify-between">
+        {chapters.map((chapter) => (
 
-                <div className="font-semibold">
-                  Chapter {index + 1}
-                </div>
+          <button
+            key={chapter.id}
+            className={`flex w-full items-center gap-3 border-b p-4 text-left transition hover:bg-slate-50 ${
+              chapter.status === "current"
+                ? "bg-blue-50"
+                : ""
+            }`}
+          >
 
-                {completed ? (
-                  <CheckCircle2
-                    size={18}
-                    className="text-green-600"
-                  />
-                ) : locked ? (
-                  <Lock size={18} />
-                ) : (
-                  <PlayCircle size={18} />
-                )}
+            {chapter.status === "completed" && (
+              <CheckCircle2
+                className="text-green-600"
+                size={22}
+              />
+            )}
 
+            {chapter.status === "current" && (
+              <PlayCircle
+                className="text-blue-600"
+                size={22}
+              />
+            )}
+
+            {chapter.status === "pending" && (
+              <Circle
+                className="text-slate-400"
+                size={20}
+              />
+            )}
+
+            <div>
+
+              <div className="font-semibold">
+                Chapter {chapter.id}
               </div>
 
-              <div className="mt-2 text-sm">
+              <div className="text-sm text-slate-500">
                 {chapter.title}
               </div>
 
-              <div className="mt-3 flex flex-wrap gap-2 text-xs">
+            </div>
 
-                {chapter.duration && (
-                  <span className="rounded-full bg-slate-200 px-2 py-1">
-                    {chapter.duration}
-                  </span>
-                )}
+          </button>
 
-                {chapter.quiz && (
-                  <span className="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-orange-700">
-                    <FileQuestion size={12} />
-                    Quiz
-                  </span>
-                )}
+        ))}
 
-                {chapter.project && (
-                  <span className="flex items-center gap-1 rounded-full bg-purple-100 px-2 py-1 text-purple-700">
-                    <Hammer size={12} />
-                    Project
-                  </span>
-                )}
-
-              </div>
-            </button>
-          );
-        })}
       </div>
+
     </div>
   );
 }

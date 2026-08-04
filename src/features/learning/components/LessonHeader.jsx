@@ -1,69 +1,99 @@
-import { Award, BookOpen, Clock } from "lucide-react";
+import { BookOpen, Clock, Trophy } from "lucide-react";
+import { useParams } from "react-router-dom";
 
-export default function LessonHeader({ course }) {
+export default function LessonHeader() {
+  const { courseId } = useParams();
+
+  // Temporary values (will come from Firestore later)
+  const courseTitle =
+    courseId === "robotics-foundation"
+      ? "Robotics Foundation"
+      : "Course";
+
+  const chapter = 1;
+  const lesson = 1;
+  const progress = 0;
+  const duration = "2 Months";
+
   return (
-    <div className="rounded-3xl bg-white p-8 shadow">
+    <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 text-white shadow-lg">
 
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      <div className="mx-auto max-w-7xl px-6 py-6">
 
-        <div>
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
 
-          <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
-            {course.category}
-          </span>
+          <div>
 
-          <h1 className="mt-4 text-4xl font-bold">
-            {course.title}
-          </h1>
+            <h1 className="text-3xl font-bold">
+              {courseTitle}
+            </h1>
 
-          <p className="mt-3 max-w-3xl text-slate-600">
-            {course.description}
-          </p>
+            <p className="mt-2 text-blue-100">
+              Chapter {chapter} • Lesson {lesson}
+            </p>
+
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+
+            <div className="rounded-xl bg-white/10 p-4 backdrop-blur">
+
+              <div className="flex items-center gap-2">
+
+                <BookOpen size={18} />
+
+                <span className="text-sm">
+                  Progress
+                </span>
+
+              </div>
+
+              <div className="mt-2 text-2xl font-bold">
+                {progress}%
+              </div>
+
+            </div>
+
+            <div className="rounded-xl bg-white/10 p-4 backdrop-blur">
+
+              <div className="flex items-center gap-2">
+
+                <Clock size={18} />
+
+                <span className="text-sm">
+                  Duration
+                </span>
+
+              </div>
+
+              <div className="mt-2 text-lg font-semibold">
+                {duration}
+              </div>
+
+            </div>
+
+            <div className="rounded-xl bg-white/10 p-4 backdrop-blur">
+
+              <div className="flex items-center gap-2">
+
+                <Trophy size={18} />
+
+                <span className="text-sm">
+                  Certificate
+                </span>
+
+              </div>
+
+              <div className="mt-2 text-lg font-semibold">
+                Included
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
-
-          <Stat
-            icon={<BookOpen size={20} />}
-            title="Chapters"
-            value={course.chapters}
-          />
-
-          <Stat
-            icon={<Clock size={20} />}
-            title="Duration"
-            value={course.duration}
-          />
-
-          <Stat
-            icon={<Award size={20} />}
-            title="Certificate"
-            value="Yes"
-          />
-
-        </div>
-
-      </div>
-
-    </div>
-  );
-}
-
-function Stat({ icon, title, value }) {
-  return (
-    <div className="rounded-2xl bg-slate-50 p-5 text-center">
-
-      <div className="mb-3 flex justify-center text-blue-600">
-        {icon}
-      </div>
-
-      <div className="text-2xl font-bold">
-        {value}
-      </div>
-
-      <div className="mt-1 text-sm text-slate-500">
-        {title}
       </div>
 
     </div>

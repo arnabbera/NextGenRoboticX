@@ -107,3 +107,4 @@ export async function generateProjectId() {
 
   return `NGRX-PRJ-${year}-${String(number).padStart(6, "0")}`;
 }
+
