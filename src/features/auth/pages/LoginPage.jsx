@@ -79,6 +79,57 @@ export default function LoginPage() {
             </div>
           </div>
 
+          <details
+            open
+            className="mt-7 rounded-2xl border border-slate-200 bg-slate-50 text-left lg:hidden"
+          >
+            <summary className="cursor-pointer px-5 py-4 font-bold text-slate-900">
+              Terms &amp; Disclaimer
+            </summary>
+
+            <div className="space-y-5 border-t border-slate-200 px-5 py-5 text-sm leading-6 text-slate-600">
+              <article>
+                <h2 className="font-bold text-slate-900">
+                  1. Independent Entity Disclaimer
+                </h2>
+                <p className="mt-1">
+                  NextGenRoboticX is an independent, private educational portal.
+                  We are not affiliated with, endorsed by, accredited by, or
+                  connected to any government agency, university, or official
+                  educational board.
+                </p>
+              </article>
+
+              <article>
+                <h2 className="font-bold text-slate-900">
+                  2. Free Course Access
+                </h2>
+                <p className="mt-1">
+                  Accessing and studying course content is 100% free. There are
+                  no hidden fees or mandatory charges for learning materials.
+                </p>
+              </article>
+
+              <article>
+                <h2 className="font-bold text-slate-900">
+                  3. Optional Certification &amp; Fees
+                </h2>
+                <p className="mt-1">
+                  Certification is optional. The ₹499 fee covers administrative
+                  costs, downloadable course PDFs, practice mock tests and a
+                  digital Certificate of Completion.
+                </p>
+                <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-amber-950">
+                  <strong>Important Notice:</strong> The NextGenRoboticX
+                  certificate is an appreciation/completion document for
+                  personal learning only. It is not an accredited degree,
+                  official diploma, professional licence or government
+                  qualification.
+                </p>
+              </article>
+            </div>
+          </details>
+
           <button
             onClick={handleLogin}
             className="mt-8 flex w-full items-center justify-center gap-3 rounded-xl border border-slate-300 bg-white py-4 text-lg font-semibold text-slate-700 shadow-sm transition hover:border-blue-500 hover:bg-blue-50"
@@ -111,7 +162,7 @@ export default function LoginPage() {
 
         <section
           aria-labelledby="terms-heading"
-          className="rounded-3xl border border-slate-200 bg-white p-7 shadow-2xl sm:p-10"
+          className="hidden rounded-3xl border border-slate-200 bg-white p-7 shadow-2xl sm:p-10 lg:block"
         >
           <h2
             id="terms-heading"
