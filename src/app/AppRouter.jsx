@@ -28,6 +28,15 @@ import Certificates from "../features/projects/pages/Certificates";
 import Profile from "../features/projects/pages/Profile";
 import Settings from "../features/projects/pages/Settings";
 
+
+// Admin
+import AdminRoute from "../components/auth/AdminRoute";
+import AdminLayout from "../layouts/AdminLayout";
+
+import AdminDashboard from "../features/admin/pages/AdminDashboard";
+import CourseManagement from "../features/admin/pages/CourseManagement";
+import CourseEditor from "../features/admin/pages/CourseEditor";
+
 export default function AppRouter() {
   return (
     <BrowserRouter>

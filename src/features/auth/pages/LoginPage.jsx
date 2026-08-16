@@ -20,9 +20,17 @@ export default function LoginPage() {
     );
   }
 
-  if (user) {
-    return <Navigate to="/dashboard" replace />;
+if (user) {
+  if (user.email === "beraarnab@gmail.com") {
+    return <Navigate to="/admin" replace />;
   }
+
+  if (user.email === "sona2desai@gmail.com") {
+    return <Navigate to="/admin" replace />;
+  }
+
+  return <Navigate to="/dashboard" replace />;
+}
 
   async function handleLogin() {
     try {
