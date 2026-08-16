@@ -39,6 +39,13 @@ const projects = [
       "Build your first Arduino quadcopter with an MPU6050, brushless motors, ESCs and radio receiver. Includes wiring, motor-test code, calibration and safety steps.",
     image: "/images/projects/drone.png",
   },
+  {
+    path: "projects/face-recognition-robot",
+    title: "AI Face Recognition Robot Using Raspberry Pi and OpenCV | NextGenRoboticX",
+    description:
+      "Build an AI face recognition robot using Raspberry Pi, Python, OpenCV and a 2WD chassis with components, wiring, training code, movement code and privacy guidance.",
+    image: "/images/projects/facerecognition.png",
+  },
 ];
 
 const escapeAttribute = (value) =>
