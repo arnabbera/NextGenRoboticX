@@ -100,6 +100,38 @@ const features = [
       "Improve technical documentation",
       "Prepare projects for academic and career goals",
     ],
+    mentor: {
+      name: "Sona Desai Bera",
+      role: "Founder and Faculty, Robotics Innovation Institute (ROBOIN)",
+      summary:
+        "An Electronics Engineer with more than 10 years of professional experience in embedded software development, dedicated to helping students learn robotics through theory and practical implementation.",
+      previousRoles: [
+        "Tech Lead, Wipro Ltd., Kolkata",
+        "Senior Software Developer, Alumnus Software Ltd., Kolkata",
+      ],
+      knowledgeAreas: [
+        "Atmel and AVR microcontrollers, Arduino and Raspberry Pi",
+        "C, C++, Data Structures, Embedded C, Embedded Systems and Operating Systems",
+        "Texas Instruments MSP430 series; Renesas R8C/10, R8C/26, R8C/27 and R8C/1A; I²C and 89C51 series",
+        "Alphanumeric LCDs, UART (RS-232 and RS-485), EEPROM (24AA series), RTC (DS1307 and PCF8563), infrared receivers, DACs, bar graphs, shift registers and seven-segment displays",
+        "End-to-end electronics projects, including circuit diagrams, PCB design, hardware development and software coding",
+      ],
+      teachingAreas: [
+        "Microcontrollers: 8051, ARM Cortex, PIC, AVR and Arduino",
+        "Robotics hardware modules and embedded robotics",
+        "Electronics components and PCB design",
+        "Raspberry Pi and Internet of Things",
+        "Microcontroller and Embedded C programming",
+        "Software fundamentals: C, C++, Java, HTML, SQL and Oracle",
+      ],
+      qualifications: [
+        "Bachelor of Engineering (B.E.) in Electronics",
+        "Advanced Post Graduate Diploma in Embedded Design",
+        "Master of Technology (M.Tech.) in VLSI Design & Embedded Technology",
+      ],
+      welcome:
+        "I invite and welcome you to NextGen Robotics Academy (NextGenRoboticX). Let us study robotics and learn how to apply technology and innovative ideas to build robots.",
+    },
   },
 ];
 
