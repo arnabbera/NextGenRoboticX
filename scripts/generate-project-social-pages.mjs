@@ -60,6 +60,13 @@ const projects = [
       "Build an Arduino robotic arm automation project using servo motors and PCA9685. Includes components, wiring, calibration, pick-and-place code and safety.",
     image: "/images/projects/roboticarm.png",
   },
+  {
+    path: "projects/smart-agriculture",
+    title: "ESP32 Smart Agriculture and Automatic Irrigation Project | NextGenRoboticX",
+    description:
+      "Build an ESP32 smart agriculture system with soil moisture, DHT22, water-level protection and automatic irrigation code, wiring and calibration.",
+    image: "/images/projects/agriculture.png",
+  },
 ];
 
 const escapeAttribute = (value) =>
