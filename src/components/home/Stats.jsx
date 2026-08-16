@@ -1,6 +1,5 @@
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
-import { motion } from "framer-motion";
 
 const stats = [
   {
@@ -49,14 +48,8 @@ export default function Stats() {
 
           {stats.map((item, index) => (
 
-            <motion.div
+            <div
               key={item.label}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: index * 0.15,
-              }}
-              viewport={{ once: true }}
               className="rounded-3xl bg-slate-50 p-8 text-center shadow hover:shadow-xl"
             >
 
@@ -77,7 +70,7 @@ export default function Stats() {
                 {item.label}
               </p>
 
-            </motion.div>
+            </div>
 
           ))}
 
