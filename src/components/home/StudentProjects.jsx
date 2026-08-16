@@ -47,6 +47,7 @@ const projects = [
     tech: ["Python", "OpenCV", "AI"],
     level: "Advanced",
     duration: "15 Hours",
+    path: "/projects/face-recognition-robot",
   },
   {
     title: "Humanoid Robot",
