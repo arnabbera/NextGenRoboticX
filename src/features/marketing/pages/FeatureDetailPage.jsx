@@ -180,7 +180,7 @@ export default function FeatureDetailPage() {
                   <img
                     src={feature.image}
                     alt={feature.mentor.name}
-                    className="aspect-[4/3] w-full object-cover object-top"
+                    className="h-auto w-full bg-slate-950 object-contain"
                   />
                   <div className="p-6 sm:p-8">
                     <p className="text-sm font-semibold uppercase tracking-wider text-blue-300">
