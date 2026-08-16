@@ -25,6 +25,13 @@ const projects = [
       "Build an ESP32 IoT monitoring system with DHT and soil sensors, MQTT, Firebase storage, wiring, code, calibration and beginner-friendly steps.",
     image: "/images/projects/iot.png",
   },
+  {
+    path: "projects/smart-home-automation",
+    title: "ESP32 Smart Home Automation Project | NextGenRoboticX",
+    description:
+      "Build an ESP32 Wi-Fi smart home automation system with relays, mobile web control, wiring, complete Arduino code, safety guidance and beginner steps.",
+    image: "/images/projects/smarthome.png",
+  },
 ];
 
 const escapeAttribute = (value) =>
