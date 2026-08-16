@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-
 const projects = [
   {
     title: "Obstacle Avoiding Robot",
@@ -93,15 +91,8 @@ export default function StudentProjects() {
 
           {projects.map((project, index) => (
 
-            <motion.div
+            <div
               key={project.title}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.08,
-              }}
               className="overflow-hidden rounded-3xl bg-white shadow-lg transition duration-300 hover:-translate-y-3 hover:shadow-2xl"
             >
 
@@ -150,7 +141,7 @@ export default function StudentProjects() {
 
               </div>
 
-            </motion.div>
+            </div>
 
           ))}
 
