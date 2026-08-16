@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import {
   Bot,
   Brain,
@@ -78,15 +77,8 @@ export default function WhyChooseUs() {
 
             return (
 
-              <motion.div
+              <div
                 key={feature.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.12,
-                }}
-                viewport={{ once: true }}
                 className="group rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition hover:-translate-y-2 hover:border-blue-500 hover:shadow-2xl"
               >
 
@@ -107,7 +99,7 @@ export default function WhyChooseUs() {
                   {feature.description}
                 </p>
 
-              </motion.div>
+              </div>
 
             );
 
