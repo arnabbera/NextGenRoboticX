@@ -172,6 +172,129 @@ export default function FeatureDetailPage() {
           </div>
         </section>
 
+        {feature.mentor && (
+          <section className="bg-slate-50 py-16 sm:py-24">
+            <div className="mx-auto max-w-7xl px-5 sm:px-6">
+              <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
+                <aside className="overflow-hidden rounded-3xl bg-slate-900 text-white shadow-xl">
+                  <img
+                    src={feature.image}
+                    alt={feature.mentor.name}
+                    className="aspect-[4/3] w-full object-cover object-top"
+                  />
+                  <div className="p-6 sm:p-8">
+                    <p className="text-sm font-semibold uppercase tracking-wider text-blue-300">
+                      Founder &amp; Faculty
+                    </p>
+                    <h2 className="mt-3 text-3xl font-bold">
+                      {feature.mentor.name}
+                    </h2>
+                    <p className="mt-3 leading-7 text-slate-300">
+                      {feature.mentor.role}
+                    </p>
+                  </div>
+                </aside>
+
+                <article>
+                  <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
+                    About Me
+                  </p>
+                  <h2 className="mt-3 text-3xl font-bold text-slate-900 sm:text-4xl">
+                    Experience that connects theory with practical engineering
+                  </h2>
+                  <p className="mt-6 text-lg leading-8 text-slate-600">
+                    Thank you for taking the time to read this page.
+                  </p>
+                  <p className="mt-4 text-lg leading-8 text-slate-600">
+                    {feature.mentor.summary}
+                  </p>
+
+                  <div className="mt-10 grid gap-8 md:grid-cols-2">
+                    <div className="rounded-3xl bg-white p-6 shadow-sm">
+                      <h3 className="text-xl font-bold text-slate-900">
+                        Professional Experience
+                      </h3>
+                      <ul className="mt-5 space-y-3">
+                        {feature.mentor.previousRoles.map((item) => (
+                          <li key={item} className="flex gap-3 text-slate-600">
+                            <CheckCircle2
+                              size={20}
+                              className="mt-0.5 shrink-0 text-blue-600"
+                            />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="rounded-3xl bg-white p-6 shadow-sm">
+                      <h3 className="text-xl font-bold text-slate-900">
+                        Academic Qualifications
+                      </h3>
+                      <ul className="mt-5 space-y-3">
+                        {feature.mentor.qualifications.map((item) => (
+                          <li key={item} className="flex gap-3 text-slate-600">
+                            <CheckCircle2
+                              size={20}
+                              className="mt-0.5 shrink-0 text-blue-600"
+                            />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
+              <div className="mt-12 grid gap-8 lg:grid-cols-2">
+                <article className="rounded-3xl bg-white p-6 shadow-sm sm:p-8">
+                  <h2 className="text-2xl font-bold text-slate-900">
+                    Knowledge Areas
+                  </h2>
+                  <ul className="mt-6 space-y-4">
+                    {feature.mentor.knowledgeAreas.map((item) => (
+                      <li key={item} className="flex gap-3 leading-7 text-slate-600">
+                        <CheckCircle2
+                          size={20}
+                          className="mt-1 shrink-0 text-blue-600"
+                        />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+
+                <article className="rounded-3xl bg-white p-6 shadow-sm sm:p-8">
+                  <h2 className="text-2xl font-bold text-slate-900">
+                    Teaching &amp; Mentorship Areas
+                  </h2>
+                  <ul className="mt-6 space-y-4">
+                    {feature.mentor.teachingAreas.map((item) => (
+                      <li key={item} className="flex gap-3 leading-7 text-slate-600">
+                        <CheckCircle2
+                          size={20}
+                          className="mt-1 shrink-0 text-blue-600"
+                        />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              </div>
+
+              <blockquote className="mt-12 rounded-3xl border-l-4 border-blue-600 bg-blue-50 p-6 text-lg leading-8 text-slate-700 sm:p-8">
+                “{feature.mentor.welcome}”
+                <footer className="mt-5 font-bold text-slate-900">
+                  With best regards,
+                  <br />
+                  {feature.mentor.name}
+                </footer>
+              </blockquote>
+            </div>
+          </section>
+        )}
+
         <section className="bg-blue-600 px-5 py-14 text-center text-white sm:px-6">
           <div className="mx-auto max-w-3xl">
             <h2 className="text-3xl font-bold sm:text-4xl">
