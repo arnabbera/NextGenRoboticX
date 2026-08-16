@@ -31,6 +31,7 @@ const projects = [
     tech: ["ESP32", "Relay", "WiFi"],
     level: "Intermediate",
     duration: "10 Hours",
+    path: "/projects/smart-home-automation",
   },
   {
     title: "Drone Technology",
