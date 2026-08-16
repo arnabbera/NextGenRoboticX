@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const projects = [
   {
     title: "Obstacle Avoiding Robot",
@@ -5,6 +7,7 @@ const projects = [
     tech: ["Arduino", "Ultrasonic", "C++"],
     level: "Beginner",
     duration: "6 Hours",
+    path: "/projects/obstacle-avoiding-robot",
   },
   {
     title: "Line Following Robot",
@@ -135,9 +138,18 @@ export default function StudentProjects() {
 
                 </div>
 
-                <button className="mt-6 w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700">
-                  View Project
-                </button>
+                {project.path ? (
+                  <Link
+                    to={project.path}
+                    className="mt-6 block w-full rounded-xl bg-blue-600 py-3 text-center font-semibold text-white transition hover:bg-blue-700"
+                  >
+                    View Project
+                  </Link>
+                ) : (
+                  <button className="mt-6 w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700">
+                    View Project
+                  </button>
+                )}
 
               </div>
 
