@@ -34,6 +34,7 @@ import IoTSmartMonitoringPage from "../features/projects/pages/IoTSmartMonitorin
 import SmartHomeAutomationPage from "../features/projects/pages/SmartHomeAutomationPage";
 import ArduinoDronePage from "../features/projects/pages/ArduinoDronePage";
 import FaceRecognitionRobotPage from "../features/projects/pages/FaceRecognitionRobotPage";
+import HumanoidRobotPage from "../features/projects/pages/HumanoidRobotPage";
 
 
 // Admin
@@ -89,6 +90,11 @@ export default function AppRouter() {
         <Route
           path="/projects/face-recognition-robot"
           element={<FaceRecognitionRobotPage />}
+        />
+
+        <Route
+          path="/projects/humanoid-robot"
+          element={<HumanoidRobotPage />}
         />
 
         {/* ===================== */}
