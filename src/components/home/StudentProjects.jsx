@@ -55,6 +55,7 @@ const projects = [
     tech: ["Servo", "Arduino Mega", "AI"],
     level: "Advanced",
     duration: "30 Hours",
+    path: "/projects/humanoid-robot",
   },
   {
     title: "Robotic Arm Automation",
