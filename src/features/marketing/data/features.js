@@ -88,7 +88,7 @@ const features = [
     slug: "expert-mentorship",
     title: "Expert Mentorship",
     eyebrow: "Guide • Build • Grow",
-    image: "/images/instructor.png",
+    image: "/images/expert-mentorship-sona-bera.webp",
     description: "Learn from experienced engineers with real industry exposure.",
     seoTitle: "Expert Robotics & Engineering Mentorship | NextGenRoboticX",
     metaDescription: "Get practical robotics, AI, IoT and engineering project mentorship from experienced industry professionals.",
