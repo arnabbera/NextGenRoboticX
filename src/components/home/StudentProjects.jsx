@@ -34,11 +34,12 @@ const projects = [
     path: "/projects/smart-home-automation",
   },
   {
-    title: "Drone Technology",
+    title: "Build Your First Arduino Drone",
     image: "/images/projects/drone.png",
-    tech: ["Flight Controller", "GPS", "Telemetry"],
+    tech: ["Arduino", "MPU6050", "ESC"],
     level: "Advanced",
     duration: "20 Hours",
+    path: "/projects/arduino-drone",
   },
   {
     title: "AI Face Recognition Robot",
