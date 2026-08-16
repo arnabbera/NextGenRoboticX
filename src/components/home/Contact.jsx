@@ -1,5 +1,8 @@
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 
+const whatsappUrl =
+  "https://wa.me/919830068336?text=Hello%20NextGenRoboticX%2C%20I%20am%20interested%20in%20your%20robotics%20and%20technology%20courses.%20Please%20share%20the%20course%20details%2C%20fees%2C%20schedule%20and%20enrollment%20process.";
+
 const contactItems = [
   {
     icon: Phone,
@@ -40,7 +43,7 @@ export default function Contact() {
           </p>
 
           <a
-            href="https://wa.me/919830068336"
+            href={whatsappUrl}
             target="_blank"
             rel="noreferrer"
             className="mt-8 inline-flex items-center gap-3 rounded-xl bg-green-600 px-6 py-4 font-semibold text-white transition hover:bg-green-700"
@@ -53,7 +56,7 @@ export default function Contact() {
         <div className="grid gap-5">
           {contactItems.map((item) => {
             const Icon = item.icon;
-            const content = (
+            const itemContent = (
               <>
                 <div className="rounded-xl bg-blue-600/20 p-3 text-blue-300">
                   <Icon size={24} />
@@ -75,14 +78,14 @@ export default function Contact() {
                 href={item.href}
                 className="flex items-center gap-4 rounded-2xl border border-slate-700 bg-slate-800 p-5 transition hover:border-blue-500"
               >
-                {content}
+                {itemContent}
               </a>
             ) : (
               <div
                 key={item.label}
                 className="flex items-center gap-4 rounded-2xl border border-slate-700 bg-slate-800 p-5"
               >
-                {content}
+                {itemContent}
               </div>
             );
           })}
