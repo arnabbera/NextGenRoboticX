@@ -63,6 +63,7 @@ const projects = [
     tech: ["Servo", "Arduino", "Automation"],
     level: "Intermediate",
     duration: "12 Hours",
+    path: "/projects/robotic-arm-automation",
   },
   {
     title: "Smart Agriculture",
