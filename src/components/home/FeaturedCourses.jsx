@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import courses from "../../features/courses/data/courses";
 
 export default function FeaturedCourses() {
@@ -24,15 +23,8 @@ export default function FeaturedCourses() {
 
           {featuredCourses.map((course, index) => (
 
-            <motion.div
+            <div
               key={course.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.1,
-              }}
-              viewport={{ once: true }}
               className="overflow-hidden rounded-3xl bg-white shadow-lg transition hover:-translate-y-2 hover:shadow-2xl"
             >
 
@@ -87,7 +79,7 @@ export default function FeaturedCourses() {
 
               </div>
 
-            </motion.div>
+            </div>
 
           ))}
 
