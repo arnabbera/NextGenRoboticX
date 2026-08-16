@@ -33,6 +33,7 @@ import LineFollowingRobotPage from "../features/projects/pages/LineFollowingRobo
 import IoTSmartMonitoringPage from "../features/projects/pages/IoTSmartMonitoringPage";
 import SmartHomeAutomationPage from "../features/projects/pages/SmartHomeAutomationPage";
 import ArduinoDronePage from "../features/projects/pages/ArduinoDronePage";
+import FaceRecognitionRobotPage from "../features/projects/pages/FaceRecognitionRobotPage";
 
 
 // Admin
@@ -83,6 +84,11 @@ export default function AppRouter() {
         <Route
           path="/projects/arduino-drone"
           element={<ArduinoDronePage />}
+        />
+
+        <Route
+          path="/projects/face-recognition-robot"
+          element={<FaceRecognitionRobotPage />}
         />
 
         {/* ===================== */}
