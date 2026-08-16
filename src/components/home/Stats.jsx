@@ -1,6 +1,3 @@
-import CountUp from "react-countup";
-import { useInView } from "react-intersection-observer";
-
 const stats = [
   {
     number: 500,
@@ -25,15 +22,9 @@ const stats = [
 ];
 
 export default function Stats() {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.3,
-  });
-
   return (
-    <section ref={ref} className="bg-white py-20">
+    <section className="bg-white py-20">
       <div className="mx-auto max-w-7xl px-6">
-
         <div className="mb-12 text-center">
           <h2 className="text-4xl font-bold text-slate-800">
             Empowering Future Innovators
@@ -45,37 +36,22 @@ export default function Stats() {
         </div>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-
-          {stats.map((item, index) => (
-
+          {stats.map((item) => (
             <div
               key={item.label}
-              className="rounded-3xl bg-slate-50 p-8 text-center shadow hover:shadow-xl"
+              className="rounded-3xl bg-slate-50 p-8 text-center shadow transition-shadow hover:shadow-xl"
             >
-
               <div className="text-5xl font-bold text-blue-600">
-
-                {inView && (
-                  <CountUp
-                    end={item.number}
-                    duration={2}
-                  />
-                )}
-
+                {item.number}
                 {item.suffix}
-
               </div>
 
               <p className="mt-3 text-slate-600">
                 {item.label}
               </p>
-
             </div>
-
           ))}
-
         </div>
-
       </div>
     </section>
   );
