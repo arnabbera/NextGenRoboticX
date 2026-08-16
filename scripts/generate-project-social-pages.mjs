@@ -46,6 +46,13 @@ const projects = [
       "Build an AI face recognition robot using Raspberry Pi, Python, OpenCV and a 2WD chassis with components, wiring, training code, movement code and privacy guidance.",
     image: "/images/projects/facerecognition.png",
   },
+  {
+    path: "projects/humanoid-robot",
+    title: "How to Build a Humanoid Robot Using Arduino Mega | NextGenRoboticX",
+    description:
+      "Build an Arduino humanoid robot using servo motors and a PCA9685 driver. Includes components, wiring, calibration, motion code, assembly and safety guidance.",
+    image: "/images/projects/humanoid.png",
+  },
 ];
 
 const escapeAttribute = (value) =>
