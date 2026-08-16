@@ -53,6 +53,13 @@ const projects = [
       "Build an Arduino humanoid robot using servo motors and a PCA9685 driver. Includes components, wiring, calibration, motion code, assembly and safety guidance.",
     image: "/images/projects/humanoid.png",
   },
+  {
+    path: "projects/robotic-arm-automation",
+    title: "Arduino Robotic Arm Automation: Pick-and-Place Guide | NextGenRoboticX",
+    description:
+      "Build an Arduino robotic arm automation project using servo motors and PCA9685. Includes components, wiring, calibration, pick-and-place code and safety.",
+    image: "/images/projects/roboticarm.png",
+  },
 ];
 
 const escapeAttribute = (value) =>
