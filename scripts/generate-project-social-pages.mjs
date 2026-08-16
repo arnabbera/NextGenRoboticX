@@ -32,6 +32,13 @@ const projects = [
       "Build an ESP32 Wi-Fi smart home automation system with relays, mobile web control, wiring, complete Arduino code, safety guidance and beginner steps.",
     image: "/images/projects/smarthome.png",
   },
+  {
+    path: "projects/arduino-drone",
+    title: "Build Your First Arduino Drone: Beginner Quadcopter Guide | NextGenRoboticX",
+    description:
+      "Build your first Arduino quadcopter with an MPU6050, brushless motors, ESCs and radio receiver. Includes wiring, motor-test code, calibration and safety steps.",
+    image: "/images/projects/drone.png",
+  },
 ];
 
 const escapeAttribute = (value) =>
