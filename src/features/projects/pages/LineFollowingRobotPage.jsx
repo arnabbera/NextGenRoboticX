@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "../../../components/home/Footer";
+import ProjectShare from "../components/ProjectShare";
 
 const components = [
   ["Arduino Uno or compatible board", "1", "Runs the control program"],
@@ -496,6 +497,11 @@ export default function LineFollowingRobotPage() {
           </div>
         </section>
       </main>
+
+      <ProjectShare
+        title="Arduino Line Following Robot"
+        description="Build a beginner-friendly Arduino line following robot using IR sensors and an L298N motor driver."
+      />
 
       <Footer />
     </div>
