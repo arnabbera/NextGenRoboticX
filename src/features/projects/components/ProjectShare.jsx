@@ -1,5 +1,19 @@
 import { useState } from "react";
-import { Check, Copy, Facebook, Instagram, Share2 } from "lucide-react";
+import { Check, Copy, Share2 } from "lucide-react";
+
+const FacebookIcon = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M13.5 22v-9h3l.5-3.5h-3.5V7.3c0-1 .3-1.8 1.8-1.8H17V2.4c-.8-.1-1.7-.2-2.5-.2-2.6 0-4.4 1.6-4.4 4.6v2.7H7V13h3.1v9h3.4Z" />
+  </svg>
+);
+
+const InstagramIcon = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+    <rect x="3" y="3" width="18" height="18" rx="5" />
+    <circle cx="12" cy="12" r="4" />
+    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+  </svg>
+);
 
 export default function ProjectShare({ title, description }) {
   const [copied, setCopied] = useState(false);
@@ -39,7 +53,7 @@ export default function ProjectShare({ title, description }) {
   const buttons = [
     {
       label: "Facebook",
-      icon: Facebook,
+      icon: FacebookIcon,
       className: "bg-[#1877F2] hover:bg-[#1264cf]",
       href: () => `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl()}`,
     },
@@ -82,7 +96,7 @@ export default function ProjectShare({ title, description }) {
             className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 px-5 py-3 font-semibold text-white transition hover:opacity-90"
             aria-label={`Share ${title} using Instagram`}
           >
-            <Instagram size={20} />
+            <InstagramIcon size={20} />
             Instagram
           </button>
 
