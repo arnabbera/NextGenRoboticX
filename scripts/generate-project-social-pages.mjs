@@ -18,6 +18,13 @@ const projects = [
       "Build an Arduino line following robot using IR sensors and an L298N motor driver with components, connections, code, calibration and step-by-step guidance.",
     image: "/images/projects/linefollower.png",
   },
+  {
+    path: "projects/iot-smart-monitoring",
+    title: "IoT Smart Monitoring Using ESP32, MQTT & Firebase | NextGenRoboticX",
+    description:
+      "Build an ESP32 IoT monitoring system with DHT and soil sensors, MQTT, Firebase storage, wiring, code, calibration and beginner-friendly steps.",
+    image: "/images/projects/iot.png",
+  },
 ];
 
 const escapeAttribute = (value) =>
