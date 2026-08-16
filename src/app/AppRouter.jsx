@@ -35,6 +35,7 @@ import SmartHomeAutomationPage from "../features/projects/pages/SmartHomeAutomat
 import ArduinoDronePage from "../features/projects/pages/ArduinoDronePage";
 import FaceRecognitionRobotPage from "../features/projects/pages/FaceRecognitionRobotPage";
 import HumanoidRobotPage from "../features/projects/pages/HumanoidRobotPage";
+import RoboticArmAutomationPage from "../features/projects/pages/RoboticArmAutomationPage";
 
 
 // Admin
@@ -95,6 +96,11 @@ export default function AppRouter() {
         <Route
           path="/projects/humanoid-robot"
           element={<HumanoidRobotPage />}
+        />
+
+        <Route
+          path="/projects/robotic-arm-automation"
+          element={<RoboticArmAutomationPage />}
         />
 
         {/* ===================== */}
