@@ -31,6 +31,7 @@ import Settings from "../features/projects/pages/Settings";
 import ObstacleAvoidingRobotPage from "../features/projects/pages/ObstacleAvoidingRobotPage";
 import LineFollowingRobotPage from "../features/projects/pages/LineFollowingRobotPage";
 import IoTSmartMonitoringPage from "../features/projects/pages/IoTSmartMonitoringPage";
+import SmartHomeAutomationPage from "../features/projects/pages/SmartHomeAutomationPage";
 
 
 // Admin
@@ -71,6 +72,11 @@ export default function AppRouter() {
         <Route
           path="/projects/iot-smart-monitoring"
           element={<IoTSmartMonitoringPage />}
+        />
+
+        <Route
+          path="/projects/smart-home-automation"
+          element={<SmartHomeAutomationPage />}
         />
 
         {/* ===================== */}
