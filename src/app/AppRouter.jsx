@@ -28,6 +28,7 @@ import Projects from "../features/projects/pages/Projects";
 import Certificates from "../features/projects/pages/Certificates";
 import Profile from "../features/projects/pages/Profile";
 import Settings from "../features/projects/pages/Settings";
+import ObstacleAvoidingRobotPage from "../features/projects/pages/ObstacleAvoidingRobotPage";
 
 
 // Admin
@@ -53,6 +54,11 @@ export default function AppRouter() {
         <Route
           path="/features/:featureSlug"
           element={<FeatureDetailPage />}
+        />
+
+        <Route
+          path="/projects/obstacle-avoiding-robot"
+          element={<ObstacleAvoidingRobotPage />}
         />
 
         {/* ===================== */}
