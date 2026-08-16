@@ -71,6 +71,7 @@ const projects = [
     tech: ["ESP32", "IoT", "Sensors"],
     level: "Advanced",
     duration: "18 Hours",
+    path: "/projects/smart-agriculture",
   },
 ];
 
