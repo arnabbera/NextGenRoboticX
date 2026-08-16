@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "../../../components/home/Footer";
+import ProjectShare from "../components/ProjectShare";
 
 const components = [
   ["Arduino Uno or compatible board", "1", "Controls the robot"],
@@ -519,6 +520,11 @@ export default function ObstacleAvoidingRobotPage() {
           </div>
         </section>
       </main>
+
+      <ProjectShare
+        title="Obstacle Avoiding Robot Using Arduino"
+        description="Build an obstacle avoiding robotic car with Arduino, an ultrasonic sensor and an L298N motor driver."
+      />
 
       <Footer />
     </div>
