@@ -23,6 +23,7 @@ const projects = [
     tech: ["ESP32", "MQTT", "Firebase"],
     level: "Intermediate",
     duration: "8 Hours",
+    path: "/projects/iot-smart-monitoring",
   },
   {
     title: "Smart Home Automation",
