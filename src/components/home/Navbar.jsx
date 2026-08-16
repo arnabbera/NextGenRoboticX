@@ -35,19 +35,19 @@ export default function Navbar() {
             Home
           </Link>
 
-          <Link
-            to="/courses"
+          <a
+            href="#courses"
             className="font-medium text-slate-700 transition hover:text-blue-600"
           >
             Courses
-          </Link>
+          </a>
 
-          <Link
-            to="/projects"
+          <a
+            href="#projects"
             className="font-medium text-slate-700 transition hover:text-blue-600"
           >
             Projects
-          </Link>
+          </a>
 
           <a
             href="#why-us"
