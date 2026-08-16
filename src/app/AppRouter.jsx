@@ -5,6 +5,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 // Public Pages
 import HomePage from "../pages/HomePage";
 import NotFoundPage from "../pages/NotFoundPage";
+import FeatureDetailPage from "../features/marketing/pages/FeatureDetailPage";
 
 // Layout
 import Layout from "../components/layout/Layout";
@@ -48,6 +49,11 @@ export default function AppRouter() {
         <Route path="/" element={<HomePage />} />
 
         <Route path="/login" element={<LoginPage />} />
+
+        <Route
+          path="/features/:featureSlug"
+          element={<FeatureDetailPage />}
+        />
 
         {/* ===================== */}
         {/* Protected Routes */}
