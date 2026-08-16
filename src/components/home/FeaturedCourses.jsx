@@ -5,7 +5,7 @@ export default function FeaturedCourses() {
   const featuredCourses = courses.slice(0, 6);
 
   return (
-    <section className="bg-slate-50 py-20">
+    <section id="courses" className="scroll-mt-24 bg-slate-50 py-20">
       <div className="mx-auto max-w-7xl px-6">
 
         <div className="mb-12 text-center">
