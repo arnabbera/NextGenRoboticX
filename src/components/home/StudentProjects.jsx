@@ -15,6 +15,7 @@ const projects = [
     tech: ["Arduino", "IR Sensors", "Embedded C"],
     level: "Beginner",
     duration: "5 Hours",
+    path: "/projects/line-following-robot",
   },
   {
     title: "IoT Smart Monitoring",
