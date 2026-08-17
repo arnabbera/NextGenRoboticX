@@ -28,6 +28,8 @@ import Projects from "../features/projects/pages/Projects";
 import Certificates from "../features/projects/pages/Certificates";
 import Profile from "../features/projects/pages/Profile";
 import Settings from "../features/projects/pages/Settings";
+import ProjectPassRoute from "../features/projects/components/ProjectPassRoute";
+import ProjectsPassPage from "../features/projects/pages/ProjectsPassPage";
 import ObstacleAvoidingRobotPage from "../features/projects/pages/ObstacleAvoidingRobotPage";
 import LineFollowingRobotPage from "../features/projects/pages/LineFollowingRobotPage";
 import IoTSmartMonitoringPage from "../features/projects/pages/IoTSmartMonitoringPage";
@@ -37,7 +39,6 @@ import FaceRecognitionRobotPage from "../features/projects/pages/FaceRecognition
 import HumanoidRobotPage from "../features/projects/pages/HumanoidRobotPage";
 import RoboticArmAutomationPage from "../features/projects/pages/RoboticArmAutomationPage";
 import SmartAgriculturePage from "../features/projects/pages/SmartAgriculturePage";
-
 
 // Admin
 import AdminRoute from "../components/auth/AdminRoute";
@@ -56,58 +57,60 @@ export default function AppRouter() {
         {/* ===================== */}
 
         <Route path="/" element={<HomePage />} />
-
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/projects-pass" element={<ProjectsPassPage />} />
 
         <Route
           path="/features/:featureSlug"
           element={<FeatureDetailPage />}
         />
 
-        <Route
-          path="/projects/obstacle-avoiding-robot"
-          element={<ObstacleAvoidingRobotPage />}
-        />
+        <Route element={<ProjectPassRoute />}>
+          <Route
+            path="/projects/obstacle-avoiding-robot"
+            element={<ObstacleAvoidingRobotPage />}
+          />
 
-        <Route
-          path="/projects/line-following-robot"
-          element={<LineFollowingRobotPage />}
-        />
+          <Route
+            path="/projects/line-following-robot"
+            element={<LineFollowingRobotPage />}
+          />
 
-        <Route
-          path="/projects/iot-smart-monitoring"
-          element={<IoTSmartMonitoringPage />}
-        />
+          <Route
+            path="/projects/iot-smart-monitoring"
+            element={<IoTSmartMonitoringPage />}
+          />
 
-        <Route
-          path="/projects/smart-home-automation"
-          element={<SmartHomeAutomationPage />}
-        />
+          <Route
+            path="/projects/smart-home-automation"
+            element={<SmartHomeAutomationPage />}
+          />
 
-        <Route
-          path="/projects/arduino-drone"
-          element={<ArduinoDronePage />}
-        />
+          <Route
+            path="/projects/arduino-drone"
+            element={<ArduinoDronePage />}
+          />
 
-        <Route
-          path="/projects/face-recognition-robot"
-          element={<FaceRecognitionRobotPage />}
-        />
+          <Route
+            path="/projects/face-recognition-robot"
+            element={<FaceRecognitionRobotPage />}
+          />
 
-        <Route
-          path="/projects/humanoid-robot"
-          element={<HumanoidRobotPage />}
-        />
+          <Route
+            path="/projects/humanoid-robot"
+            element={<HumanoidRobotPage />}
+          />
 
-        <Route
-          path="/projects/robotic-arm-automation"
-          element={<RoboticArmAutomationPage />}
-        />
+          <Route
+            path="/projects/robotic-arm-automation"
+            element={<RoboticArmAutomationPage />}
+          />
 
-        <Route
-          path="/projects/smart-agriculture"
-          element={<SmartAgriculturePage />}
-        />
+          <Route
+            path="/projects/smart-agriculture"
+            element={<SmartAgriculturePage />}
+          />
+        </Route>
 
         {/* ===================== */}
         {/* Protected Routes */}
@@ -115,33 +118,13 @@ export default function AppRouter() {
 
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
-            {/* Dashboard */}
             <Route path="/dashboard" element={<Dashboard />} />
-
-            {/* Courses */}
             <Route path="/courses" element={<Courses />} />
-
-            <Route
-              path="/courses/:courseId"
-              element={<CourseDetails />}
-            />
-
-            {/* Learning */}
-            <Route
-              path="/courses/:courseId/learn"
-              element={<LearningPage />}
-            />
-
-            {/* Student */}
+            <Route path="/courses/:courseId" element={<CourseDetails />} />
+            <Route path="/courses/:courseId/learn" element={<LearningPage />} />
             <Route path="/projects" element={<Projects />} />
-
-            <Route
-              path="/certificates"
-              element={<Certificates />}
-            />
-
+            <Route path="/certificates" element={<Certificates />} />
             <Route path="/profile" element={<Profile />} />
-
             <Route path="/settings" element={<Settings />} />
           </Route>
         </Route>
