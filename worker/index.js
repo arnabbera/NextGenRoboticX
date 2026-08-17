@@ -120,9 +120,26 @@ async function verifyFirebaseToken(request) {
 const razorpayAuthorization = (env) =>
   `Basic ${btoa(`${env.RAZORPAY_KEY_ID}:${env.RAZORPAY_KEY_SECRET}`)}`;
 
-async function razorpayRequest(env, path, options = {}) {
+function getPaymentMode(env) {
   if (!env.RAZORPAY_KEY_ID || !env.RAZORPAY_KEY_SECRET) {
-    throw new Error("Razorpay Test Mode is not configured.");
+    return "not-configured";
+  }
+
+  if (env.RAZORPAY_KEY_ID.startsWith("rzp_live_")) {
+    return "live-configured";
+  }
+
+  if (env.RAZORPAY_KEY_ID.startsWith("rzp_test_")) {
+    return "test-configured";
+  }
+
+  return "invalid-key";
+}
+
+async function razorpayRequest(env, path, options = {}) {
+  const paymentMode = getPaymentMode(env);
+  if (paymentMode === "not-configured" || paymentMode === "invalid-key") {
+    throw new Error("Razorpay payment service is not configured.");
   }
 
   const response = await fetch(`https://api.razorpay.com/v1${path}`, {
@@ -331,10 +348,7 @@ async function handleApi(request, env, url) {
     return json({
       ok: true,
       service: "nextgenroboticx-api",
-      paymentMode:
-        env.RAZORPAY_KEY_ID && env.RAZORPAY_KEY_SECRET
-          ? "test-configured"
-          : "not-configured",
+      paymentMode: getPaymentMode(env),
       storage: env.PROJECT_ACCESS ? "configured" : "not-configured",
     });
   }
