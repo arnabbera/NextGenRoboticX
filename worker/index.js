@@ -27,24 +27,13 @@ const base64UrlBytes = (value) => {
 const parseJwtPart = (value) =>
   JSON.parse(new TextDecoder().decode(base64UrlBytes(value)));
 
-const pemToBytes = (pem) =>
-  Uint8Array.from(
-    atob(
-      pem
-        .replace("-----BEGIN CERTIFICATE-----", "")
-        .replace("-----END CERTIFICATE-----", "")
-        .replaceAll(/\s/g, "")
-    ),
-    (character) => character.charCodeAt(0)
-  );
-
 async function getFirebaseCertificates() {
   if (firebaseCertificateCache && Date.now() < firebaseCertificateExpiresAt) {
     return firebaseCertificateCache;
   }
 
   const response = await fetch(
-    "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+    "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com"
   );
 
   if (!response.ok) {
@@ -54,7 +43,10 @@ async function getFirebaseCertificates() {
   const cacheControl = response.headers.get("cache-control") || "";
   const maxAge = Number(cacheControl.match(/max-age=(\d+)/)?.[1] || 3600);
 
-  firebaseCertificateCache = await response.json();
+  const keySet = await response.json();
+  firebaseCertificateCache = Object.fromEntries(
+    (keySet.keys || []).map((key) => [key.kid, key])
+  );
   firebaseCertificateExpiresAt = Date.now() + maxAge * 1000;
   return firebaseCertificateCache;
 }
@@ -89,8 +81,8 @@ async function verifyFirebaseToken(request) {
   }
 
   const key = await crypto.subtle.importKey(
-    "spki",
-    pemToBytes(certificate),
+    "jwk",
+    certificate,
     { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
     false,
     ["verify"]
