@@ -7,7 +7,7 @@ const courses = [
     category: "Robotics",
     level: "Beginner",
     duration: "2 Months",
-    chapters: 8,
+    chapters: 10,
     students: 0,
     progress: 0,
     status: "Available",
