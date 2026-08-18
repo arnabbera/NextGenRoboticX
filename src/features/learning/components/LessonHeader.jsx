@@ -1,7 +1,7 @@
 import { BookOpen, Clock, Trophy } from "lucide-react";
 import { useParams } from "react-router-dom";
 
-export default function LessonHeader() {
+export default function LessonHeader({ chapter = 1, lesson = 1, chapterTitle = "Introduction to Robotics" }) {
   const { courseId } = useParams();
 
   // Temporary values (will come from Firestore later)
@@ -10,8 +10,6 @@ export default function LessonHeader() {
       ? "Robotics Foundation"
       : "Course";
 
-  const chapter = 1;
-  const lesson = 1;
   const progress = 0;
   const duration = "2 Months";
 
@@ -29,7 +27,7 @@ export default function LessonHeader() {
             </h1>
 
             <p className="mt-2 text-blue-100">
-              Chapter {chapter} • Lesson {lesson}
+              Chapter {chapter} • Lesson {lesson} • {chapterTitle}
             </p>
 
           </div>
