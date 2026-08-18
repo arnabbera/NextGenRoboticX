@@ -28,8 +28,7 @@ import Projects from "../features/projects/pages/Projects";
 import Certificates from "../features/projects/pages/Certificates";
 import Profile from "../features/projects/pages/Profile";
 import Settings from "../features/projects/pages/Settings";
-import ProjectPassRoute from "../features/projects/components/ProjectPassRoute";
-import ProjectsPassPage from "../features/projects/pages/ProjectsPassPage";
+import ViewOnlyProjectRoute from "../features/projects/components/ViewOnlyProjectRoute";
 import ObstacleAvoidingRobotPage from "../features/projects/pages/ObstacleAvoidingRobotPage";
 import LineFollowingRobotPage from "../features/projects/pages/LineFollowingRobotPage";
 import IoTSmartMonitoringPage from "../features/projects/pages/IoTSmartMonitoringPage";
@@ -58,14 +57,12 @@ export default function AppRouter() {
 
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/projects-pass" element={<ProjectsPassPage />} />
-
         <Route
           path="/features/:featureSlug"
           element={<FeatureDetailPage />}
         />
 
-        <Route element={<ProjectPassRoute />}>
+        <Route element={<ViewOnlyProjectRoute />}>
           <Route
             path="/projects/obstacle-avoiding-robot"
             element={<ObstacleAvoidingRobotPage />}
