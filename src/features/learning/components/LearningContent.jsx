@@ -1,7 +1,6 @@
 import VideoPlayer from "./VideoPlayer";
 import LessonNotes from "./LessonNotes";
 import PDFViewer from "./PDFViewer";
-import CodeViewer from "./CodeViewer";
 import QuizPanel from "./QuizPanel";
 import ProjectPanel from "./ProjectPanel";
 
@@ -15,7 +14,6 @@ export default function LearningContent() {
 
       <PDFViewer />
 
-      <CodeViewer />
 
       <QuizPanel />
 
