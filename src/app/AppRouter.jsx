@@ -30,6 +30,7 @@ import ObstacleAvoidingRobotChapterPage from "../features/learning/pages/Obstacl
 import LineFollowingRobotChapterPage from "../features/learning/pages/LineFollowingRobotChapterPage";
 import VoiceControlledRobotChapterPage from "../features/learning/pages/VoiceControlledRobotChapterPage";
 import AIRobotIntegrationChapterPage from "../features/learning/pages/AIRobotIntegrationChapterPage";
+import FinalProjectChapterPage from "../features/learning/pages/FinalProjectChapterPage";
 
 // Student Pages
 import Projects from "../features/projects/pages/Projects";
@@ -158,6 +159,10 @@ export default function AppRouter() {
             <Route
               path="/courses/robotics-foundation/learn/chapter-9"
               element={<AIRobotIntegrationChapterPage />}
+            />
+            <Route
+              path="/courses/robotics-foundation/learn/chapter-10"
+              element={<FinalProjectChapterPage />}
             />
             <Route path="/projects" element={<Projects />} />
             <Route path="/certificates" element={<Certificates />} />
