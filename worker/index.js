@@ -354,15 +354,25 @@ async function handleApi(request, env, url) {
   }
 
   if (request.method === "GET" && url.pathname === "/api/project-pass/status") {
-    return handleStatus(request, env);
+    return json({
+      active: true,
+      type: "free-public",
+      purchasedAt: null,
+    });
   }
 
-  if (request.method === "POST" && url.pathname === "/api/project-pass/order") {
-    return handleOrder(request, env);
-  }
-
-  if (request.method === "POST" && url.pathname === "/api/project-pass/verify") {
-    return handleVerify(request, env);
+  if (
+    request.method === "POST" &&
+    (url.pathname === "/api/project-pass/order" ||
+      url.pathname === "/api/project-pass/verify")
+  ) {
+    return json(
+      {
+        error:
+          "Project Pass payments are disabled. All project guides are free to view.",
+      },
+      410
+    );
   }
 
   return json({ error: "API endpoint not found." }, 404);
