@@ -5,7 +5,7 @@ const chapters = [
   { id: 1, title: "Introduction to Robotics", path: "/courses/robotics-foundation/learn" },
   { id: 2, title: "Arduino Basics", path: "/courses/robotics-foundation/learn/chapter-2" },
   { id: 3, title: "Sensors & Actuators", path: "/courses/robotics-foundation/learn/chapter-3" },
-  { id: 4, title: "Motor Driver (L298N)" },
+  { id: 4, title: "Motor Driver (L298N)", path: "/courses/robotics-foundation/learn/chapter-4" },
   { id: 5, title: "Bluetooth Robot" },
   { id: 6, title: "Obstacle Avoiding Robot" },
   { id: 7, title: "Line Following Robot" },
