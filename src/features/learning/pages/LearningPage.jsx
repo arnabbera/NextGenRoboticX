@@ -7,7 +7,7 @@ export default function LearningPortal() {
   return (
     <div className="min-h-screen bg-slate-100">
 
-      <LessonHeader />
+      <LessonHeader chapter={1} lesson={1} chapterTitle="Introduction to Robotics" />
 
       <div className="mx-auto max-w-7xl p-6">
 
@@ -17,7 +17,7 @@ export default function LearningPortal() {
 
           <div className="col-span-12 lg:col-span-3">
 
-            <ChapterSidebar />
+            <ChapterSidebar currentChapter={1} />
 
           </div>
 
