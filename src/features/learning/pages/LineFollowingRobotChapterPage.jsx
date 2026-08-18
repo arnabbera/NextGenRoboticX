@@ -460,9 +460,9 @@ export default function LineFollowingRobotChapterPage() {
               <Link to="/courses/robotics-foundation/learn/chapter-6" className="rounded-xl border bg-white px-5 py-3 font-semibold hover:bg-slate-50">
                 ← Chapter 6
               </Link>
-              <span className="rounded-xl bg-slate-200 px-5 py-3 font-semibold text-slate-500">
-                Chapter 8 coming next
-              </span>
+              <Link to="/courses/robotics-foundation/learn/chapter-8" className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700">
+                Chapter 8 →
+              </Link>
             </nav>
           </main>
         </div>
