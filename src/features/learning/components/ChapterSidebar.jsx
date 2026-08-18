@@ -11,7 +11,7 @@ const chapters = [
   { id: 7, title: "Line Following Robot", path: "/courses/robotics-foundation/learn/chapter-7" },
   { id: 8, title: "Voice Controlled Robot", path: "/courses/robotics-foundation/learn/chapter-8" },
   { id: 9, title: "AI Robot Integration", path: "/courses/robotics-foundation/learn/chapter-9" },
-  { id: 10, title: "Final Project" },
+  { id: 10, title: "Final Project", path: "/courses/robotics-foundation/learn/chapter-10" },
 ];
 
 export default function ChapterSidebar({ currentChapter = 1 }) {
