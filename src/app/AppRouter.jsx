@@ -23,6 +23,7 @@ import CourseDetails from "../features/courses/pages/CourseDetails";
 // Learning
 import LearningPage from "../features/learning/pages/LearningPage";
 import ArduinoBasicsChapterPage from "../features/learning/pages/ArduinoBasicsChapterPage";
+import SensorsActuatorsChapterPage from "../features/learning/pages/SensorsActuatorsChapterPage";
 
 // Student Pages
 import Projects from "../features/projects/pages/Projects";
@@ -123,6 +124,10 @@ export default function AppRouter() {
             <Route
               path="/courses/robotics-foundation/learn/chapter-2"
               element={<ArduinoBasicsChapterPage />}
+            />
+            <Route
+              path="/courses/robotics-foundation/learn/chapter-3"
+              element={<SensorsActuatorsChapterPage />}
             />
             <Route path="/projects" element={<Projects />} />
             <Route path="/certificates" element={<Certificates />} />
