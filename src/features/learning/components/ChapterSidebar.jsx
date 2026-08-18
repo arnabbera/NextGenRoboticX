@@ -4,12 +4,12 @@ const chapters = [
   {
     id: 1,
     title: "Introduction to Robotics",
-    status: "completed",
+    status: "current",
   },
   {
     id: 2,
     title: "Arduino Basics",
-    status: "current",
+    status: "pending",
   },
   {
     id: 3,
