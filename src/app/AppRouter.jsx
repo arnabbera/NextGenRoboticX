@@ -28,6 +28,7 @@ import L298NMotorDriverChapterPage from "../features/learning/pages/L298NMotorDr
 import BluetoothRobotChapterPage from "../features/learning/pages/BluetoothRobotChapterPage";
 import ObstacleAvoidingRobotChapterPage from "../features/learning/pages/ObstacleAvoidingRobotChapterPage";
 import LineFollowingRobotChapterPage from "../features/learning/pages/LineFollowingRobotChapterPage";
+import VoiceControlledRobotChapterPage from "../features/learning/pages/VoiceControlledRobotChapterPage";
 
 // Student Pages
 import Projects from "../features/projects/pages/Projects";
@@ -148,6 +149,10 @@ export default function AppRouter() {
             <Route
               path="/courses/robotics-foundation/learn/chapter-7"
               element={<LineFollowingRobotChapterPage />}
+            />
+            <Route
+              path="/courses/robotics-foundation/learn/chapter-8"
+              element={<VoiceControlledRobotChapterPage />}
             />
             <Route path="/projects" element={<Projects />} />
             <Route path="/certificates" element={<Certificates />} />
