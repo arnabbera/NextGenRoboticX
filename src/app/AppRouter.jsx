@@ -25,6 +25,7 @@ import LearningPage from "../features/learning/pages/LearningPage";
 import ArduinoBasicsChapterPage from "../features/learning/pages/ArduinoBasicsChapterPage";
 import SensorsActuatorsChapterPage from "../features/learning/pages/SensorsActuatorsChapterPage";
 import L298NMotorDriverChapterPage from "../features/learning/pages/L298NMotorDriverChapterPage";
+import BluetoothRobotChapterPage from "../features/learning/pages/BluetoothRobotChapterPage";
 
 // Student Pages
 import Projects from "../features/projects/pages/Projects";
@@ -133,6 +134,10 @@ export default function AppRouter() {
             <Route
               path="/courses/robotics-foundation/learn/chapter-4"
               element={<L298NMotorDriverChapterPage />}
+            />
+            <Route
+              path="/courses/robotics-foundation/learn/chapter-5"
+              element={<BluetoothRobotChapterPage />}
             />
             <Route path="/projects" element={<Projects />} />
             <Route path="/certificates" element={<Certificates />} />
