@@ -1,95 +1,29 @@
 import { PlayCircle } from "lucide-react";
 
-/*
-Supported video types
-
-youtube
-firebase
-vimeo
-mp4
-
-Later these values will come from Firestore.
-*/
-
-const lesson = {
-  title: "Introduction to Robotics",
-  duration: "18 Minutes",
-  videoType: "youtube",
-  videoId: "dQw4w9WgXcQ",
-};
-
 export default function VideoPlayer() {
-  function renderPlayer() {
-    switch (lesson.videoType) {
-      case "youtube":
-        return (
-          <iframe
-            className="aspect-video w-full rounded-xl"
-            src={`https://www.youtube.com/embed/${lesson.videoId}`}
-            title={lesson.title}
-            allowFullScreen
-          />
-        );
-
-      case "vimeo":
-        return (
-          <iframe
-            className="aspect-video w-full rounded-xl"
-            src={`https://player.vimeo.com/video/${lesson.videoId}`}
-            title={lesson.title}
-            allowFullScreen
-          />
-        );
-
-      case "firebase":
-      case "mp4":
-        return (
-          <video
-            controls
-            className="aspect-video w-full rounded-xl"
-          >
-            <source
-              src={lesson.videoId}
-              type="video/mp4"
-            />
-          </video>
-        );
-
-      default:
-        return (
-          <div className="flex aspect-video items-center justify-center rounded-xl bg-slate-200">
-            No video available
-          </div>
-        );
-    }
-  }
-
   return (
-    <div className="rounded-3xl bg-white p-6 shadow-lg">
-
+    <section className="rounded-3xl bg-white p-6 shadow-lg">
       <div className="mb-6 flex items-center gap-3">
-
-        <PlayCircle
-          className="text-blue-600"
-          size={28}
-        />
-
+        <PlayCircle className="text-blue-600" size={28} aria-hidden="true" />
         <div>
-
-          <h2 className="text-2xl font-bold">
-            {lesson.title}
+          <h2 className="text-2xl font-bold text-slate-900">
+            Introduction to Robotics
           </h2>
-
-          <p className="text-slate-500">
-            Duration : {lesson.duration}
-          </p>
-
+          <p className="text-slate-500">Chapter 1 • Reading lesson and assessment</p>
         </div>
-
       </div>
 
-      {renderPlayer()}
-
-    </div>
+      <div className="flex aspect-video items-center justify-center rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 p-8 text-center text-white">
+        <div className="max-w-xl">
+          <PlayCircle className="mx-auto text-blue-300" size={64} aria-hidden="true" />
+          <h3 className="mt-5 text-2xl font-bold">Video lesson coming soon</h3>
+          <p className="mt-3 leading-7 text-blue-100">
+            Complete the structured chapter notes below and then take the
+            10-question assessment. An official NextGenRoboticX video will be
+            added here when available.
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
