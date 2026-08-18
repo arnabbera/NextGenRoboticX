@@ -405,9 +405,9 @@ export default function L298NMotorDriverChapterPage() {
               <Link to="/courses/robotics-foundation/learn/chapter-3" className="rounded-xl border bg-white px-5 py-3 font-semibold hover:bg-slate-50">
                 ← Chapter 3
               </Link>
-              <span className="rounded-xl bg-slate-200 px-5 py-3 font-semibold text-slate-500">
-                Chapter 5 coming next
-              </span>
+              <Link to="/courses/robotics-foundation/learn/chapter-5" className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700">
+                Chapter 5 →
+              </Link>
             </nav>
           </main>
         </div>
