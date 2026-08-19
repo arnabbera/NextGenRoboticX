@@ -10,7 +10,7 @@ import {
   PlayCircle,
   RotateCcw,
   Route,
-  Sensors,
+  ScanLine,
   ShieldAlert,
   SlidersHorizontal,
   Wrench,
@@ -277,7 +277,7 @@ export default function LineFollowingRobotChapterPage() {
                   <p className="mt-2 text-slate-700">Light surfaces usually reflect more IR energy than dark surfaces.</p>
                 </div>
                 <div className="rounded-2xl bg-purple-50 p-5">
-                  <Sensors className="text-purple-700" size={30} />
+                  <ScanLine className="text-purple-700" size={30} />
                   <h3 className="mt-3 text-xl font-bold">Estimate error</h3>
                   <p className="mt-2 text-slate-700">The left/right pattern shows which way the robot has drifted.</p>
                 </div>
