@@ -21,7 +21,7 @@ export default function ChapterSidebar({ currentChapter = 1 }) {
         <h2 className="text-xl font-bold">Course Curriculum</h2>
       </div>
 
-      <div className="max-h-[700px] overflow-y-auto">
+      <div>
         {chapters.map((chapter) => {
           const current = chapter.id === currentChapter;
           const classes = `flex w-full items-center gap-3 border-b p-4 text-left transition ${
