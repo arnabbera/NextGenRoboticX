@@ -408,6 +408,24 @@ async function handleCourseAccessStatus(request, env, courseId) {
   });
 }
 
+
+async function handleCourseEnrollments(request, env) {
+  const user = await verifyFirebaseToken(request);
+  const admin = ADMIN_EMAILS.has(String(user.email || "").toLowerCase());
+  const courseIds = [];
+
+  for (const courseId of COURSE_IDS) {
+    if (admin) {
+      courseIds.push(courseId);
+      continue;
+    }
+    const entitlement = await getCourseEntitlement(env, user.uid, courseId);
+    if (entitlement?.active === true) courseIds.push(courseId);
+  }
+
+  return json({ courseIds, count: courseIds.length });
+}
+
 async function handleCourseOrder(request, env) {
   const user = await verifyFirebaseToken(request);
   const body = await readJson(request);
@@ -963,6 +981,10 @@ async function handleApi(request, env, url) {
       adminUploadMatch[1],
       adminUploadMatch[2]
     );
+  }
+
+  if (request.method === "GET" && url.pathname === "/api/course-access/enrollments") {
+    return handleCourseEnrollments(request, env);
   }
 
   const courseStatusMatch = url.pathname.match(
