@@ -1,4 +1,4 @@
-import { Award, BookOpen, GraduationCap, UserRound } from "lucide-react";
+import { Award, BookOpen, FolderKanban, GraduationCap, UserRound } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import WelcomeBanner from "../components/WelcomeBanner";
@@ -17,6 +17,13 @@ const sections = [
     path: "/courses/enrolled",
     icon: GraduationCap,
     color: "bg-emerald-600",
+  },
+  {
+    title: "Projects",
+    description: "View all practical robotics, IoT, AI, drone and automation projects.",
+    path: "/projects",
+    icon: FolderKanban,
+    color: "bg-cyan-600",
   },
   {
     title: "Certificates",
