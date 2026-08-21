@@ -343,6 +343,235 @@ async function handleVerify(request, env) {
   return json({ active: true, type: "lifetime" });
 }
 
+
+const CERTIFICATION_COURSE = "robotics-foundation";
+const ASSESSMENT_DURATION_MS = 30 * 60 * 1000;
+const REASSESSMENT_WINDOW_MS = 15 * 24 * 60 * 60 * 1000;
+const ASSESSMENT_ANSWER_KEYS = {
+  assessment1: [1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2],
+  assessment2: [2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3],
+};
+
+function certificationKey(uid) {
+  return `certification:${CERTIFICATION_COURSE}:${uid}`;
+}
+
+async function getCertificationState(env, uid) {
+  const kv = requireKv(env);
+  return (await kv.get(certificationKey(uid), "json")) || {
+    courseId: CERTIFICATION_COURSE,
+  };
+}
+
+async function saveCertificationState(env, uid, state) {
+  const kv = requireKv(env);
+  await kv.put(certificationKey(uid), JSON.stringify(state));
+}
+
+function publicCertificationState(state) {
+  const now = Date.now();
+  const deadline = state.reassessmentDeadline
+    ? new Date(state.reassessmentDeadline).getTime()
+    : 0;
+
+  return {
+    courseId: CERTIFICATION_COURSE,
+    assessment1: state.assessment1 || null,
+    assessment2: state.assessment2 || null,
+    reassessmentDeadline: state.reassessmentDeadline || null,
+    reassessmentAvailable:
+      Boolean(state.assessment1?.submittedAt) &&
+      state.assessment1?.passed === false &&
+      !state.assessment2?.submittedAt &&
+      now <= deadline,
+    certificate: state.certificate || null,
+  };
+}
+
+async function expireStartedAssessment(env, uid, state, type) {
+  const attempt = state[type];
+  if (!attempt?.startedAt || attempt.submittedAt) return false;
+
+  const expired =
+    Date.now() - new Date(attempt.startedAt).getTime() >
+    ASSESSMENT_DURATION_MS + 5000;
+
+  if (!expired) return false;
+
+  state[type] = {
+    ...attempt,
+    submittedAt: new Date().toISOString(),
+    correct: 0,
+    score: 0,
+    passed: false,
+    timedOut: true,
+  };
+
+  if (type === "assessment1") {
+    state.reassessmentDeadline = new Date(
+      Date.now() + REASSESSMENT_WINDOW_MS
+    ).toISOString();
+  }
+
+  await saveCertificationState(env, uid, state);
+  return true;
+}
+
+async function handleCertificationStatus(request, env) {
+  const user = await verifyFirebaseToken(request);
+  const state = await getCertificationState(env, user.uid);
+
+  await expireStartedAssessment(env, user.uid, state, "assessment1");
+  await expireStartedAssessment(env, user.uid, state, "assessment2");
+
+  return json(publicCertificationState(state));
+}
+
+async function handleCertificationStart(request, env) {
+  const user = await verifyFirebaseToken(request);
+  const body = await readJson(request);
+  const type = body.type;
+
+  if (type !== "assessment1" && type !== "assessment2") {
+    return json({ error: "Invalid assessment type." }, 400);
+  }
+
+  const state = await getCertificationState(env, user.uid);
+  await expireStartedAssessment(env, user.uid, state, "assessment1");
+  await expireStartedAssessment(env, user.uid, state, "assessment2");
+
+  if (state.certificate) {
+    return json({ error: "Certification assessment is already passed." }, 409);
+  }
+
+  if (type === "assessment1" && state.assessment1?.submittedAt) {
+    return json({ error: "Assessment 1 has already been submitted." }, 409);
+  }
+
+  if (type === "assessment2") {
+    if (!state.assessment1?.submittedAt || state.assessment1.passed) {
+      return json({ error: "Final reassessment is not available." }, 403);
+    }
+
+    if (
+      !state.reassessmentDeadline ||
+      Date.now() > new Date(state.reassessmentDeadline).getTime()
+    ) {
+      return json({ error: "The 15-day reassessment period has expired." }, 410);
+    }
+
+    if (state.assessment2?.submittedAt) {
+      return json({ error: "The final reassessment has already been submitted." }, 409);
+    }
+  }
+
+  if (!state[type]?.startedAt) {
+    state[type] = {
+      startedAt: new Date().toISOString(),
+      submittedAt: null,
+    };
+    await saveCertificationState(env, user.uid, state);
+  }
+
+  const startedAt = state[type].startedAt;
+  return json({
+    type,
+    startedAt,
+    expiresAt: new Date(
+      new Date(startedAt).getTime() + ASSESSMENT_DURATION_MS
+    ).toISOString(),
+  });
+}
+
+async function handleCertificationSubmit(request, env) {
+  const user = await verifyFirebaseToken(request);
+  const body = await readJson(request);
+  const type = body.type;
+  const answers = body.answers;
+
+  if (
+    (type !== "assessment1" && type !== "assessment2") ||
+    !Array.isArray(answers) ||
+    answers.length !== 50 ||
+    answers.some(
+      (answer) =>
+        !Number.isInteger(answer) || answer < -1 || answer > 3
+    )
+  ) {
+    return json({ error: "Invalid assessment submission." }, 400);
+  }
+
+  const state = await getCertificationState(env, user.uid);
+  const attempt = state[type];
+
+  if (!attempt?.startedAt || attempt.submittedAt) {
+    return json({ error: "This assessment is not active." }, 409);
+  }
+
+  if (type === "assessment2") {
+    if (
+      !state.reassessmentDeadline ||
+      Date.now() > new Date(state.reassessmentDeadline).getTime()
+    ) {
+      return json({ error: "The 15-day reassessment period has expired." }, 410);
+    }
+  }
+
+  const timedOut =
+    Date.now() - new Date(attempt.startedAt).getTime() >
+    ASSESSMENT_DURATION_MS + 5000;
+  const key = ASSESSMENT_ANSWER_KEYS[type];
+  const correct = timedOut
+    ? 0
+    : answers.reduce(
+        (total, answer, index) => total + (answer === key[index] ? 1 : 0),
+        0
+      );
+  const score = correct * 2;
+  const passed = score >= 80;
+  const submittedAt = new Date().toISOString();
+
+  state[type] = {
+    ...attempt,
+    submittedAt,
+    correct,
+    score,
+    passed,
+    timedOut,
+  };
+
+  if (passed) {
+    state.certificate = {
+      id: `NGRX-RF-${user.uid.slice(0, 8).toUpperCase()}-${Date.now()
+        .toString(36)
+        .toUpperCase()}`,
+      courseId: CERTIFICATION_COURSE,
+      courseTitle: "Robotics Foundation",
+      studentName: user.name || user.email || "NextGenRoboticX Student",
+      studentEmail: user.email,
+      score,
+      passedAttempt: type === "assessment1" ? 1 : 2,
+      issuedAt: submittedAt,
+    };
+  } else if (type === "assessment1") {
+    state.reassessmentDeadline = new Date(
+      Date.now() + REASSESSMENT_WINDOW_MS
+    ).toISOString();
+  }
+
+  await saveCertificationState(env, user.uid, state);
+
+  return json({
+    type,
+    correct,
+    score,
+    passed,
+    timedOut,
+    certificate: state.certificate || null,
+    reassessmentDeadline: state.reassessmentDeadline || null,
+  });
+}
+
 async function handleApi(request, env, url) {
   if (request.method === "GET" && url.pathname === "/api/health") {
     return json({
@@ -351,6 +580,27 @@ async function handleApi(request, env, url) {
       paymentMode: getPaymentMode(env),
       storage: env.PROJECT_ACCESS ? "configured" : "not-configured",
     });
+  }
+
+  if (
+    request.method === "GET" &&
+    url.pathname === "/api/certification/robotics-foundation/status"
+  ) {
+    return handleCertificationStatus(request, env);
+  }
+
+  if (
+    request.method === "POST" &&
+    url.pathname === "/api/certification/robotics-foundation/start"
+  ) {
+    return handleCertificationStart(request, env);
+  }
+
+  if (
+    request.method === "POST" &&
+    url.pathname === "/api/certification/robotics-foundation/submit"
+  ) {
+    return handleCertificationSubmit(request, env);
   }
 
   if (request.method === "GET" && url.pathname === "/api/project-pass/status") {
