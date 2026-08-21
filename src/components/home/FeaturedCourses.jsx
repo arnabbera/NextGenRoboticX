@@ -72,7 +72,7 @@ export default function FeaturedCourses() {
                     to={destination}
                     className="mt-8 block rounded-xl bg-blue-600 py-3 text-center font-semibold text-white transition hover:bg-blue-700"
                   >
-                    View Course
+                    {course.status === "Available" ? "View Course · ₹99 Access" : "Coming Soon"}
                   </Link>
                 </div>
               </div>
