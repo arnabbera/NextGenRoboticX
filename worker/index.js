@@ -14,6 +14,15 @@ const COURSE_IDS = new Set([
   "drone-technology",
   "sensors-and-actuators",
 ]);
+const PURCHASABLE_COURSE_IDS = new Set([
+  "robotics-foundation",
+  "arduino-programming",
+  "raspberry-pi",
+  "internet-of-things",
+  "embedded-systems",
+  "pcb-design-hardware-development",
+  "sensors-and-actuators",
+]);
 const COURSE_TITLES = {
   "robotics-foundation": "Robotics Foundation",
   "arduino-programming": "Arduino Programming",
@@ -404,6 +413,9 @@ async function handleCourseOrder(request, env) {
   const body = await readJson(request);
   const courseId = String(body.courseId || "");
   validateCourseId(courseId);
+  if (!PURCHASABLE_COURSE_IDS.has(courseId)) {
+    return json({ error: "Enrollment is not open for this course yet." }, 409);
+  }
 
   const existing = await getCourseEntitlement(env, user.uid, courseId);
   if (existing?.active) {
