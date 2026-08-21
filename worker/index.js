@@ -2,6 +2,29 @@ const FIREBASE_PROJECT_ID = "nextgenroboticx";
 const PASS_AMOUNT = 9900;
 const PASS_CURRENCY = "INR";
 const PASS_PRODUCT = "all-nine-projects-lifetime";
+const COURSE_ACCESS_AMOUNT = 9900;
+const COURSE_IDS = new Set([
+  "robotics-foundation",
+  "arduino-programming",
+  "raspberry-pi",
+  "internet-of-things",
+  "embedded-systems",
+  "pcb-design-hardware-development",
+  "artificial-intelligence",
+  "drone-technology",
+  "sensors-and-actuators",
+]);
+const COURSE_TITLES = {
+  "robotics-foundation": "Robotics Foundation",
+  "arduino-programming": "Arduino Programming",
+  "raspberry-pi": "Raspberry Pi Development",
+  "internet-of-things": "Internet of Things",
+  "embedded-systems": "Embedded Systems",
+  "pcb-design-hardware-development": "PCB Design & Hardware Development",
+  "artificial-intelligence": "Artificial Intelligence",
+  "drone-technology": "Drone Technology",
+  "sensors-and-actuators": "Sensors & Actuators",
+};
 
 let firebaseCertificateCache = null;
 let firebaseCertificateExpiresAt = 0;
@@ -343,6 +366,158 @@ async function handleVerify(request, env) {
   return json({ active: true, type: "lifetime" });
 }
 
+
+
+function validateCourseId(courseId) {
+  if (!COURSE_IDS.has(courseId)) {
+    throw new Error("Invalid course.");
+  }
+}
+
+function courseEntitlementKey(uid, courseId) {
+  return `course-entitlement:${uid}:${courseId}`;
+}
+
+async function getCourseEntitlement(env, uid, courseId) {
+  return requireKv(env).get(courseEntitlementKey(uid, courseId), "json");
+}
+
+async function handleCourseAccessStatus(request, env, courseId) {
+  const user = await verifyFirebaseToken(request);
+  validateCourseId(courseId);
+
+  if (ADMIN_EMAILS.has(String(user.email || "").toLowerCase())) {
+    return json({ active: true, admin: true, courseId });
+  }
+
+  const entitlement = await getCourseEntitlement(env, user.uid, courseId);
+  return json({
+    active: entitlement?.active === true,
+    courseId,
+    purchasedAt: entitlement?.purchasedAt || null,
+    amountPaid: entitlement?.amountPaid || null,
+  });
+}
+
+async function handleCourseOrder(request, env) {
+  const user = await verifyFirebaseToken(request);
+  const body = await readJson(request);
+  const courseId = String(body.courseId || "");
+  validateCourseId(courseId);
+
+  const existing = await getCourseEntitlement(env, user.uid, courseId);
+  if (existing?.active) {
+    return json({ error: "This course is already enrolled." }, 409);
+  }
+
+  const receipt = `course_${courseId.slice(0, 12)}_${Date.now()}`;
+  const order = await razorpayRequest(env, "/orders", {
+    method: "POST",
+    body: JSON.stringify({
+      amount: COURSE_ACCESS_AMOUNT,
+      currency: PASS_CURRENCY,
+      receipt,
+      payment_capture: 1,
+      notes: {
+        firebase_uid: user.uid,
+        student_email: user.email,
+        course_id: courseId,
+      },
+    }),
+  });
+
+  await requireKv(env).put(
+    `course-order:${order.id}`,
+    JSON.stringify({
+      uid: user.uid,
+      email: user.email,
+      courseId,
+      amount: COURSE_ACCESS_AMOUNT,
+      currency: PASS_CURRENCY,
+      createdAt: new Date().toISOString(),
+    }),
+    { expirationTtl: 86400 }
+  );
+
+  return json({
+    orderId: order.id,
+    amount: order.amount,
+    currency: order.currency,
+    keyId: env.RAZORPAY_KEY_ID,
+    courseId,
+    courseTitle: COURSE_TITLES[courseId],
+  });
+}
+
+async function handleCourseVerify(request, env) {
+  const user = await verifyFirebaseToken(request);
+  const body = await readJson(request);
+  const courseId = String(body.courseId || "");
+  validateCourseId(courseId);
+
+  const orderId = body.razorpay_order_id;
+  const paymentId = body.razorpay_payment_id;
+  const receivedSignature = body.razorpay_signature;
+  if (!orderId || !paymentId || !receivedSignature) {
+    return json({ error: "Incomplete payment verification data." }, 400);
+  }
+
+  const kv = requireKv(env);
+  const pending = await kv.get(`course-order:${orderId}`, "json");
+  if (
+    !pending ||
+    pending.uid !== user.uid ||
+    pending.email !== user.email ||
+    pending.courseId !== courseId
+  ) {
+    return json({ error: "Payment order does not belong to this course or student." }, 403);
+  }
+
+  const expectedSignature = await hmacHex(
+    env.RAZORPAY_KEY_SECRET,
+    `${orderId}|${paymentId}`
+  );
+  if (!constantTimeEqual(expectedSignature, receivedSignature)) {
+    return json({ error: "Invalid payment signature." }, 400);
+  }
+
+  const payment = await razorpayRequest(
+    env,
+    `/payments/${encodeURIComponent(paymentId)}`,
+    { method: "GET" }
+  );
+
+  if (
+    payment.order_id !== orderId ||
+    payment.amount !== COURSE_ACCESS_AMOUNT ||
+    payment.currency !== PASS_CURRENCY ||
+    payment.status !== "captured"
+  ) {
+    return json({ error: "Payment has not been captured successfully." }, 409);
+  }
+
+  const entitlement = {
+    active: true,
+    courseId,
+    courseTitle: COURSE_TITLES[courseId],
+    amountPaid: 99,
+    currency: PASS_CURRENCY,
+    purchasedAt: new Date().toISOString(),
+    razorpayOrderId: orderId,
+    razorpayPaymentId: paymentId,
+    uid: user.uid,
+    email: user.email,
+  };
+
+  await kv.put(courseEntitlementKey(user.uid, courseId), JSON.stringify(entitlement));
+  await kv.delete(`course-order:${orderId}`);
+
+  return json({
+    active: true,
+    courseId,
+    purchasedAt: entitlement.purchasedAt,
+  });
+}
 
 const CERTIFICATION_COURSE = "robotics-foundation";
 const ASSESSMENT_DURATION_MS = 30 * 60 * 1000;
@@ -776,6 +951,21 @@ async function handleApi(request, env, url) {
       adminUploadMatch[1],
       adminUploadMatch[2]
     );
+  }
+
+  const courseStatusMatch = url.pathname.match(
+    /^\/api\/course-access\/([^/]+)\/status$/
+  );
+  if (request.method === "GET" && courseStatusMatch) {
+    return handleCourseAccessStatus(request, env, courseStatusMatch[1]);
+  }
+
+  if (request.method === "POST" && url.pathname === "/api/course-access/order") {
+    return handleCourseOrder(request, env);
+  }
+
+  if (request.method === "POST" && url.pathname === "/api/course-access/verify") {
+    return handleCourseVerify(request, env);
   }
 
   if (request.method === "GET" && url.pathname === "/api/health") {
