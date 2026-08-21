@@ -1,23 +1,28 @@
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
+import { isAdministrator } from "../../../components/auth/AdminRoute";
+import ProjectResources from "./ProjectResources";
 
 const blockedShortcuts = new Set(["a", "c", "p", "s", "u", "x"]);
 
 function isEditableTarget(target) {
   return (
     target instanceof Element &&
-    Boolean(target.closest("input, textarea, [contenteditable=\"true\"]"))
+    Boolean(target.closest('input, textarea, [contenteditable="true"]'))
   );
 }
 
 export default function ViewOnlyProjectRoute() {
-  useEffect(() => {
-    const preventContentAction = (event) => {
-      if (!isEditableTarget(event.target)) {
-        event.preventDefault();
-      }
-    };
+  const { user, profile } = useAuth();
+  const admin = isAdministrator(user, profile);
 
+  useEffect(() => {
+    if (admin) return undefined;
+
+    const preventContentAction = (event) => {
+      if (!isEditableTarget(event.target)) event.preventDefault();
+    };
     const preventKeyboardCopy = (event) => {
       if (
         !isEditableTarget(event.target) &&
@@ -43,19 +48,20 @@ export default function ViewOnlyProjectRoute() {
       document.removeEventListener("selectstart", preventContentAction);
       document.removeEventListener("keydown", preventKeyboardCopy);
     };
-  }, []);
+  }, [admin]);
 
   return (
     <div
       className="view-only-project"
-      style={{
+      style={admin ? undefined : {
         userSelect: "none",
         WebkitUserSelect: "none",
         WebkitTouchCallout: "none",
       }}
-      data-view-only="true"
+      data-view-only={admin ? "false" : "true"}
     >
       <Outlet />
+      <ProjectResources />
     </div>
   );
 }
