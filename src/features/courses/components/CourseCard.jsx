@@ -151,7 +151,7 @@ export default function CourseCard({ course }) {
             ? "Coming Soon"
             : progress > 0
             ? "Continue Learning"
-            : "View Course"}
+            : "View Course · ₹99 Access"}
 
           {!isComingSoon && <ArrowRight size={18} />}
         </button>
