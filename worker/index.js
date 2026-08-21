@@ -572,7 +572,212 @@ async function handleCertificationSubmit(request, env) {
   });
 }
 
+
+const ADMIN_EMAILS = new Set([
+  "beraarnab@gmail.com",
+  "sona2desai@gmail.com",
+]);
+
+const PROJECT_SLUGS = new Set([
+  "obstacle-avoiding-robot",
+  "line-following-robot",
+  "iot-smart-monitoring",
+  "smart-home-automation",
+  "arduino-drone",
+  "face-recognition-robot",
+  "humanoid-robot",
+  "robotic-arm-automation",
+  "smart-agriculture",
+]);
+
+function requireAdmin(user) {
+  if (!ADMIN_EMAILS.has(String(user.email || "").toLowerCase())) {
+    throw new Error("Administrator access required.");
+  }
+}
+
+function validateProjectSlug(slug) {
+  if (!PROJECT_SLUGS.has(slug)) {
+    throw new Error("Invalid project.");
+  }
+}
+
+async function getProjectMetadata(env, slug) {
+  const kv = requireKv(env);
+  return (await kv.get(`project-content:${slug}`, "json")) || {
+    slug,
+    title: "",
+    summary: "",
+    diagram: null,
+    pdf: null,
+    updatedAt: null,
+  };
+}
+
+async function handleProjectMetadata(request, env, slug) {
+  validateProjectSlug(slug);
+  const metadata = await getProjectMetadata(env, slug);
+
+  return json({
+    ...metadata,
+    diagramUrl: metadata.diagram
+      ? `/api/projects/${slug}/resource/diagram`
+      : null,
+    pdfUrl: metadata.pdf
+      ? `/api/projects/${slug}/resource/pdf`
+      : null,
+  });
+}
+
+async function handleProjectResource(env, slug, kind) {
+  validateProjectSlug(slug);
+  if (kind !== "diagram" && kind !== "pdf") {
+    return json({ error: "Invalid project resource." }, 400);
+  }
+
+  const metadata = await getProjectMetadata(env, slug);
+  const resource = metadata[kind];
+
+  if (!resource) {
+    return json({ error: "Project resource not found." }, 404);
+  }
+
+  const kv = requireKv(env);
+  const value = await kv.get(
+    `project-resource:${slug}:${kind}`,
+    "arrayBuffer"
+  );
+
+  if (!value) {
+    return json({ error: "Project resource not found." }, 404);
+  }
+
+  return new Response(value, {
+    headers: {
+      "content-type": resource.contentType,
+      "content-disposition": `inline; filename="${resource.fileName.replaceAll('"', "")}"`,
+      "cache-control": "public, max-age=300",
+      "x-content-type-options": "nosniff",
+    },
+  });
+}
+
+async function handleAdminProjectUpdate(request, env, slug) {
+  const user = await verifyFirebaseToken(request);
+  requireAdmin(user);
+  validateProjectSlug(slug);
+
+  const body = await readJson(request);
+  const metadata = await getProjectMetadata(env, slug);
+
+  metadata.title = String(body.title || "").trim().slice(0, 120);
+  metadata.summary = String(body.summary || "").trim().slice(0, 4000);
+  metadata.updatedAt = new Date().toISOString();
+  metadata.updatedBy = user.email;
+
+  const kv = requireKv(env);
+  await kv.put(`project-content:${slug}`, JSON.stringify(metadata));
+  return json(metadata);
+}
+
+async function handleAdminProjectUpload(request, env, slug, kind) {
+  const user = await verifyFirebaseToken(request);
+  requireAdmin(user);
+  validateProjectSlug(slug);
+
+  if (kind !== "diagram" && kind !== "pdf") {
+    return json({ error: "Invalid project resource." }, 400);
+  }
+
+  const contentType = request.headers.get("content-type") || "";
+  const fileName = (
+    request.headers.get("x-file-name") ||
+    (kind === "diagram" ? "connection-diagram.png" : "project-guide.pdf")
+  ).slice(0, 180);
+
+  const allowed =
+    kind === "diagram"
+      ? ["image/png", "image/jpeg", "image/webp"]
+      : ["application/pdf"];
+
+  if (!allowed.includes(contentType)) {
+    return json({
+      error:
+        kind === "diagram"
+          ? "Connection diagram must be PNG, JPG or WebP."
+          : "Project guide must be a PDF file.",
+    }, 400);
+  }
+
+  const contentLength = Number(request.headers.get("content-length") || 0);
+  if (contentLength > 5 * 1024 * 1024) {
+    return json({ error: "File size must not exceed 5 MB." }, 413);
+  }
+
+  const bytes = await request.arrayBuffer();
+  if (!bytes.byteLength || bytes.byteLength > 5 * 1024 * 1024) {
+    return json({ error: "File size must be between 1 byte and 5 MB." }, 413);
+  }
+
+  const kv = requireKv(env);
+  await kv.put(`project-resource:${slug}:${kind}`, bytes);
+
+  const metadata = await getProjectMetadata(env, slug);
+  metadata[kind] = {
+    fileName,
+    contentType,
+    size: bytes.byteLength,
+    uploadedAt: new Date().toISOString(),
+    uploadedBy: user.email,
+  };
+  metadata.updatedAt = new Date().toISOString();
+
+  await kv.put(`project-content:${slug}`, JSON.stringify(metadata));
+  return json({ ok: true, resource: metadata[kind] });
+}
+
 async function handleApi(request, env, url) {
+  const metadataMatch = url.pathname.match(
+    /^\/api\/projects\/([^/]+)\/resources$/
+  );
+  if (request.method === "GET" && metadataMatch) {
+    return handleProjectMetadata(request, env, metadataMatch[1]);
+  }
+
+  const resourceMatch = url.pathname.match(
+    /^\/api\/projects\/([^/]+)\/resource\/(diagram|pdf)$/
+  );
+  if (request.method === "GET" && resourceMatch) {
+    return handleProjectResource(
+      env,
+      resourceMatch[1],
+      resourceMatch[2]
+    );
+  }
+
+  const adminMetadataMatch = url.pathname.match(
+    /^\/api\/admin\/projects\/([^/]+)$/
+  );
+  if (request.method === "PUT" && adminMetadataMatch) {
+    return handleAdminProjectUpdate(
+      request,
+      env,
+      adminMetadataMatch[1]
+    );
+  }
+
+  const adminUploadMatch = url.pathname.match(
+    /^\/api\/admin\/projects\/([^/]+)\/resource\/(diagram|pdf)$/
+  );
+  if (request.method === "PUT" && adminUploadMatch) {
+    return handleAdminProjectUpload(
+      request,
+      env,
+      adminUploadMatch[1],
+      adminUploadMatch[2]
+    );
+  }
+
   if (request.method === "GET" && url.pathname === "/api/health") {
     return json({
       ok: true,
@@ -645,6 +850,8 @@ export default {
         error.message.includes("Authentication") ||
         error.message.includes("token")
           ? 401
+          : error.message.includes("Administrator")
+            ? 403
           : error.message.includes("not configured")
             ? 503
             : 500;
