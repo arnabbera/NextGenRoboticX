@@ -8,6 +8,7 @@ import Layout from "../components/layout/Layout";
 import LoginPage from "../features/auth/pages/LoginPage";
 import Dashboard from "../features/dashboard/pages/Dashboard";
 import Courses from "../features/courses/pages/Courses";
+import EnrolledCourses from "../features/courses/pages/EnrolledCourses";
 import CourseDetails from "../features/courses/pages/CourseDetails";
 import CourseAccessRoute from "../features/courses/components/CourseAccessRoute";
 import RoboticsTestPage from "../features/assessment/pages/RoboticsTestPage";
@@ -66,6 +67,8 @@ export default function AppRouter() {
           <Route element={<Layout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/courses" element={<Courses />} />
+            <Route path="/courses/available" element={<Courses />} />
+            <Route path="/courses/enrolled" element={<EnrolledCourses />} />
             <Route path="/courses/:courseId" element={<CourseDetails />} />
             <Route element={<CourseAccessRoute />}>
               <Route path="/courses/:courseId/learn" element={<LearningPage />} />
