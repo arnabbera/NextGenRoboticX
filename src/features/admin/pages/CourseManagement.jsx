@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 
 import Button from "../../../components/ui/Button";
 import Card from "../../../components/ui/Card";
+import catalogCourses from "../../courses/data/courses";
 
 import {
   getAllCourses,
@@ -45,7 +46,18 @@ export default function CourseManagement() {
 
     try {
       const data = await getAllCourses();
-      setCourses(data);
+      const savedById = new Map(data.map((course) => [course.id, course]));
+      const completeCatalog = catalogCourses.map((course) => ({
+        ...course,
+        chapterCount: course.chapters,
+        price: 99,
+        ...savedById.get(course.id),
+      }));
+      const catalogIds = new Set(completeCatalog.map((course) => course.id));
+      setCourses([
+        ...completeCatalog,
+        ...data.filter((course) => !catalogIds.has(course.id)),
+      ]);
     } catch (err) {
       console.error("Failed to load courses:", err);
 
@@ -415,6 +427,16 @@ export default function CourseManagement() {
 
                           <td className="px-4 py-5">
                             <div className="flex justify-end gap-2">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() =>
+                                  navigate(`/admin/courses/${course.id}/chapters`)
+                                }
+                              >
+                                Chapters & PDFs
+                              </Button>
+
                               <Button
                                 size="sm"
                                 variant="outline"
