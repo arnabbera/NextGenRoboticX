@@ -68,12 +68,31 @@ export default function CourseDetails() {
 
             {/* Fixed Route */}
 
-            <Link
-              to={`/courses/${course.id}/learn`}
-              className="mt-10 inline-flex rounded-xl bg-white px-8 py-4 font-semibold text-blue-700 transition hover:scale-105 hover:shadow-xl"
-            >
-              🚀 Start Learning
-            </Link>
+            <div className="mt-10 flex flex-wrap gap-3">
+              <Link
+                to={`/courses/${course.id}/learn`}
+                className="inline-flex rounded-xl bg-white px-6 py-4 font-semibold text-blue-700 transition hover:scale-105 hover:shadow-xl"
+              >
+                🚀 Start Learning
+              </Link>
+
+              {course.id === "robotics-foundation" && (
+                <>
+                  <Link
+                    to="/courses/robotics-foundation/mock-test"
+                    className="inline-flex rounded-xl border border-white/40 bg-white/15 px-6 py-4 font-semibold text-white transition hover:bg-white/25"
+                  >
+                    📝 Mock Test
+                  </Link>
+                  <Link
+                    to="/courses/robotics-foundation/assessment"
+                    className="inline-flex rounded-xl bg-emerald-500 px-6 py-4 font-semibold text-white transition hover:bg-emerald-400"
+                  >
+                    🎓 Assessment
+                  </Link>
+                </>
+              )}
+            </div>
 
           </div>
 
