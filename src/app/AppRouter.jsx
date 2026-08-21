@@ -41,6 +41,7 @@ import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../features/admin/pages/AdminDashboard";
 import CourseManagement from "../features/admin/pages/CourseManagement";
 import CourseEditor from "../features/admin/pages/CourseEditor";
+import CourseChaptersManagement from "../features/admin/pages/CourseChaptersManagement";
 import ProjectManagement from "../features/admin/pages/ProjectManagement";
 
 export default function AppRouter() {
@@ -102,6 +103,7 @@ export default function AppRouter() {
           <Route path="/admin/courses" element={<CourseManagement />} />
           <Route path="/admin/courses/new" element={<CourseEditor />} />
           <Route path="/admin/courses/:courseId/edit" element={<CourseEditor />} />
+          <Route path="/admin/courses/:courseId/chapters" element={<CourseChaptersManagement />} />
           <Route path="/admin/projects" element={<ProjectManagement />} />
         </Route>
 
