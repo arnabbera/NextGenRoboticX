@@ -14,6 +14,7 @@ export default function LoginPage() {
   const { user, loading, loginWithGoogle } = useAuth();
   const [searchParams] = useSearchParams();
   const redirectPath = getSafeRedirect(searchParams.get("redirect"));
+  const courseRedirect = redirectPath.startsWith("/courses/");
 
   if (loading) {
     return (
@@ -54,12 +55,13 @@ export default function LoginPage() {
           </Link>
 
           <h1 className="mt-7 text-2xl font-bold text-slate-900 sm:text-3xl">
-            Sign in to continue learning
+            {courseRedirect ? "Sign in to enroll in this course" : "Sign in to continue learning"}
           </h1>
 
           <p className="mt-3 text-slate-600">
-            Use your Google account to access course details, learning materials,
-            projects and certification progress.
+            {courseRedirect
+              ? "Sign in with the Gmail account that should own your ₹99 course enrollment. After login, you will return to the selected course to complete payment."
+              : "Use your Google account to manage enrolled courses, learning progress, projects and certificates."}
           </p>
 
           <div className="mt-8 space-y-4 rounded-2xl bg-slate-50 p-5 text-left sm:p-6">
@@ -102,22 +104,23 @@ export default function LoginPage() {
 
               <article>
                 <h2 className="font-bold text-slate-900">
-                  2. Free Course Access
+                  2. Course Access Fee
                 </h2>
                 <p className="mt-1">
-                  Accessing and studying course content is 100% free. There are
-                  no hidden fees or mandatory charges for learning materials.
+                  Each available course requires a one-time ₹99 enrollment fee.
+                  Access is activated only after successful payment verification
+                  and remains linked to the signed-in Gmail account.
                 </p>
               </article>
 
               <article>
                 <h2 className="font-bold text-slate-900">
-                  3. Optional Certification &amp; Fees
+                  3. Assessment &amp; Certificate
                 </h2>
                 <p className="mt-1">
-                  Certification is optional. The ₹499 fee covers administrative
-                  costs, downloadable course PDFs, practice mock tests and a
-                  digital Certificate of Completion.
+                  Enrollment includes the course learning materials and any mock
+                  test or assessment provided for that course. A certificate is
+                  generated only after satisfying the published passing requirements.
                 </p>
                 <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-amber-950">
                   <strong>Important Notice:</strong> The NextGenRoboticX
@@ -140,12 +143,12 @@ export default function LoginPage() {
               <path fill="#4CAF50" d="M24 44c5.2 0 10-2 13.5-5.2l-6.2-5.2C29.3 35.2 26.8 36 24 36c-5.2 0-9.6-3.3-11.2-8l-6.6 5.1C9.6 39.5 16.2 44 24 44Z" />
               <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-1.1 3.1-3.3 5.6-6.2 7.2l6.2 5.2C39.1 37.3 44 31.2 44 24c0-1.3-.1-2.4-.4-3.5Z" />
             </svg>
-            Continue with Google
+            {courseRedirect ? "Continue with Google to Enroll" : "Continue with Google"}
           </button>
 
           <p className="mt-4 text-xs leading-5 text-slate-500">
             By continuing, you acknowledge the Terms &amp; Disclaimer displayed
-            on this page.
+            on this page. Course enrollment is linked to the Google account used here.
           </p>
 
           <Link
@@ -186,24 +189,25 @@ export default function LoginPage() {
 
             <article>
               <h3 className="font-bold text-slate-900">
-                2. Free Course Access
+                2. Course Access Fee
               </h3>
               <p className="mt-2">
-                Accessing and studying course content on this platform is 100%
-                free. There are no hidden fees or mandatory charges required to
-                access the learning materials.
+                Each available course requires a one-time ₹99 enrollment payment.
+                Enrollment is activated only after Razorpay confirms that the
+                payment was captured successfully, and access remains linked to
+                the Gmail account used to sign in.
               </p>
             </article>
 
             <article>
               <h3 className="font-bold text-slate-900">
-                3. Optional Certification &amp; Fees
+                3. Assessment &amp; Certificate
               </h3>
               <p className="mt-2">
-                Obtaining a certificate is completely optional. The ₹499 fee
-                solely covers administrative costs, access to downloadable
-                course PDFs, practice mock tests, and a digital Certificate of
-                Completion.
+                The ₹99 enrollment includes access to the selected course and any
+                mock test or assessment offered with it. Payment does not
+                guarantee a certificate; the student must meet the applicable
+                assessment and passing requirements.
               </p>
 
               <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-amber-950">
