@@ -9,6 +9,7 @@ import LoginPage from "../features/auth/pages/LoginPage";
 import Dashboard from "../features/dashboard/pages/Dashboard";
 import Courses from "../features/courses/pages/Courses";
 import CourseDetails from "../features/courses/pages/CourseDetails";
+import CourseAccessRoute from "../features/courses/components/CourseAccessRoute";
 import RoboticsTestPage from "../features/assessment/pages/RoboticsTestPage";
 import LearningPage from "../features/learning/pages/LearningPage";
 import ArduinoBasicsChapterPage from "../features/learning/pages/ArduinoBasicsChapterPage";
@@ -66,7 +67,8 @@ export default function AppRouter() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/courses/:courseId" element={<CourseDetails />} />
-            <Route path="/courses/:courseId/learn" element={<LearningPage />} />
+            <Route element={<CourseAccessRoute />}>
+              <Route path="/courses/:courseId/learn" element={<LearningPage />} />
             <Route path="/courses/robotics-foundation/mock-test" element={<RoboticsTestPage />} />
             <Route path="/courses/robotics-foundation/assessment" element={<RoboticsTestPage />} />
             <Route path="/courses/robotics-foundation/learn/chapter-2" element={<ArduinoBasicsChapterPage />} />
@@ -77,7 +79,8 @@ export default function AppRouter() {
             <Route path="/courses/robotics-foundation/learn/chapter-7" element={<LineFollowingRobotChapterPage />} />
             <Route path="/courses/robotics-foundation/learn/chapter-8" element={<VoiceControlledRobotChapterPage />} />
             <Route path="/courses/robotics-foundation/learn/chapter-9" element={<AIRobotIntegrationChapterPage />} />
-            <Route path="/courses/robotics-foundation/learn/chapter-10" element={<FinalProjectChapterPage />} />
+              <Route path="/courses/robotics-foundation/learn/chapter-10" element={<FinalProjectChapterPage />} />
+            </Route>
             <Route path="/projects" element={<Projects />} />
             <Route path="/certificates" element={<Certificates />} />
             <Route path="/profile" element={<Profile />} />
