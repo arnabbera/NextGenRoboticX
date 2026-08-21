@@ -19,6 +19,7 @@ import Dashboard from "../features/dashboard/pages/Dashboard";
 // Courses
 import Courses from "../features/courses/pages/Courses";
 import CourseDetails from "../features/courses/pages/CourseDetails";
+import RoboticsTestPage from "../features/assessment/pages/RoboticsTestPage";
 
 // Learning
 import LearningPage from "../features/learning/pages/LearningPage";
@@ -128,6 +129,14 @@ export default function AppRouter() {
             <Route path="/courses" element={<Courses />} />
             <Route path="/courses/:courseId" element={<CourseDetails />} />
             <Route path="/courses/:courseId/learn" element={<LearningPage />} />
+            <Route
+              path="/courses/robotics-foundation/mock-test"
+              element={<RoboticsTestPage />}
+            />
+            <Route
+              path="/courses/robotics-foundation/assessment"
+              element={<RoboticsTestPage />}
+            />
             <Route
               path="/courses/robotics-foundation/learn/chapter-2"
               element={<ArduinoBasicsChapterPage />}
