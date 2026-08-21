@@ -121,6 +121,10 @@ export default function CourseEnrollment({ course, onStatusChange }) {
     return <div className="mt-8 inline-flex items-center gap-2 rounded-xl bg-white/15 px-5 py-3 text-white"><LoaderCircle className="animate-spin" size={19} /> Checking enrollment...</div>;
   }
 
+  if (course.status === "Coming Soon") {
+    return <div className="mt-8 inline-flex rounded-xl bg-white/15 px-5 py-3 font-semibold text-white">Enrollment will open when this course becomes available.</div>;
+  }
+
   if (active) {
     return <div className="mt-8 inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 font-semibold text-white"><CheckCircle2 size={20} /> Course enrolled for {user.email}</div>;
   }
