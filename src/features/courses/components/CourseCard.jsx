@@ -21,6 +21,7 @@ export default function CourseCard({ course }) {
     image,
     status,
     certificate,
+    enrolled,
   } = course;
 
   const levelColors = {
@@ -149,7 +150,7 @@ export default function CourseCard({ course }) {
         >
           {isComingSoon
             ? "Coming Soon"
-            : progress > 0
+            : enrolled || progress > 0
             ? "Continue Learning"
             : "View Course · ₹99 Access"}
 
