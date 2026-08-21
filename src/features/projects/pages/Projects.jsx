@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const projects = [
   {
@@ -7,6 +8,7 @@ const projects = [
     level: "Beginner",
     duration: "6 Hours",
     tech: ["Arduino", "Ultrasonic", "Embedded C"],
+    path: "/projects/obstacle-avoiding-robot",
   },
   {
     title: "Line Following Robot",
@@ -14,6 +16,7 @@ const projects = [
     level: "Beginner",
     duration: "5 Hours",
     tech: ["Arduino", "IR Sensor", "Embedded C"],
+    path: "/projects/line-following-robot",
   },
   {
     title: "IoT Smart Monitoring",
@@ -21,6 +24,7 @@ const projects = [
     level: "Intermediate",
     duration: "8 Hours",
     tech: ["ESP32", "MQTT", "Firebase"],
+    path: "/projects/iot-smart-monitoring",
   },
   {
     title: "Smart Home Automation",
@@ -28,6 +32,7 @@ const projects = [
     level: "Intermediate",
     duration: "10 Hours",
     tech: ["ESP32", "Relay", "WiFi"],
+    path: "/projects/smart-home-automation",
   },
   {
     title: "Drone Technology",
@@ -35,6 +40,7 @@ const projects = [
     level: "Advanced",
     duration: "20 Hours",
     tech: ["Flight Controller", "GPS", "Telemetry"],
+    path: "/projects/arduino-drone",
   },
   {
     title: "AI Face Recognition Robot",
@@ -42,6 +48,7 @@ const projects = [
     level: "Advanced",
     duration: "15 Hours",
     tech: ["Python", "OpenCV", "AI"],
+    path: "/projects/face-recognition-robot",
   },
   {
     title: "Humanoid Robot",
@@ -49,6 +56,7 @@ const projects = [
     level: "Advanced",
     duration: "30 Hours",
     tech: ["Servo", "Arduino Mega", "AI"],
+    path: "/projects/humanoid-robot",
   },
   {
     title: "Robotic Arm Automation",
@@ -56,6 +64,7 @@ const projects = [
     level: "Intermediate",
     duration: "12 Hours",
     tech: ["Servo", "Automation", "Arduino"],
+    path: "/projects/robotic-arm-automation",
   },
   {
     title: "Smart Agriculture System",
@@ -63,6 +72,7 @@ const projects = [
     level: "Advanced",
     duration: "18 Hours",
     tech: ["ESP32", "IoT", "Sensors"],
+    path: "/projects/smart-agriculture",
   },
 ];
 
@@ -135,9 +145,13 @@ export default function Projects() {
 
                 </div>
 
-                <button className="mt-6 w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700">
+                <Link
+                  to={project.path}
+                  className="mt-6 block w-full rounded-xl bg-blue-600 py-3 text-center font-semibold text-white transition hover:bg-blue-700"
+                  aria-label={`View ${project.title}`}
+                >
                   View Project
-                </button>
+                </Link>
 
               </div>
 
