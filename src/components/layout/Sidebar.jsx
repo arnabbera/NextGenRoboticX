@@ -5,6 +5,7 @@ import {
   ChevronRight,
   Cpu,
   GraduationCap,
+  FolderKanban,
   LayoutDashboard,
   UserRound,
 } from "lucide-react";
@@ -15,6 +16,7 @@ const menuItems = [
   { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
   { name: "Available Courses", path: "/courses/available", icon: BookOpen },
   { name: "Enrolled Courses", path: "/courses/enrolled", icon: GraduationCap },
+  { name: "Projects", path: "/projects", icon: FolderKanban },
   { name: "Certificates", path: "/certificates", icon: Award },
   { name: "Student Profile", path: "/profile", icon: UserRound },
 ];
