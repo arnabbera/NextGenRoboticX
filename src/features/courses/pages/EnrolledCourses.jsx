@@ -34,7 +34,7 @@ export default function EnrolledCourses() {
 
   const enrolled = courses
     .filter((course) => courseIds.includes(course.id))
-    .map((course) => ({ ...course, progress: course.progress || 0 }));
+    .map((course) => ({ ...course, enrolled: true, progress: course.progress || 0 }));
 
   if (loading) {
     return <div className="flex min-h-64 items-center justify-center gap-3 text-slate-600"><LoaderCircle className="animate-spin" /> Loading your courses...</div>;
