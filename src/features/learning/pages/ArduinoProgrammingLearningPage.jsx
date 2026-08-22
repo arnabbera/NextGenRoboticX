@@ -1,66 +1,91 @@
-import { BookOpen, CheckCircle2, Clock, Trophy } from "lucide-react";
+import { BookOpen, CheckCircle2, ChevronLeft, ChevronRight, PlayCircle } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
 import { courseContent } from "../../courses/data/courseContent";
-import ChapterPdfCard from "../components/ChapterPdfCard";
+import ChapterSidebar from "../components/ChapterSidebar";
 import ChapterVideoManager from "../components/ChapterVideoManager";
+import LessonHeader from "../components/LessonHeader";
 
 const chapters = courseContent["arduino-programming"]?.chapters || [];
 
 export default function ArduinoProgrammingLearningPage() {
-  return (
-    <div className="min-h-screen bg-slate-100 pb-12">
-      <header className="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 text-white shadow-lg">
-        <div className="mx-auto max-w-7xl px-6 py-8">
-          <p className="font-semibold text-blue-100">Enrolled course</p>
-          <h1 className="mt-2 text-4xl font-bold">Arduino Programming</h1>
-          <p className="mt-3 max-w-3xl text-lg leading-8 text-blue-100">
-            Work through all ten chapters in order. Video lessons and PDF study material appear inside each chapter as they are published.
-          </p>
-          <div className="mt-7 grid gap-4 sm:grid-cols-3">
-            <CourseStat icon={BookOpen} label="Curriculum" value="10 Chapters" />
-            <CourseStat icon={Clock} label="Duration" value="2 Months" />
-            <CourseStat icon={Trophy} label="Certificate" value="Included" />
-          </div>
-        </div>
-      </header>
+  const { chapterNumber } = useParams();
+  const requestedChapter = Number(chapterNumber || 1);
+  const chapter = chapters.find((item) => item.id === requestedChapter) || chapters[0];
+  const previous = chapters.find((item) => item.id === chapter.id - 1);
+  const next = chapters.find((item) => item.id === chapter.id + 1);
 
-      <main className="mx-auto max-w-7xl px-6 py-8">
-        <div className="space-y-6">
-          {chapters.map((chapter) => (
-            <article key={chapter.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-              <div className="p-6 md:p-8">
-                <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
-                  <div className="flex gap-4">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-600 text-lg font-bold text-white">
-                      {chapter.id}
-                    </span>
-                    <div>
-                      <p className="text-sm font-semibold uppercase tracking-wide text-blue-600">Chapter {chapter.id}</p>
-                      <h2 className="mt-1 text-2xl font-bold text-slate-900">{chapter.title}</h2>
-                      <p className="mt-2 flex items-center gap-2 text-slate-600"><Clock size={17} /> {chapter.duration}</p>
-                    </div>
-                  </div>
-                  <span className="inline-flex w-fit items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700">
-                    <CheckCircle2 size={17} /> Chapter quiz included
-                  </span>
+  return (
+    <div className="min-h-screen bg-slate-100">
+      <LessonHeader chapter={chapter.id} lesson={1} chapterTitle={chapter.title} />
+
+      <div className="mx-auto max-w-7xl p-6">
+        <div className="grid grid-cols-12 gap-6">
+          <aside className="col-span-12 lg:col-span-3">
+            <ChapterSidebar currentChapter={chapter.id} />
+          </aside>
+
+          <main className="col-span-12 space-y-6 lg:col-span-9">
+            <section className="rounded-3xl bg-white p-6 shadow-lg">
+              <div className="mb-6 flex items-center gap-3">
+                <PlayCircle className="text-blue-600" size={28} />
+                <div>
+                  <h2 className="text-2xl font-bold">{chapter.title}</h2>
+                  <p className="text-slate-500">Chapter {chapter.id} • {chapter.duration} • Video lesson and study material</p>
                 </div>
-                <ChapterVideoManager chapter={chapter.id} />
               </div>
-              <div className="border-t border-slate-100 pb-6">
-                <ChapterPdfCard chapter={chapter.id} />
+              <div className="flex aspect-video items-center justify-center rounded-2xl bg-gradient-to-br from-slate-900 via-teal-950 to-blue-950 p-8 text-center text-white">
+                <div>
+                  <PlayCircle className="mx-auto text-cyan-300" size={64} />
+                  <h3 className="mt-5 text-2xl font-bold">Video lesson coming soon</h3>
+                  <p className="mt-3 text-cyan-100">The administrator can add the YouTube lesson for this chapter below.</p>
+                </div>
+              </div>
+              <ChapterVideoManager chapter={chapter.id} />
+            </section>
+
+            <article className="rounded-3xl bg-white p-6 shadow-lg md:p-8">
+              <p className="font-semibold uppercase tracking-wider text-blue-700">Chapter {chapter.id}</p>
+              <h2 className="mt-2 text-3xl font-bold text-slate-900">{chapter.title}</h2>
+              <p className="mt-4 leading-8 text-slate-600">
+                This chapter is part of the Arduino Programming curriculum. Follow the video lesson, review the downloadable PDF study material, practise the concepts on an Arduino board, and complete the chapter quiz.
+              </p>
+              <div className="mt-7 grid gap-4 md:grid-cols-2">
+                <LessonFeature icon={BookOpen} title="Study material" text="Chapter PDF is available here after the administrator uploads it." />
+                <LessonFeature icon={CheckCircle2} title="Chapter quiz" text="A knowledge check is included for this chapter with an 80% pass target." />
               </div>
             </article>
-          ))}
+
+            <nav className="flex flex-col justify-between gap-4 sm:flex-row">
+              {previous ? (
+                <Link to={chapterPath(previous.id)} className="inline-flex items-center gap-2 rounded-xl border bg-white px-5 py-3 font-semibold hover:bg-slate-50">
+                  <ChevronLeft size={18} /> Chapter {previous.id}: {previous.title}
+                </Link>
+              ) : <span />}
+              {next && (
+                <Link to={chapterPath(next.id)} className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700">
+                  Chapter {next.id}: {next.title} <ChevronRight size={18} />
+                </Link>
+              )}
+            </nav>
+          </main>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
 
-function CourseStat({ icon: Icon, label, value }) {
+function chapterPath(id) {
+  return id === 1
+    ? "/courses/arduino-programming/learn"
+    : `/courses/arduino-programming/learn/chapter-${id}`;
+}
+
+function LessonFeature({ icon: Icon, title, text }) {
   return (
-    <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
-      <div className="flex items-center gap-2 text-sm text-blue-100"><Icon size={18} /> {label}</div>
-      <p className="mt-2 text-xl font-bold">{value}</p>
+    <div className="rounded-2xl border border-slate-200 p-5">
+      <Icon className="text-blue-600" size={26} />
+      <h3 className="mt-3 text-lg font-bold text-slate-900">{title}</h3>
+      <p className="mt-2 text-slate-600">{text}</p>
     </div>
   );
 }
