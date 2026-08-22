@@ -872,6 +872,20 @@ async function handleCourseChapterPdf(request, env, courseId, chapterId) {
   }});
 }
 
+async function handleCourseChapterResource(request, env, courseId, chapterId) {
+  const user = await verifyFirebaseToken(request);
+  const chapter = validateCourseChapter(courseId, chapterId);
+  const admin = ADMIN_EMAILS.has(String(user.email || "").toLowerCase());
+  if (!admin) {
+    const entitlement = await getCourseEntitlement(env, user.uid, courseId);
+    if (entitlement?.active !== true) {
+      return json({ error: "Course enrollment is required to view lesson resources." }, 403);
+    }
+  }
+  const resources = await getCourseChapterResources(env, courseId);
+  return json({ courseId, chapter, resource: resources[chapter] || null });
+}
+
 async function getProjectMetadata(env, slug) {
   const kv = requireKv(env);
   return (await kv.get(`project-content:${slug}`, "json")) || {
@@ -1020,6 +1034,11 @@ async function handleApi(request, env, url) {
   const coursePdfMatch = url.pathname.match(/^\/api\/courses\/([^/]+)\/chapters\/(\d+)\/pdf$/);
   if (request.method === "GET" && coursePdfMatch) {
     return handleCourseChapterPdf(request, env, coursePdfMatch[1], coursePdfMatch[2]);
+  }
+
+  const courseResourceMatch = url.pathname.match(/^\/api\/courses\/([^/]+)\/chapters\/(\d+)\/resource$/);
+  if (request.method === "GET" && courseResourceMatch) {
+    return handleCourseChapterResource(request, env, courseResourceMatch[1], courseResourceMatch[2]);
   }
 
   const metadataMatch = url.pathname.match(
