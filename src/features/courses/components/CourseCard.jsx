@@ -152,7 +152,7 @@ export default function CourseCard({ course }) {
             ? "Coming Soon"
             : enrolled || progress > 0
             ? "Continue Learning"
-            : "View Course · ₹99 Access"}
+            : "Enroll for ₹99"}
 
           {!isComingSoon && <ArrowRight size={18} />}
         </button>
