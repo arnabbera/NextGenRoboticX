@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import LessonHeader from "../components/LessonHeader";
+import ChapterVideoManager from "../components/ChapterVideoManager";
 import ChapterSidebar from "../components/ChapterSidebar";
 
 const questions = [
@@ -166,6 +167,7 @@ export default function ArduinoBasicsChapterPage() {
                   <p className="mt-3 text-cyan-100">Use the guided notes and Blink program below to complete this chapter.</p>
                 </div>
               </div>
+              <ChapterVideoManager chapter={2} />
             </section>
 
             <article className="space-y-8 rounded-3xl bg-white p-6 shadow-lg md:p-8">
