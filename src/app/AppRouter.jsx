@@ -13,7 +13,7 @@ import CourseDetails from "../features/courses/pages/CourseDetails";
 import CourseAccessRoute from "../features/courses/components/CourseAccessRoute";
 import RoboticsTestPage from "../features/assessment/pages/RoboticsTestPage";
 import LearningPage from "../features/learning/pages/LearningPage";
-import ArduinoProgrammingLearningPage from "../features/learning/pages/ArduinoProgrammingLearningPage";
+import CourseLearningPage from "../features/learning/pages/CourseLearningPage";
 import ArduinoBasicsChapterPage from "../features/learning/pages/ArduinoBasicsChapterPage";
 import SensorsActuatorsChapterPage from "../features/learning/pages/SensorsActuatorsChapterPage";
 import L298NMotorDriverChapterPage from "../features/learning/pages/L298NMotorDriverChapterPage";
@@ -74,7 +74,8 @@ export default function AppRouter() {
             <Route path="/courses/:courseId" element={<CourseDetails />} />
             <Route element={<CourseAccessRoute />}>
               <Route path="/courses/robotics-foundation/learn" element={<LearningPage />} />
-              <Route path="/courses/arduino-programming/learn" element={<ArduinoProgrammingLearningPage />} />
+              <Route path="/courses/:courseId/learn" element={<CourseLearningPage />} />
+              <Route path="/courses/:courseId/learn/chapter-:chapterNumber" element={<CourseLearningPage />} />
             <Route path="/courses/robotics-foundation/mock-test" element={<RoboticsTestPage />} />
             <Route path="/courses/robotics-foundation/assessment" element={<RoboticsTestPage />} />
             <Route path="/courses/robotics-foundation/learn/chapter-2" element={<ArduinoBasicsChapterPage />} />

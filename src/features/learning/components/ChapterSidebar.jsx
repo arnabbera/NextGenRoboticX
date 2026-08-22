@@ -1,20 +1,11 @@
 import { Circle, PlayCircle } from "lucide-react";
-import { Link } from "react-router-dom";
-
-const chapters = [
-  { id: 1, title: "Introduction to Robotics", path: "/courses/robotics-foundation/learn" },
-  { id: 2, title: "Arduino Basics", path: "/courses/robotics-foundation/learn/chapter-2" },
-  { id: 3, title: "Sensors & Actuators", path: "/courses/robotics-foundation/learn/chapter-3" },
-  { id: 4, title: "Motor Driver (L298N)", path: "/courses/robotics-foundation/learn/chapter-4" },
-  { id: 5, title: "Bluetooth Robot", path: "/courses/robotics-foundation/learn/chapter-5" },
-  { id: 6, title: "Obstacle Avoiding Robot", path: "/courses/robotics-foundation/learn/chapter-6" },
-  { id: 7, title: "Line Following Robot", path: "/courses/robotics-foundation/learn/chapter-7" },
-  { id: 8, title: "Voice Controlled Robot", path: "/courses/robotics-foundation/learn/chapter-8" },
-  { id: 9, title: "AI Robot Integration", path: "/courses/robotics-foundation/learn/chapter-9" },
-  { id: 10, title: "Final Project", path: "/courses/robotics-foundation/learn/chapter-10" },
-];
+import { Link, useParams } from "react-router-dom";
+import { courseContent } from "../../courses/data/courseContent";
 
 export default function ChapterSidebar({ currentChapter = 1 }) {
+  const { courseId = "robotics-foundation" } = useParams();
+  const chapters = courseContent[courseId]?.chapters || [];
+
   return (
     <div className="rounded-3xl bg-white shadow-lg">
       <div className="border-b p-5">
@@ -23,9 +14,12 @@ export default function ChapterSidebar({ currentChapter = 1 }) {
 
       <div>
         {chapters.map((chapter) => {
+          const path = chapter.id === 1
+            ? `/courses/${courseId}/learn`
+            : `/courses/${courseId}/learn/chapter-${chapter.id}`;
           const current = chapter.id === currentChapter;
           const classes = `flex w-full items-center gap-3 border-b p-4 text-left transition ${
-            current ? "bg-blue-50" : chapter.path ? "hover:bg-slate-50" : "cursor-not-allowed opacity-60"
+            current ? "bg-blue-50" : "hover:bg-slate-50"
           }`;
           const content = (
             <>
@@ -41,14 +35,10 @@ export default function ChapterSidebar({ currentChapter = 1 }) {
             </>
           );
 
-          return chapter.path ? (
-            <Link key={chapter.id} to={chapter.path} className={classes} aria-current={current ? "page" : undefined}>
+          return (
+            <Link key={chapter.id} to={path} className={classes} aria-current={current ? "page" : undefined}>
               {content}
             </Link>
-          ) : (
-            <div key={chapter.id} className={classes} aria-disabled="true">
-              {content}
-            </div>
           );
         })}
       </div>
