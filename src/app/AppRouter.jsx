@@ -100,6 +100,8 @@ export default function AppRouter() {
           }
         >
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/all-courses" element={<Courses />} />
+          <Route path="/admin/all-projects" element={<Projects />} />
           <Route path="/admin/courses" element={<CourseManagement />} />
           <Route path="/admin/courses/new" element={<CourseEditor />} />
           <Route path="/admin/courses/:courseId/edit" element={<CourseEditor />} />
