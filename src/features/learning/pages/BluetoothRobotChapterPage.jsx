@@ -17,6 +17,7 @@ import {
 import { Link } from "react-router-dom";
 import LessonHeader from "../components/LessonHeader";
 import ChapterSidebar from "../components/ChapterSidebar";
+import ChapterVideoManager from "../components/ChapterVideoManager";
 
 const questions = [
   { question: "Which module is commonly used for Bluetooth serial control with Arduino?", options: ["HC-05", "LDR", "HC-SR04", "L298N only"], answer: 0 },
@@ -242,6 +243,7 @@ export default function BluetoothRobotChapterPage() {
                   <p className="mt-3 text-cyan-100">Send simple commands from a phone to Arduino through Bluetooth serial communication.</p>
                 </div>
               </div>
+              <ChapterVideoManager chapter={5} />
             </section>
 
             <article className="space-y-8 rounded-3xl bg-white p-6 shadow-lg md:p-8">
