@@ -20,6 +20,7 @@ import {
 import { Link } from "react-router-dom";
 import LessonHeader from "../components/LessonHeader";
 import ChapterSidebar from "../components/ChapterSidebar";
+import ChapterVideoManager from "../components/ChapterVideoManager";
 
 const questions = [
   { question: "What is the main purpose of the final project?", options: ["Integrate course skills into a tested robot system", "Use the maximum number of components", "Avoid documentation", "Replace safety checks"], answer: 0 },
@@ -336,6 +337,7 @@ export default function FinalProjectChapterPage() {
                   <p className="mt-3 text-emerald-100">Combine manual Bluetooth control and autonomous obstacle avoidance in one documented robot.</p>
                 </div>
               </div>
+              <ChapterVideoManager chapter={10} />
             </section>
 
             <article className="space-y-8 rounded-3xl bg-white p-6 shadow-lg md:p-8">
