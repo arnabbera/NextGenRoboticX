@@ -5,18 +5,40 @@ import CourseEnrollment from "../components/CourseEnrollment";
 import { isAdministrator } from "../../../components/auth/AdminRoute";
 import { useAuth } from "../../../context/AuthContext";
 
-const ROBOTICS_CHAPTERS = [
-  "Introduction to Robotics",
-  "Arduino Basics",
-  "Sensors & Actuators",
-  "Motor Driver (L298N)",
-  "Bluetooth Robot",
-  "Obstacle Avoiding Robot",
-  "Line Following Robot",
-  "Voice Controlled Robot",
-  "AI Robot Integration",
-  "Final Project: Multi-Mode Mobile Robot",
-];
+const COURSE_OVERVIEWS = {
+  "robotics-foundation": {
+    heading: "Robotics Foundation Course Summary",
+    summary: "Learn the fundamentals of robotics, electronics, Arduino, sensors, actuators, motor control, robot design, and intelligent robotic systems through structured lessons and hands-on projects.",
+    chapters: [
+      "Introduction to Robotics",
+      "Arduino Basics",
+      "Sensors & Actuators",
+      "Motor Driver (L298N)",
+      "Bluetooth Robot",
+      "Obstacle Avoiding Robot",
+      "Line Following Robot",
+      "Voice Controlled Robot",
+      "AI Robot Integration",
+      "Final Project: Multi-Mode Mobile Robot",
+    ],
+  },
+  "arduino-programming": {
+    heading: "Arduino Programming Course Summary",
+    summary: "Learn Arduino programming from board setup and Embedded C fundamentals through digital and analogue interfacing, PWM, interrupts, communication protocols, sensors, actuators, and a complete smart automation project.",
+    chapters: [
+      "Introduction to Arduino and the Arduino IDE",
+      "Arduino Board Architecture and Development Setup",
+      "Embedded C Programming Fundamentals",
+      "Digital Input, Output and Push-Button Control",
+      "Analogue Input, ADC and Sensor Reading",
+      "PWM, LED Brightness and Motor Speed Control",
+      "Timers, Interrupts and Switch Debouncing",
+      "Serial, I2C and SPI Communication",
+      "Interfacing Sensors, Displays and Actuators",
+      "Final Project: Smart Arduino Automation System",
+    ],
+  },
+};
 
 export default function CourseDetails() {
   const { courseId } = useParams();
@@ -24,6 +46,7 @@ export default function CourseDetails() {
   const [enrolled, setEnrolled] = useState(false);
 
   const course = courses.find((c) => c.id === courseId);
+  const overview = COURSE_OVERVIEWS[courseId];
 
   if (!course) {
     return (
@@ -113,19 +136,19 @@ export default function CourseDetails() {
 
       </div>
 
-      {course.id === "robotics-foundation" && (
+      {overview && (
         <section className="mt-10 space-y-8 rounded-3xl bg-white p-7 shadow-xl md:p-10" aria-labelledby="robotics-course-overview">
           <div className="max-w-4xl">
             <span className="inline-flex rounded-full bg-blue-100 px-4 py-2 font-semibold text-blue-700">Review before enrollment</span>
-            <h2 id="robotics-course-overview" className="mt-5 text-3xl font-bold text-slate-900 md:text-4xl">Robotics Foundation Course Summary</h2>
-            <p className="mt-4 text-lg leading-8 text-slate-600">Learn the fundamentals of robotics, electronics, Arduino, sensors, actuators, motor control, robot design, and intelligent robotic systems through structured lessons and hands-on projects.</p>
+            <h2 id="robotics-course-overview" className="mt-5 text-3xl font-bold text-slate-900 md:text-4xl">{overview.heading}</h2>
+            <p className="mt-4 text-lg leading-8 text-slate-600">{overview.summary}</p>
           </div>
 
           <div>
             <h3 className="text-2xl font-bold text-slate-900">Complete 10-Chapter Curriculum</h3>
             <p className="mt-2 text-slate-600">Every chapter includes structured learning notes, a chapter quiz, and downloadable PDF study material after enrollment.</p>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
-              {ROBOTICS_CHAPTERS.map((title, index) => (
+              {overview.chapters.map((title, index) => (
                 <article key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
                   <div className="flex items-start gap-4">
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-600 font-bold text-white">{index + 1}</span>
