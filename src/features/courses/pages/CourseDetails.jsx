@@ -5,6 +5,19 @@ import CourseEnrollment from "../components/CourseEnrollment";
 import { isAdministrator } from "../../../components/auth/AdminRoute";
 import { useAuth } from "../../../context/AuthContext";
 
+const ROBOTICS_CHAPTERS = [
+  "Introduction to Robotics",
+  "Arduino Basics",
+  "Sensors & Actuators",
+  "Motor Driver (L298N)",
+  "Bluetooth Robot",
+  "Obstacle Avoiding Robot",
+  "Line Following Robot",
+  "Voice Controlled Robot",
+  "AI Robot Integration",
+  "Final Project: Multi-Mode Mobile Robot",
+];
+
 export default function CourseDetails() {
   const { courseId } = useParams();
   const { user, profile } = useAuth();
@@ -84,36 +97,6 @@ export default function CourseDetails() {
 
             </div>
 
-            <CourseEnrollment course={course} onStatusChange={setEnrolled} />
-
-            {enrolled && (
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link
-                  to={`/courses/${course.id}/learn`}
-                  className="inline-flex rounded-xl bg-white px-6 py-4 font-semibold text-blue-700 transition hover:scale-105 hover:shadow-xl"
-                >
-                  🚀 Start Learning
-                </Link>
-
-                {course.id === "robotics-foundation" && (
-                  <>
-                    <Link
-                      to="/courses/robotics-foundation/mock-test"
-                      className="inline-flex rounded-xl border border-white/40 bg-white/15 px-6 py-4 font-semibold text-white transition hover:bg-white/25"
-                    >
-                      📝 Mock Test
-                    </Link>
-                    <Link
-                      to="/courses/robotics-foundation/assessment"
-                      className="inline-flex rounded-xl bg-emerald-500 px-6 py-4 font-semibold text-white transition hover:bg-emerald-400"
-                    >
-                      🎓 Assessment
-                    </Link>
-                  </>
-                )}
-              </div>
-            )}
-
           </div>
 
           <div>
@@ -129,6 +112,65 @@ export default function CourseDetails() {
         </div>
 
       </div>
+
+      {course.id === "robotics-foundation" && (
+        <section className="mt-10 space-y-8 rounded-3xl bg-white p-7 shadow-xl md:p-10" aria-labelledby="robotics-course-overview">
+          <div className="max-w-4xl">
+            <span className="inline-flex rounded-full bg-blue-100 px-4 py-2 font-semibold text-blue-700">Review before enrollment</span>
+            <h2 id="robotics-course-overview" className="mt-5 text-3xl font-bold text-slate-900 md:text-4xl">Robotics Foundation Course Summary</h2>
+            <p className="mt-4 text-lg leading-8 text-slate-600">Learn the fundamentals of robotics, electronics, Arduino, sensors, actuators, motor control, robot design, and intelligent robotic systems through structured lessons and hands-on projects.</p>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-bold text-slate-900">Complete 10-Chapter Curriculum</h3>
+            <p className="mt-2 text-slate-600">Every chapter includes structured learning notes, a chapter quiz, and downloadable PDF study material after enrollment.</p>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {ROBOTICS_CHAPTERS.map((title, index) => (
+                <article key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                  <div className="flex items-start gap-4">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-600 font-bold text-white">{index + 1}</span>
+                    <div>
+                      <h4 className="font-bold text-slate-900">{title}</h4>
+                      <p className="mt-2 text-sm text-slate-600">✓ Chapter quiz &nbsp; • &nbsp; ✓ PDF study material</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-bold text-slate-900">Tests, Assessment and Certificate</h3>
+            <div className="mt-6 grid gap-5 lg:grid-cols-3">
+              <SummaryCard title="Chapter Quizzes" value="10 quizzes" text="Each chapter includes a knowledge quiz to check understanding before moving forward." />
+              <SummaryCard title="Mock Test" value="50 questions • 100 marks" text="Each question carries 2 marks. Use the mock test to prepare for the final assessment." />
+              <SummaryCard title="Final Assessment" value="50 questions • 100 marks" text="Score at least 80 marks (80%) to pass and receive the course certificate." />
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6">
+            <h3 className="text-xl font-bold text-emerald-900">Certificate requirement</h3>
+            <p className="mt-2 leading-7 text-emerald-800">Complete the course and obtain at least 80 out of 100 marks in the final assessment. After passing, the certificate will be generated and added to your Certificates section.</p>
+          </div>
+        </section>
+      )}
+
+      <section className="mt-10 overflow-hidden rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 p-7 text-white shadow-xl md:p-10">
+        <h2 className="text-3xl font-bold">Ready to begin?</h2>
+        <p className="mt-3 max-w-3xl text-lg leading-8 text-blue-100">Review the complete course structure above, then enroll for a one-time fee of ₹99. Access is permanently linked to your signed-in Gmail account.</p>
+        <CourseEnrollment course={course} onStatusChange={setEnrolled} />
+        {enrolled && (
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link to={`/courses/${course.id}/learn`} className="inline-flex rounded-xl bg-white px-6 py-4 font-semibold text-blue-700 transition hover:scale-105 hover:shadow-xl">🚀 Start Learning</Link>
+            {course.id === "robotics-foundation" && (
+              <>
+                <Link to="/courses/robotics-foundation/mock-test" className="inline-flex rounded-xl border border-white/40 bg-white/15 px-6 py-4 font-semibold text-white transition hover:bg-white/25">📝 Mock Test</Link>
+                <Link to="/courses/robotics-foundation/assessment" className="inline-flex rounded-xl bg-emerald-500 px-6 py-4 font-semibold text-white transition hover:bg-emerald-400">🎓 Assessment</Link>
+              </>
+            )}
+          </div>
+        )}
+      </section>
 
       {/* Statistics */}
 
@@ -283,5 +325,15 @@ function Info({ label, value }) {
       </div>
 
     </div>
+  );
+}
+
+function SummaryCard({ title, value, text }) {
+  return (
+    <article className="rounded-2xl border border-slate-200 p-6">
+      <h4 className="font-bold text-blue-700">{title}</h4>
+      <p className="mt-3 text-xl font-bold text-slate-900">{value}</p>
+      <p className="mt-3 leading-7 text-slate-600">{text}</p>
+    </article>
   );
 }
