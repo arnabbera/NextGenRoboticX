@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FileText, Image as ImageIcon, LoaderCircle } from "lucide-react";
+import { FileText, LoaderCircle } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
 export default function ProjectResources() {
@@ -43,7 +43,7 @@ export default function ProjectResources() {
     );
   }
 
-  if (!metadata?.summary && !metadata?.diagramUrl && !metadata?.pdfUrl) {
+  if (!metadata?.summary && !metadata?.pdfUrl) {
     return null;
   }
 
@@ -61,24 +61,6 @@ export default function ProjectResources() {
         )}
 
         <div className="mt-8 grid gap-8">
-          {metadata.diagramUrl && (
-            <article className="rounded-3xl bg-white p-6 shadow">
-              <div className="flex items-center gap-3">
-                <ImageIcon className="text-blue-700" />
-                <h3 className="text-2xl font-bold">Connection Diagram</h3>
-              </div>
-              <div className="mt-5 overflow-hidden rounded-2xl border bg-slate-50 p-3">
-                <img
-                  src={metadata.diagramUrl}
-                  alt={`${metadata.title || slug} connection diagram`}
-                  draggable="false"
-                  className="mx-auto max-h-[900px] w-auto max-w-full object-contain"
-                />
-              </div>
-              <p className="mt-3 text-sm text-slate-500">View-only learning resource. Download access may be offered separately later.</p>
-            </article>
-          )}
-
           {metadata.pdfUrl && (
             <article className="rounded-3xl bg-white p-6 shadow">
               <div className="flex items-center gap-3">

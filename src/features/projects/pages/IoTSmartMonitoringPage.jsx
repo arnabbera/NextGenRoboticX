@@ -14,6 +14,7 @@ import {
 import { Link } from "react-router-dom";
 import Footer from "../../../components/home/Footer";
 import ProjectShare from "../components/ProjectShare";
+import ConnectionDiagramManager from "../components/ConnectionDiagramManager";
 
 const components = [
   ["ESP32 development board", "1", "Reads sensors and connects to Wi-Fi"],
@@ -383,6 +384,8 @@ export default function IoTSmartMonitoringPage() {
             </div>
           </div>
         </section>
+
+        <ConnectionDiagramManager />
 
         <section className="bg-slate-950 py-16 text-white sm:py-20">
           <div className="mx-auto max-w-5xl px-5 sm:px-6">
