@@ -18,6 +18,7 @@ import {
 import { Link } from "react-router-dom";
 import LessonHeader from "../components/LessonHeader";
 import ChapterSidebar from "../components/ChapterSidebar";
+import ChapterVideoManager from "../components/ChapterVideoManager";
 
 const questions = [
   { question: "What is the main purpose of a sensor in a robot?", options: ["Create movement", "Measure a physical condition", "Store mechanical energy", "Replace the controller"], answer: 1 },
@@ -172,6 +173,7 @@ export default function SensorsActuatorsChapterPage() {
                   <p className="mt-3 text-emerald-100">Learn how robots observe their environment and safely produce movement.</p>
                 </div>
               </div>
+              <ChapterVideoManager chapter={3} />
             </section>
 
             <article className="space-y-8 rounded-3xl bg-white p-6 shadow-lg md:p-8">
