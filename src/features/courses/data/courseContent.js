@@ -50,7 +50,7 @@ In this lesson you will learn:
       {
         id: 2,
 
-        title: "Basic Electronics",
+        title: "Arduino Basics",
 
         duration: "35 min",
 
@@ -84,7 +84,7 @@ Topics include:
       {
         id: 3,
 
-        title: "Arduino Programming",
+        title: "Sensors & Actuators",
 
         duration: "45 min",
 
@@ -116,7 +116,7 @@ Understanding loop()
       {
         id: 4,
 
-        title: "Sensors",
+        title: "Motor Driver (L298N)",
 
         duration: "40 min",
 
@@ -138,7 +138,7 @@ Understanding loop()
       {
         id: 5,
 
-        title: "Motors & Drivers",
+        title: "Bluetooth Robot",
 
         duration: "45 min",
 
@@ -204,7 +204,7 @@ Understanding loop()
       {
         id: 8,
 
-        title: "Final Robotics Project",
+        title: "Voice Controlled Robot",
 
         duration: "90 min",
 
@@ -220,6 +220,32 @@ Understanding loop()
 
         resources: [],
 
+        code: [],
+      },
+
+      {
+        id: 9,
+        title: "AI Robot Integration",
+        duration: "75 min",
+        video: "",
+        pdf: "",
+        notes: "",
+        quiz: true,
+        project: true,
+        resources: [],
+        code: [],
+      },
+
+      {
+        id: 10,
+        title: "Final Project: Multi-Mode Mobile Robot",
+        duration: "90 min",
+        video: "",
+        pdf: "",
+        notes: "",
+        quiz: true,
+        project: true,
+        resources: [],
         code: [],
       },
     ],
