@@ -1,5 +1,6 @@
 import { BookOpen, Clock, Trophy } from "lucide-react";
 import { useParams } from "react-router-dom";
+import ChapterPdfCard from "./ChapterPdfCard";
 
 export default function LessonHeader({ chapter = 1, lesson = 1, chapterTitle = "Introduction to Robotics" }) {
   const { courseId } = useParams();
@@ -14,6 +15,7 @@ export default function LessonHeader({ chapter = 1, lesson = 1, chapterTitle = "
   const duration = "2 Months";
 
   return (
+    <>
     <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 text-white shadow-lg">
 
       <div className="mx-auto max-w-7xl px-6 py-6">
@@ -95,5 +97,7 @@ export default function LessonHeader({ chapter = 1, lesson = 1, chapterTitle = "
       </div>
 
     </div>
+    <ChapterPdfCard chapter={chapter} />
+    </>
   );
 }

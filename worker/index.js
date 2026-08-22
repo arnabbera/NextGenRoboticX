@@ -807,6 +807,85 @@ function validateProjectSlug(slug) {
   }
 }
 
+function validateCourseChapter(courseId, chapterId) {
+  if (!COURSE_IDS.has(courseId)) throw new Error("Invalid course.");
+  const chapter = Number(chapterId);
+  if (!Number.isInteger(chapter) || chapter < 1 || chapter > 20) {
+    throw new Error("Invalid chapter.");
+  }
+  return chapter;
+}
+
+async function getCourseChapterResources(env, courseId) {
+  const kv = requireKv(env);
+  return (await kv.get(`course-chapter-resources:${courseId}`, "json")) || {};
+}
+
+async function handleAdminCourseChapters(request, env, courseId) {
+  const user = await verifyFirebaseToken(request);
+  requireAdmin(user);
+  if (!COURSE_IDS.has(courseId)) throw new Error("Invalid course.");
+  return json({ courseId, resources: await getCourseChapterResources(env, courseId) });
+}
+
+async function handleAdminCoursePdfUpload(request, env, courseId, chapterId) {
+  const user = await verifyFirebaseToken(request);
+  requireAdmin(user);
+  const chapter = validateCourseChapter(courseId, chapterId);
+  const contentType = request.headers.get("content-type") || "";
+  if (contentType !== "application/pdf") return json({ error: "Chapter resource must be a PDF file." }, 400);
+  const bytes = await request.arrayBuffer();
+  if (!bytes.byteLength || bytes.byteLength > 10 * 1024 * 1024) {
+    return json({ error: "PDF size must be between 1 byte and 10 MB." }, 413);
+  }
+  const fileName = (request.headers.get("x-file-name") || `chapter-${chapter}.pdf`)
+    .replaceAll('"', "").slice(0, 180);
+  const kv = requireKv(env);
+  await kv.put(`course-chapter-pdf:${courseId}:${chapter}`, bytes);
+  const resources = await getCourseChapterResources(env, courseId);
+  const resource = { fileName, contentType, size: bytes.byteLength, updatedAt: new Date().toISOString(), updatedBy: user.email };
+  resources[chapter] = resource;
+  await kv.put(`course-chapter-resources:${courseId}`, JSON.stringify(resources));
+  return json({ ok: true, resource });
+}
+
+async function handleCourseChapterPdf(request, env, courseId, chapterId) {
+  const user = await verifyFirebaseToken(request);
+  const chapter = validateCourseChapter(courseId, chapterId);
+  const admin = ADMIN_EMAILS.has(String(user.email || "").toLowerCase());
+  if (!admin) {
+    const entitlement = await getCourseEntitlement(env, user.uid, courseId);
+    if (entitlement?.active !== true) {
+      return json({ error: "Course enrollment is required to view this PDF." }, 403);
+    }
+  }
+  const resources = await getCourseChapterResources(env, courseId);
+  const resource = resources[chapter];
+  if (!resource) return json({ error: "Chapter PDF not found." }, 404);
+  const value = await requireKv(env).get(`course-chapter-pdf:${courseId}:${chapter}`, "arrayBuffer");
+  if (!value) return json({ error: "Chapter PDF not found." }, 404);
+  return new Response(value, { headers: {
+    "content-type": "application/pdf",
+    "content-disposition": `inline; filename="${resource.fileName}"`,
+    "cache-control": "private, max-age=300",
+    "x-content-type-options": "nosniff",
+  }});
+}
+
+async function handleCourseChapterResource(request, env, courseId, chapterId) {
+  const user = await verifyFirebaseToken(request);
+  const chapter = validateCourseChapter(courseId, chapterId);
+  const admin = ADMIN_EMAILS.has(String(user.email || "").toLowerCase());
+  if (!admin) {
+    const entitlement = await getCourseEntitlement(env, user.uid, courseId);
+    if (entitlement?.active !== true) {
+      return json({ error: "Course enrollment is required to view lesson resources." }, 403);
+    }
+  }
+  const resources = await getCourseChapterResources(env, courseId);
+  return json({ courseId, chapter, resource: resources[chapter] || null });
+}
+
 async function getProjectMetadata(env, slug) {
   const kv = requireKv(env);
   return (await kv.get(`project-content:${slug}`, "json")) || {
@@ -942,6 +1021,26 @@ async function handleAdminProjectUpload(request, env, slug, kind) {
 }
 
 async function handleApi(request, env, url) {
+  const adminCourseChaptersMatch = url.pathname.match(/^\/api\/admin\/courses\/([^/]+)\/chapters$/);
+  if (request.method === "GET" && adminCourseChaptersMatch) {
+    return handleAdminCourseChapters(request, env, adminCourseChaptersMatch[1]);
+  }
+
+  const adminCoursePdfMatch = url.pathname.match(/^\/api\/admin\/courses\/([^/]+)\/chapters\/(\d+)\/pdf$/);
+  if (request.method === "PUT" && adminCoursePdfMatch) {
+    return handleAdminCoursePdfUpload(request, env, adminCoursePdfMatch[1], adminCoursePdfMatch[2]);
+  }
+
+  const coursePdfMatch = url.pathname.match(/^\/api\/courses\/([^/]+)\/chapters\/(\d+)\/pdf$/);
+  if (request.method === "GET" && coursePdfMatch) {
+    return handleCourseChapterPdf(request, env, coursePdfMatch[1], coursePdfMatch[2]);
+  }
+
+  const courseResourceMatch = url.pathname.match(/^\/api\/courses\/([^/]+)\/chapters\/(\d+)\/resource$/);
+  if (request.method === "GET" && courseResourceMatch) {
+    return handleCourseChapterResource(request, env, courseResourceMatch[1], courseResourceMatch[2]);
+  }
+
   const metadataMatch = url.pathname.match(
     /^\/api\/projects\/([^/]+)\/resources$/
   );
