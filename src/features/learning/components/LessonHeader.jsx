@@ -9,7 +9,9 @@ export default function LessonHeader({ chapter = 1, lesson = 1, chapterTitle = "
   const courseTitle =
     courseId === "robotics-foundation"
       ? "Robotics Foundation"
-      : "Course";
+      : courseId === "arduino-programming"
+        ? "Arduino Programming"
+        : "Course";
 
   const progress = 0;
   const duration = "2 Months";
