@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import courses from "../data/courses";
 import CourseEnrollment from "../components/CourseEnrollment";
+import { isAdministrator } from "../../../components/auth/AdminRoute";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function CourseDetails() {
   const { courseId } = useParams();
+  const { user, profile } = useAuth();
   const [enrolled, setEnrolled] = useState(false);
 
   const course = courses.find((c) => c.id === courseId);
@@ -26,6 +29,18 @@ export default function CourseDetails() {
         >
           Back to Courses
         </Link>
+      </div>
+    );
+  }
+
+  if (course.status === "Coming Soon" && !isAdministrator(user, profile)) {
+    return (
+      <div className="mx-auto mt-12 max-w-2xl rounded-3xl bg-white p-10 text-center shadow-xl">
+        <img src={course.image} alt={course.title} className="mx-auto h-56 w-full max-w-lg rounded-2xl object-cover opacity-70" />
+        <span className="mt-7 inline-flex rounded-full bg-orange-100 px-4 py-2 font-semibold text-orange-700">Coming Soon</span>
+        <h1 className="mt-5 text-4xl font-bold text-slate-900">{course.title}</h1>
+        <p className="mt-4 text-lg text-slate-600">This course is currently being prepared and cannot be viewed or enrolled in yet.</p>
+        <Link to="/courses" className="mt-8 inline-flex rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700">Back to Courses</Link>
       </div>
     );
   }
