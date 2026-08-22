@@ -17,6 +17,7 @@ import {
 import { Link } from "react-router-dom";
 import LessonHeader from "../components/LessonHeader";
 import ChapterSidebar from "../components/ChapterSidebar";
+import ChapterVideoManager from "../components/ChapterVideoManager";
 
 const questions = [
   { question: "What is the main purpose of an L298N module?", options: ["Measure distance", "Drive DC motors in both directions", "Store Arduino code", "Regulate sensor light"], answer: 1 },
@@ -216,6 +217,7 @@ export default function L298NMotorDriverChapterPage() {
                   <p className="mt-3 text-orange-100">Use H-bridges, external power and PWM to move a robot with control.</p>
                 </div>
               </div>
+              <ChapterVideoManager chapter={4} />
             </section>
 
             <article className="space-y-8 rounded-3xl bg-white p-6 shadow-lg md:p-8">
