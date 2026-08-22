@@ -17,11 +17,6 @@ const COURSE_IDS = new Set([
 const PURCHASABLE_COURSE_IDS = new Set([
   "robotics-foundation",
   "arduino-programming",
-  "raspberry-pi",
-  "internet-of-things",
-  "embedded-systems",
-  "pcb-design-hardware-development",
-  "sensors-and-actuators",
 ]);
 const COURSE_TITLES = {
   "robotics-foundation": "Robotics Foundation",

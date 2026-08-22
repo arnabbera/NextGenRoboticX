@@ -33,7 +33,7 @@ const courses = [
     chapters: 10,
     students: 0,
     progress: 0,
-    status: "Coming Soon",
+    status: "Available",
     certificate: true,
     image: `${BASE}images/courses/arduino.jpg`,
     description:
