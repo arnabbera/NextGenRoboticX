@@ -19,6 +19,7 @@ import {
 import { Link } from "react-router-dom";
 import LessonHeader from "../components/LessonHeader";
 import ChapterSidebar from "../components/ChapterSidebar";
+import ChapterVideoManager from "../components/ChapterVideoManager";
 
 const questions = [
   { question: "How does a common IR line sensor distinguish a dark line from a light surface?", options: ["By reflected infrared light", "By ultrasonic echo", "By Bluetooth strength", "By motor current"], answer: 0 },
@@ -239,6 +240,7 @@ export default function LineFollowingRobotChapterPage() {
                   <p className="mt-3 text-cyan-100">Detect contrast, calculate direction error and correct the robot continuously.</p>
                 </div>
               </div>
+              <ChapterVideoManager chapter={7} />
             </section>
 
             <article className="space-y-8 rounded-3xl bg-white p-6 shadow-lg md:p-8">

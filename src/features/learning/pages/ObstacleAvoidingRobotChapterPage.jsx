@@ -18,6 +18,7 @@ import {
 import { Link } from "react-router-dom";
 import LessonHeader from "../components/LessonHeader";
 import ChapterSidebar from "../components/ChapterSidebar";
+import ChapterVideoManager from "../components/ChapterVideoManager";
 
 const questions = [
   { question: "What does the HC-SR04 sensor measure?", options: ["Motor current", "Distance using ultrasonic sound", "Bluetooth signal strength", "Wheel colour"], answer: 1 },
@@ -280,6 +281,7 @@ export default function ObstacleAvoidingRobotChapterPage() {
                   <p className="mt-3 text-emerald-100">Build an autonomous robot that detects obstacles and selects a clearer path.</p>
                 </div>
               </div>
+              <ChapterVideoManager chapter={6} />
             </section>
 
             <article className="space-y-8 rounded-3xl bg-white p-6 shadow-lg md:p-8">

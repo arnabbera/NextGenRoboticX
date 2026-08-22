@@ -18,6 +18,7 @@ import {
 import { Link } from "react-router-dom";
 import LessonHeader from "../components/LessonHeader";
 import ChapterSidebar from "../components/ChapterSidebar";
+import ChapterVideoManager from "../components/ChapterVideoManager";
 
 const questions = [
   { question: "Where is speech normally converted into a command in this project?", options: ["On the smartphone app", "Inside the L298N", "Inside the DC motor", "On the HC-05 antenna"], answer: 0 },
@@ -272,6 +273,7 @@ export default function VoiceControlledRobotChapterPage() {
                   <p className="mt-3 text-fuchsia-100">Recognise speech on a phone, transmit a command and control the robot safely.</p>
                 </div>
               </div>
+              <ChapterVideoManager chapter={8} />
             </section>
 
             <article className="space-y-8 rounded-3xl bg-white p-6 shadow-lg md:p-8">

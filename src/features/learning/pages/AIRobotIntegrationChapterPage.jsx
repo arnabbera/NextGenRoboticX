@@ -19,6 +19,7 @@ import {
 import { Link } from "react-router-dom";
 import LessonHeader from "../components/LessonHeader";
 import ChapterSidebar from "../components/ChapterSidebar";
+import ChapterVideoManager from "../components/ChapterVideoManager";
 
 const questions = [
   { question: "How does machine learning differ from a fixed rule-based program?", options: ["It learns patterns from examples", "It removes all sensors", "It guarantees perfect decisions", "It needs no data"], answer: 0 },
@@ -232,6 +233,7 @@ export default function AIRobotIntegrationChapterPage() {
                   <p className="mt-3 text-cyan-100">Turn model predictions into restricted, testable and fail-safe motor commands.</p>
                 </div>
               </div>
+              <ChapterVideoManager chapter={9} />
             </section>
 
             <article className="space-y-8 rounded-3xl bg-white p-6 shadow-lg md:p-8">

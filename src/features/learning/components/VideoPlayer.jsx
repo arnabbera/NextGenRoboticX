@@ -1,4 +1,5 @@
 import { PlayCircle } from "lucide-react";
+import ChapterVideoManager from "./ChapterVideoManager";
 
 export default function VideoPlayer() {
   return (
@@ -24,6 +25,7 @@ export default function VideoPlayer() {
           </p>
         </div>
       </div>
+      <ChapterVideoManager chapter={1} />
     </section>
   );
 }
