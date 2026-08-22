@@ -1,4 +1,4 @@
-import { PlayCircle } from "lucide-react";
+import { FolderKanban, PlayCircle } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -23,13 +23,16 @@ export default function Hero() {
             industry-oriented certification.
           </p>
 
-          <a
-            href="#courses"
-            className="mt-10 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-7 py-4 font-semibold text-white transition hover:bg-blue-700"
-          >
-            <PlayCircle size={21} />
-            Explore Courses
-          </a>
+          <div className="mt-10 flex flex-wrap gap-4">
+            <a href="#courses" className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-7 py-4 font-semibold text-white transition hover:bg-blue-700">
+              <PlayCircle size={21} />
+              Explore Courses
+            </a>
+            <a href="#projects" className="inline-flex items-center gap-2 rounded-xl border border-blue-300/60 bg-white/10 px-7 py-4 font-semibold text-white backdrop-blur transition hover:bg-white/20">
+              <FolderKanban size={21} />
+              Explore Projects
+            </a>
+          </div>
         </div>
 
         <div className="flex flex-1 justify-center">
