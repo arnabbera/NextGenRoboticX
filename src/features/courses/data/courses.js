@@ -33,7 +33,7 @@ const courses = [
     chapters: 10,
     students: 0,
     progress: 0,
-    status: "Available",
+    status: "Coming Soon",
     certificate: true,
     image: `${BASE}images/courses/arduino.jpg`,
     description:
@@ -56,7 +56,7 @@ const courses = [
     chapters: 8,
     students: 0,
     progress: 0,
-    status: "Available",
+    status: "Coming Soon",
     certificate: true,
     image: `${BASE}images/courses/raspberrypi.jpg`,
     description:
@@ -79,7 +79,7 @@ const courses = [
     chapters: 12,
     students: 0,
     progress: 0,
-    status: "Available",
+    status: "Coming Soon",
     certificate: true,
     image: `${BASE}images/courses/iot.jpg`,
     description:
@@ -102,7 +102,7 @@ const courses = [
     chapters: 12,
     students: 0,
     progress: 0,
-    status: "Available",
+    status: "Coming Soon",
     certificate: true,
     image: `${BASE}images/courses/embedded.jpg`,
     description:
@@ -125,7 +125,7 @@ const courses = [
     chapters: 10,
     students: 0,
     progress: 0,
-    status: "Available",
+    status: "Coming Soon",
     certificate: true,
     image: `${BASE}images/courses/pcb.jpg`,
     description:
@@ -194,7 +194,7 @@ const courses = [
     chapters: 6,
     students: 0,
     progress: 0,
-    status: "Available",
+    status: "Coming Soon",
     certificate: true,
     image: `${BASE}images/courses/sensors.jpg`,
     description:

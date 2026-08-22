@@ -22,6 +22,7 @@ export default function FeaturedCourses() {
 
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {featuredCourses.map((course) => {
+            const available = course.status === "Available";
             const coursePath = `/courses/${course.id}`;
             const destination = user
               ? coursePath
@@ -68,12 +69,15 @@ export default function FeaturedCourses() {
                     <span>⏳ {course.duration}</span>
                   </div>
 
-                  <Link
-                    to={destination}
-                    className="mt-8 block rounded-xl bg-blue-600 py-3 text-center font-semibold text-white transition hover:bg-blue-700"
-                  >
-                    {course.status === "Available" ? "View Course · ₹99 Access" : "Coming Soon"}
-                  </Link>
+                  {available ? (
+                    <Link to={destination} className="mt-8 block rounded-xl bg-blue-600 py-3 text-center font-semibold text-white transition hover:bg-blue-700">
+                      Enroll for ₹99
+                    </Link>
+                  ) : (
+                    <button type="button" disabled className="mt-8 block w-full cursor-not-allowed rounded-xl bg-slate-300 py-3 text-center font-semibold text-slate-600">
+                      Coming Soon
+                    </button>
+                  )}
                 </div>
               </div>
             );
