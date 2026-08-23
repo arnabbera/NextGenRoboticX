@@ -57,6 +57,33 @@ const COURSE_OVERVIEWS = {
   },
 };
 
+const COURSE_LEARNING_DETAILS = {
+  "robotics-foundation": [
+    { title: "Robotics systems and design thinking", text: "Understand how sensing, control, actuation, mechanics and power work together, then translate a problem into a safe robot design." },
+    { title: "Essential electronics and Arduino", text: "Read basic circuits, select suitable components, use GPIO safely and write structured Arduino programs for robotic applications." },
+    { title: "Sensors and real-world measurement", text: "Interface ultrasonic, infrared and other sensors; validate readings, calibrate thresholds and handle noisy or missing data." },
+    { title: "Motors, drivers and motion control", text: "Control DC motors through an L298N H-bridge, apply PWM speed control and implement forward, reverse and differential steering." },
+    { title: "Autonomous and connected robots", text: "Build obstacle-avoiding, line-following, Bluetooth and voice-controlled behaviours using staged integration and safe fallback logic." },
+    { title: "AI integration and final robot project", text: "Understand practical AI inference, evaluate limitations and combine course skills into a documented multi-mode mobile robot." },
+  ],
+  "arduino-programming": [
+    { title: "Arduino architecture and development workflow", text: "Select the correct board and port, use the Arduino IDE, understand sketch structure and diagnose common compile or upload failures." },
+    { title: "Embedded C programming foundations", text: "Use variables, data types, operators, conditions, loops, functions, arrays and reusable program structure confidently." },
+    { title: "Digital and analogue interfacing", text: "Read buttons and sensors, control LEDs and outputs, use pull-up resistors, debounce switches and interpret ADC measurements." },
+    { title: "PWM, timers and interrupts", text: "Control brightness and motor speed, design non-blocking timing with millis() and apply interrupts only where fast event handling is justified." },
+    { title: "Device communication protocols", text: "Exchange data through Serial/UART, I2C and SPI while applying correct wiring, addressing, voltage and shared-ground practices." },
+    { title: "Sensors, actuators and smart automation", text: "Integrate displays, motors and environmental sensors into a tested final automation system with safe outputs and clear documentation." },
+  ],
+  "raspberry-pi": [
+    { title: "Raspberry Pi hardware and safe setup", text: "Choose suitable hardware, install Raspberry Pi OS, protect 3.3 V GPIO and connect peripherals using verified power and wiring practices." },
+    { title: "Linux administration and remote development", text: "Navigate the filesystem, manage packages, users and permissions, use SSH securely and operate a Pi without a dedicated monitor." },
+    { title: "Python application development", text: "Write modular Python programs with functions, collections, files, exceptions, virtual environments, logging and reliable cleanup." },
+    { title: "GPIO, sensors and actuators", text: "Control LEDs, buttons and PWM, interface common buses and devices, validate sensor data and drive higher-current loads safely." },
+    { title: "Networking and secure IoT communication", text: "Publish structured telemetry with MQTT or web APIs using TLS, protected credentials, validation, reconnect backoff and offline-safe behaviour." },
+    { title: "Computer vision and production capstone", text: "Capture and process camera images with Picamera2 and OpenCV, then deliver a tested, secured and documented smart IoT system." },
+  ],
+};
+
 export default function CourseDetails() {
   const { courseId } = useParams();
   const { user, profile } = useAuth();
@@ -64,6 +91,10 @@ export default function CourseDetails() {
 
   const course = courses.find((c) => c.id === courseId);
   const overview = COURSE_OVERVIEWS[courseId];
+  const learningDetails = COURSE_LEARNING_DETAILS[courseId] || course?.learningOutcomes?.map((title) => ({
+    title,
+    text: "Develop practical understanding through structured lessons, guided exercises, applied examples and course projects.",
+  })) || [];
 
   if (!course) {
     return (
@@ -254,54 +285,35 @@ export default function CourseDetails() {
 
       <div className="mt-10 rounded-2xl bg-white p-8 shadow">
 
-        <h2 className="mb-6 text-3xl font-bold">
+        <h2 className="text-3xl font-bold">
           What You'll Learn
         </h2>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <p className="mt-3 max-w-4xl leading-7 text-slate-600">
+          By the end of this course, you will be able to apply the following knowledge and practical skills in guided exercises, chapter projects and the final assessment.
+        </p>
 
-          {course.learningOutcomes.map((item, index) => (
+        <div className="mt-7 grid gap-5 md:grid-cols-2">
+
+          {learningDetails.map((item, index) => (
 
             <div
-              key={index}
-              className="flex items-start gap-3 rounded-xl border p-4"
+              key={item.title}
+              className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-5"
             >
 
-              <div className="text-xl text-green-600">
-                ✔
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100 font-bold text-emerald-700">
+                {index + 1}
               </div>
 
-              <div>{item}</div>
+              <div>
+                <h3 className="font-bold text-slate-900">{item.title}</h3>
+                <p className="mt-2 leading-7 text-slate-600">{item.text}</p>
+              </div>
 
             </div>
 
           ))}
-
-        </div>
-
-      </div>
-
-      {/* Course Information */}
-
-      <div className="mt-10 rounded-2xl bg-white p-8 shadow">
-
-        <h2 className="mb-6 text-3xl font-bold">
-          Course Information
-        </h2>
-
-        <div className="grid gap-6 md:grid-cols-2">
-
-          <Info label="Category" value={course.category} />
-
-          <Info label="Level" value={course.level} />
-
-          <Info label="Duration" value={course.duration} />
-
-          <Info label="Chapters" value={course.chapters} />
-
-          <Info label="Students Enrolled" value={course.students} />
-
-          <Info label="Status" value={course.status} />
 
         </div>
 
@@ -367,22 +379,6 @@ function StatCard({ title, value }) {
 
       <div className="mt-2 text-slate-500">
         {title}
-      </div>
-
-    </div>
-  );
-}
-
-function Info({ label, value }) {
-  return (
-    <div className="rounded-xl border p-5">
-
-      <div className="text-sm text-slate-500">
-        {label}
-      </div>
-
-      <div className="mt-2 text-lg font-semibold">
-        {value}
       </div>
 
     </div>
