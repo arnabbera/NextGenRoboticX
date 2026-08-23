@@ -562,6 +562,13 @@ const CERTIFICATION_CONFIG = {
       assessment2: Array.from({ length: 50 }, (_, index) => (4 - ((index + 2) % 4)) % 4),
     },
   },
+  "raspberry-pi": {
+    title: "Raspberry Pi Development", prefix: "RP",
+    answerKeys: {
+      assessment1: Array.from({ length: 50 }, (_, index) => (4 - ((index + 1) % 4)) % 4),
+      assessment2: Array.from({ length: 50 }, (_, index) => (4 - ((index + 2) % 4)) % 4),
+    },
+  },
 };
 
 function certificationKey(courseId, uid) {
