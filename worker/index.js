@@ -545,38 +545,49 @@ async function handleCourseVerify(request, env) {
   });
 }
 
-const CERTIFICATION_COURSE = "robotics-foundation";
 const ASSESSMENT_DURATION_MS = 30 * 60 * 1000;
 const REASSESSMENT_WINDOW_MS = 15 * 24 * 60 * 60 * 1000;
-const ASSESSMENT_ANSWER_KEYS = {
-  assessment1: [1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2],
-  assessment2: [2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3],
+const CERTIFICATION_CONFIG = {
+  "robotics-foundation": {
+    title: "Robotics Foundation", prefix: "RF",
+    answerKeys: {
+      assessment1: [1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2],
+      assessment2: [2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3],
+    },
+  },
+  "arduino-programming": {
+    title: "Arduino Programming", prefix: "AP",
+    answerKeys: {
+      assessment1: Array.from({ length: 50 }, (_, index) => (4 - ((index + 1) % 4)) % 4),
+      assessment2: Array.from({ length: 50 }, (_, index) => (4 - ((index + 2) % 4)) % 4),
+    },
+  },
 };
 
-function certificationKey(uid) {
-  return `certification:${CERTIFICATION_COURSE}:${uid}`;
+function certificationKey(courseId, uid) {
+  return `certification:${courseId}:${uid}`;
 }
 
-async function getCertificationState(env, uid) {
+async function getCertificationState(env, courseId, uid) {
   const kv = requireKv(env);
-  return (await kv.get(certificationKey(uid), "json")) || {
-    courseId: CERTIFICATION_COURSE,
+  return (await kv.get(certificationKey(courseId, uid), "json")) || {
+    courseId,
   };
 }
 
-async function saveCertificationState(env, uid, state) {
+async function saveCertificationState(env, courseId, uid, state) {
   const kv = requireKv(env);
-  await kv.put(certificationKey(uid), JSON.stringify(state));
+  await kv.put(certificationKey(courseId, uid), JSON.stringify(state));
 }
 
-function publicCertificationState(state) {
+function publicCertificationState(courseId, state) {
   const now = Date.now();
   const deadline = state.reassessmentDeadline
     ? new Date(state.reassessmentDeadline).getTime()
     : 0;
 
   return {
-    courseId: CERTIFICATION_COURSE,
+    courseId,
     assessment1: state.assessment1 || null,
     assessment2: state.assessment2 || null,
     reassessmentDeadline: state.reassessmentDeadline || null,
@@ -589,7 +600,7 @@ function publicCertificationState(state) {
   };
 }
 
-async function expireStartedAssessment(env, uid, state, type) {
+async function expireStartedAssessment(env, courseId, uid, state, type) {
   const attempt = state[type];
   if (!attempt?.startedAt || attempt.submittedAt) return false;
 
@@ -614,21 +625,21 @@ async function expireStartedAssessment(env, uid, state, type) {
     ).toISOString();
   }
 
-  await saveCertificationState(env, uid, state);
+  await saveCertificationState(env, courseId, uid, state);
   return true;
 }
 
-async function handleCertificationStatus(request, env) {
+async function handleCertificationStatus(request, env, courseId) {
   const user = await verifyFirebaseToken(request);
-  const state = await getCertificationState(env, user.uid);
+  const state = await getCertificationState(env, courseId, user.uid);
 
-  await expireStartedAssessment(env, user.uid, state, "assessment1");
-  await expireStartedAssessment(env, user.uid, state, "assessment2");
+  await expireStartedAssessment(env, courseId, user.uid, state, "assessment1");
+  await expireStartedAssessment(env, courseId, user.uid, state, "assessment2");
 
-  return json(publicCertificationState(state));
+  return json(publicCertificationState(courseId, state));
 }
 
-async function handleCertificationStart(request, env) {
+async function handleCertificationStart(request, env, courseId) {
   const user = await verifyFirebaseToken(request);
   const body = await readJson(request);
   const type = body.type;
@@ -637,9 +648,9 @@ async function handleCertificationStart(request, env) {
     return json({ error: "Invalid assessment type." }, 400);
   }
 
-  const state = await getCertificationState(env, user.uid);
-  await expireStartedAssessment(env, user.uid, state, "assessment1");
-  await expireStartedAssessment(env, user.uid, state, "assessment2");
+  const state = await getCertificationState(env, courseId, user.uid);
+  await expireStartedAssessment(env, courseId, user.uid, state, "assessment1");
+  await expireStartedAssessment(env, courseId, user.uid, state, "assessment2");
 
   if (state.certificate) {
     return json({ error: "Certification assessment is already passed." }, 409);
@@ -671,7 +682,7 @@ async function handleCertificationStart(request, env) {
       startedAt: new Date().toISOString(),
       submittedAt: null,
     };
-    await saveCertificationState(env, user.uid, state);
+    await saveCertificationState(env, courseId, user.uid, state);
   }
 
   const startedAt = state[type].startedAt;
@@ -684,7 +695,7 @@ async function handleCertificationStart(request, env) {
   });
 }
 
-async function handleCertificationSubmit(request, env) {
+async function handleCertificationSubmit(request, env, courseId) {
   const user = await verifyFirebaseToken(request);
   const body = await readJson(request);
   const type = body.type;
@@ -702,7 +713,7 @@ async function handleCertificationSubmit(request, env) {
     return json({ error: "Invalid assessment submission." }, 400);
   }
 
-  const state = await getCertificationState(env, user.uid);
+  const state = await getCertificationState(env, courseId, user.uid);
   const attempt = state[type];
 
   if (!attempt?.startedAt || attempt.submittedAt) {
@@ -721,7 +732,8 @@ async function handleCertificationSubmit(request, env) {
   const timedOut =
     Date.now() - new Date(attempt.startedAt).getTime() >
     ASSESSMENT_DURATION_MS + 5000;
-  const key = ASSESSMENT_ANSWER_KEYS[type];
+  const config = CERTIFICATION_CONFIG[courseId];
+  const key = config.answerKeys[type];
   const correct = timedOut
     ? 0
     : answers.reduce(
@@ -743,11 +755,11 @@ async function handleCertificationSubmit(request, env) {
 
   if (passed) {
     state.certificate = {
-      id: `NGRX-RF-${user.uid.slice(0, 8).toUpperCase()}-${Date.now()
+      id: `NGRX-${config.prefix}-${user.uid.slice(0, 8).toUpperCase()}-${Date.now()
         .toString(36)
         .toUpperCase()}`,
-      courseId: CERTIFICATION_COURSE,
-      courseTitle: "Robotics Foundation",
+      courseId,
+      courseTitle: config.title,
       studentName: user.name || user.email || "NextGenRoboticX Student",
       studentEmail: user.email,
       score,
@@ -760,7 +772,7 @@ async function handleCertificationSubmit(request, env) {
     ).toISOString();
   }
 
-  await saveCertificationState(env, user.uid, state);
+  await saveCertificationState(env, courseId, user.uid, state);
 
   return json({
     type,
@@ -1139,25 +1151,24 @@ async function handleApi(request, env, url) {
     });
   }
 
-  if (
-    request.method === "GET" &&
-    url.pathname === "/api/certification/robotics-foundation/status"
-  ) {
-    return handleCertificationStatus(request, env);
-  }
-
-  if (
-    request.method === "POST" &&
-    url.pathname === "/api/certification/robotics-foundation/start"
-  ) {
-    return handleCertificationStart(request, env);
-  }
-
-  if (
-    request.method === "POST" &&
-    url.pathname === "/api/certification/robotics-foundation/submit"
-  ) {
-    return handleCertificationSubmit(request, env);
+  const certificationMatch = url.pathname.match(
+    /^\/api\/certification\/([^/]+)\/(status|start|submit)$/
+  );
+  if (certificationMatch) {
+    const [, courseId, action] = certificationMatch;
+    if (!CERTIFICATION_CONFIG[courseId]) {
+      return json({ error: "Certification is not available for this course." }, 404);
+    }
+    if (request.method === "GET" && action === "status") {
+      return handleCertificationStatus(request, env, courseId);
+    }
+    if (request.method === "POST" && action === "start") {
+      return handleCertificationStart(request, env, courseId);
+    }
+    if (request.method === "POST" && action === "submit") {
+      return handleCertificationSubmit(request, env, courseId);
+    }
+    return json({ error: "Method not allowed." }, 405);
   }
 
   if (request.method === "GET" && url.pathname === "/api/project-pass/status") {
