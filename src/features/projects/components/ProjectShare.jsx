@@ -15,13 +15,20 @@ const InstagramIcon = ({ size = 20 }) => (
   </svg>
 );
 
-export default function ProjectShare({ title, description }) {
+export default function ProjectShare({ title, description, contentType = "project" }) {
   const [copied, setCopied] = useState(false);
+  const isCourse = contentType === "course";
+  const shareHeading = isCourse ? "Share this course" : "Share this project";
+  const sharePrompt = isCourse
+    ? "Help other learners discover this robotics and technology course."
+    : "Help other robotics learners discover this beginner-friendly guide.";
 
   const getUrl = () => window.location.href.split("#")[0];
   const encodedUrl = () => encodeURIComponent(getUrl());
   const encodedText = () =>
-    encodeURIComponent(description || `Learn how to build ${title} with NextGenRoboticX.`);
+    encodeURIComponent(description || (isCourse
+      ? `Explore the ${title} course from NextGenRoboticX.`
+      : `Learn how to build ${title} with NextGenRoboticX.`));
 
   const copyLink = async () => {
     await navigator.clipboard.writeText(getUrl());
@@ -66,13 +73,13 @@ export default function ProjectShare({ title, description }) {
   ];
 
   return (
-    <section aria-labelledby="share-project-title" className="border-y border-slate-200 bg-slate-50 py-12">
+    <section aria-labelledby="share-content-title" className="border-y border-slate-200 bg-slate-50 py-12">
       <div className="mx-auto max-w-5xl px-5 text-center sm:px-6">
-        <h2 id="share-project-title" className="text-2xl font-bold text-slate-900 sm:text-3xl">
-          Share this project
+        <h2 id="share-content-title" className="text-2xl font-bold text-slate-900 sm:text-3xl">
+          {shareHeading}
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-slate-600">
-          Help other robotics learners discover this beginner-friendly guide.
+          {sharePrompt}
         </p>
 
         <div className="mt-7 flex flex-wrap justify-center gap-3">
@@ -120,7 +127,7 @@ export default function ProjectShare({ title, description }) {
         </div>
 
         <p className="mt-4 text-xs leading-5 text-slate-500">
-          Instagram does not provide direct web link sharing. On mobile, the Instagram button opens your device share menu; on desktop, it copies the project link before opening Instagram.
+          Instagram does not provide direct web link sharing. On mobile, the Instagram button opens your device share menu; on desktop, it copies the {contentType} link before opening Instagram.
         </p>
       </div>
     </section>
