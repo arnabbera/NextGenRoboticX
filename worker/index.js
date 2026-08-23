@@ -1212,6 +1212,14 @@ export default {
         return await handleApi(request, env, url);
       }
 
+      if (
+        request.method === "GET" &&
+        /^\/courses\/[^/]+\/$/.test(url.pathname)
+      ) {
+        url.pathname = url.pathname.replace(/\/$/, "");
+        return Response.redirect(url.toString(), 301);
+      }
+
       return env.ASSETS.fetch(request);
     } catch (error) {
       console.error("Request failed", url.pathname, error.message);
