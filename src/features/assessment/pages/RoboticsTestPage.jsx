@@ -19,10 +19,12 @@ import {
   roboticsQuestionBanks,
 } from "../data/roboticsQuestionBanks";
 import { arduinoQuestionBanks } from "../data/arduinoQuestionBanks";
+import { raspberryPiQuestionBanks } from "../data/raspberryPiQuestionBanks";
 
 const assessmentCourses = {
   "robotics-foundation": { title: "Robotics Foundation", banks: roboticsQuestionBanks },
   "arduino-programming": { title: "Arduino Programming", banks: arduinoQuestionBanks },
+  "raspberry-pi": { title: "Raspberry Pi Development", banks: raspberryPiQuestionBanks },
 };
 
 function formatTime(seconds) {

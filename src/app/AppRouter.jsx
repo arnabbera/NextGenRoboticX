@@ -80,6 +80,8 @@ export default function AppRouter() {
             <Route path="/courses/robotics-foundation/assessment" element={<RoboticsTestPage />} />
             <Route path="/courses/arduino-programming/mock-test" element={<RoboticsTestPage />} />
             <Route path="/courses/arduino-programming/assessment" element={<RoboticsTestPage />} />
+            <Route path="/courses/raspberry-pi/mock-test" element={<RoboticsTestPage />} />
+            <Route path="/courses/raspberry-pi/assessment" element={<RoboticsTestPage />} />
             <Route path="/courses/robotics-foundation/learn/chapter-2" element={<ArduinoBasicsChapterPage />} />
             <Route path="/courses/robotics-foundation/learn/chapter-3" element={<SensorsActuatorsChapterPage />} />
             <Route path="/courses/robotics-foundation/learn/chapter-4" element={<L298NMotorDriverChapterPage />} />
