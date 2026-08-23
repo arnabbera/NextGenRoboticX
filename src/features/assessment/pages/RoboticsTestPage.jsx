@@ -9,7 +9,7 @@ import {
   Trophy,
   XCircle,
 } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import {
   MARKS_PER_QUESTION,
@@ -18,6 +18,12 @@ import {
   TOTAL_QUESTIONS,
   roboticsQuestionBanks,
 } from "../data/roboticsQuestionBanks";
+import { arduinoQuestionBanks } from "../data/arduinoQuestionBanks";
+
+const assessmentCourses = {
+  "robotics-foundation": { title: "Robotics Foundation", banks: roboticsQuestionBanks },
+  "arduino-programming": { title: "Arduino Programming", banks: arduinoQuestionBanks },
+};
 
 function formatTime(seconds) {
   const safe = Math.max(0, seconds);
@@ -26,6 +32,8 @@ function formatTime(seconds) {
 
 export default function RoboticsTestPage() {
   const { user } = useAuth();
+  const { courseId = "robotics-foundation" } = useParams();
+  const course = assessmentCourses[courseId] || assessmentCourses["robotics-foundation"];
   const { pathname } = useLocation();
   const isMock = pathname.endsWith("/mock-test");
   const [status, setStatus] = useState(null);
@@ -44,7 +52,7 @@ export default function RoboticsTestPage() {
     setBusy(true);
     try {
       const token = await getToken();
-      const response = await fetch("/api/certification/robotics-foundation/status", {
+      const response = await fetch(`/api/certification/${courseId}/status`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -55,13 +63,13 @@ export default function RoboticsTestPage() {
     } finally {
       setBusy(false);
     }
-  }, [getToken, isMock]);
+  }, [courseId, getToken, isMock]);
 
   useEffect(() => {
     loadStatus();
   }, [loadStatus]);
 
-  const questions = roboticsQuestionBanks[testType] || [];
+  const questions = course.banks[testType] || [];
 
   const startTest = async (type) => {
     setError("");
@@ -77,7 +85,7 @@ export default function RoboticsTestPage() {
     setBusy(true);
     try {
       const token = await getToken();
-      const response = await fetch("/api/certification/robotics-foundation/start", {
+      const response = await fetch(`/api/certification/${courseId}/start`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -110,9 +118,8 @@ export default function RoboticsTestPage() {
 
     try {
       if (testType === "mock") {
-        const key = Array.from({ length: TOTAL_QUESTIONS }, (_, index) => index % 4);
         const correct = submittedAnswers.reduce(
-          (total, answer, index) => total + (answer === key[index] ? 1 : 0),
+          (total, answer, index) => total + (answer === questions[index]?.answer || (courseId === "robotics-foundation" && answer === index % 4) ? 1 : 0),
           0
         );
         setResult({
@@ -124,7 +131,7 @@ export default function RoboticsTestPage() {
         });
       } else {
         const token = await getToken();
-        const response = await fetch("/api/certification/robotics-foundation/submit", {
+        const response = await fetch(`/api/certification/${courseId}/submit`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -143,7 +150,7 @@ export default function RoboticsTestPage() {
     } finally {
       setBusy(false);
     }
-  }, [answers, busy, getToken, loadStatus, startedAt, testType]);
+  }, [answers, busy, courseId, getToken, loadStatus, questions, startedAt, testType]);
 
   useEffect(() => {
     if (!startedAt) return undefined;
@@ -174,7 +181,7 @@ export default function RoboticsTestPage() {
     return (
       <div className="mx-auto max-w-5xl px-6 py-10">
         <div className="rounded-3xl bg-gradient-to-r from-blue-700 to-indigo-800 p-8 text-white shadow-xl">
-          <h1 className="text-3xl font-bold">{isMock ? "Robotics Foundation Mock Test" : "Robotics Foundation Assessment"}</h1>
+          <h1 className="text-3xl font-bold">{isMock ? `${course.title} Mock Test` : `${course.title} Assessment`}</h1>
           <p className="mt-3 text-blue-100">50 questions • 2 marks each • 100 marks • 30 minutes • Pass mark: 80%</p>
         </div>
 
@@ -237,7 +244,7 @@ export default function RoboticsTestPage() {
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             {isMock && <button onClick={() => { setResult(null); setAnswers({}); }} className="inline-flex items-center gap-2 rounded-xl border bg-white px-5 py-3 font-semibold"><RotateCcw size={18} /> Try Again</button>}
             {!isMock && result.certificate && <Link to="/certificates" className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-5 py-3 font-semibold text-white"><FileCheck2 size={18} /> View Certificate</Link>}
-            <Link to="/courses/robotics-foundation" className="rounded-xl bg-slate-900 px-5 py-3 font-semibold text-white">Course Overview</Link>
+            <Link to={`/courses/${courseId}`} className="rounded-xl bg-slate-900 px-5 py-3 font-semibold text-white">Course Overview</Link>
           </div>
         </div>
       </div>
