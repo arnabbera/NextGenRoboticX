@@ -17,6 +17,7 @@ const COURSE_IDS = new Set([
 const PURCHASABLE_COURSE_IDS = new Set([
   "robotics-foundation",
   "arduino-programming",
+  "raspberry-pi",
 ]);
 const COURSE_TITLES = {
   "robotics-foundation": "Robotics Foundation",

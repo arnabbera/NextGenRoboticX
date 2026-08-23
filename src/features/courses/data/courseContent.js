@@ -267,7 +267,18 @@ Understanding loop()
   },
 
   "raspberry-pi": {
-    chapters: [],
+    chapters: [
+      { id: 1, title: "Introduction to Raspberry Pi and Single-Board Computers", duration: "40 min", video: "", pdf: "", notes: "", quiz: true, project: false, resources: [], code: [] },
+      { id: 2, title: "Raspberry Pi Hardware, GPIO and Safe Setup", duration: "45 min", video: "", pdf: "", notes: "", quiz: true, project: false, resources: [], code: [] },
+      { id: 3, title: "Installing Raspberry Pi OS and Linux Essentials", duration: "55 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 4, title: "Python Programming on Raspberry Pi", duration: "60 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 5, title: "GPIO Programming: LEDs, Buttons and PWM", duration: "60 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 6, title: "Interfacing Sensors, Displays and Actuators", duration: "65 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 7, title: "Networking, SSH and Remote Development", duration: "55 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 8, title: "IoT Communication with MQTT and Web APIs", duration: "70 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 9, title: "Camera, OpenCV and Computer Vision Basics", duration: "75 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 10, title: "Final Project: Smart Raspberry Pi IoT System", duration: "90 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+    ],
   },
 
   "internet-of-things": {

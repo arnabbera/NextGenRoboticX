@@ -38,6 +38,22 @@ const COURSE_OVERVIEWS = {
       "Final Project: Smart Arduino Automation System",
     ],
   },
+  "raspberry-pi": {
+    heading: "Raspberry Pi Development Course Summary",
+    summary: "Learn Raspberry Pi development from safe hardware setup and Linux administration through Python, GPIO, networking, IoT communication, computer vision, and a complete smart connected-system project.",
+    chapters: [
+      "Introduction to Raspberry Pi and Single-Board Computers",
+      "Raspberry Pi Hardware, GPIO and Safe Setup",
+      "Installing Raspberry Pi OS and Linux Essentials",
+      "Python Programming on Raspberry Pi",
+      "GPIO Programming: LEDs, Buttons and PWM",
+      "Interfacing Sensors, Displays and Actuators",
+      "Networking, SSH and Remote Development",
+      "IoT Communication with MQTT and Web APIs",
+      "Camera, OpenCV and Computer Vision Basics",
+      "Final Project: Smart Raspberry Pi IoT System",
+    ],
+  },
 };
 
 export default function CourseDetails() {
