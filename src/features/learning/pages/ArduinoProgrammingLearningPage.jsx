@@ -24,8 +24,8 @@ import LessonHeader from "../components/LessonHeader";
 const chapters = courseContent["arduino-programming"]?.chapters || [];
 
 export default function ArduinoProgrammingLearningPage() {
-  const { chapterNumber } = useParams();
-  const requestedChapter = Number(chapterNumber || 1);
+  const { chapterSlug } = useParams();
+  const requestedChapter = Number(String(chapterSlug || "chapter-1").replace("chapter-", ""));
   const chapter = chapters.find((item) => item.id === requestedChapter) || chapters[0];
   const previous = chapters.find((item) => item.id === chapter.id - 1);
   const next = chapters.find((item) => item.id === chapter.id + 1);

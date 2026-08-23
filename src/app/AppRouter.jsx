@@ -75,7 +75,7 @@ export default function AppRouter() {
             <Route element={<CourseAccessRoute />}>
               <Route path="/courses/robotics-foundation/learn" element={<LearningPage />} />
               <Route path="/courses/:courseId/learn" element={<CourseLearningPage />} />
-              <Route path="/courses/:courseId/learn/chapter-:chapterNumber" element={<CourseLearningPage />} />
+              <Route path="/courses/:courseId/learn/:chapterSlug" element={<CourseLearningPage />} />
             <Route path="/courses/robotics-foundation/mock-test" element={<RoboticsTestPage />} />
             <Route path="/courses/robotics-foundation/assessment" element={<RoboticsTestPage />} />
             <Route path="/courses/robotics-foundation/learn/chapter-2" element={<ArduinoBasicsChapterPage />} />
