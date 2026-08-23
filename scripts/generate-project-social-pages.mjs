@@ -67,6 +67,30 @@ const projects = [
       "Build an ESP32 smart agriculture system with soil moisture, DHT22, water-level protection and automatic irrigation code, wiring and calibration.",
     image: "/images/projects/agriculture.png",
   },
+  {
+    path: "courses/robotics-foundation",
+    title: "Robotics Foundation Course | NextGenRoboticX",
+    description:
+      "Learn robotics, electronics, Arduino, sensors, actuators and robot design through 10 structured chapters, practical projects, quizzes, mock test and certification assessment.",
+    image: "/images/courses/robotics.jpg",
+    type: "website",
+  },
+  {
+    path: "courses/arduino-programming",
+    title: "Arduino Programming Course | NextGenRoboticX",
+    description:
+      "Learn Arduino programming, Embedded C, GPIO, analogue input, PWM, interrupts, communication protocols, sensors and smart automation through 10 structured chapters.",
+    image: "/images/courses/arduino.jpg",
+    type: "website",
+  },
+  {
+    path: "courses/raspberry-pi",
+    title: "Raspberry Pi Development Course | NextGenRoboticX",
+    description:
+      "Learn Raspberry Pi hardware, Linux, Python, GPIO, networking, MQTT, web APIs and computer vision through 10 structured chapters and a complete IoT capstone.",
+    image: "/images/courses/raspberrypi.jpg",
+    type: "website",
+  },
 ];
 
 const escapeAttribute = (value) =>
@@ -87,7 +111,7 @@ for (const project of projects) {
   const socialMeta = `
     <meta name="description" content="${description}" />
     <link rel="canonical" href="${url}" />
-    <meta property="og:type" content="article" />
+    <meta property="og:type" content="${project.type || "article"}" />
     <meta property="og:site_name" content="NextGenRoboticX" />
     <meta property="og:title" content="${title}" />
     <meta property="og:description" content="${description}" />
@@ -110,4 +134,4 @@ for (const project of projects) {
   await writeFile(join(outputDirectory, "index.html"), html, "utf8");
 }
 
-console.log(`Generated social metadata pages for ${projects.length} projects.`);
+console.log(`Generated social metadata pages for ${projects.length} projects and courses.`);
