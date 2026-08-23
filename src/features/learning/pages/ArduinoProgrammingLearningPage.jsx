@@ -24,6 +24,7 @@ import ArduinoChapterThreeLesson from "./ArduinoChapterThreeLesson";
 import ArduinoChapterFourLesson from "./ArduinoChapterFourLesson";
 import ArduinoChapterFiveLesson from "./ArduinoChapterFiveLesson";
 import ArduinoChapterSixLesson from "./ArduinoChapterSixLesson";
+import ArduinoChapterSevenLesson from "./ArduinoChapterSevenLesson";
 
 const chapters = courseContent["arduino-programming"]?.chapters || [];
 
@@ -75,6 +76,8 @@ export default function ArduinoProgrammingLearningPage() {
               <ArduinoChapterFiveLesson />
             ) : chapter.id === 6 ? (
               <ArduinoChapterSixLesson />
+            ) : chapter.id === 7 ? (
+              <ArduinoChapterSevenLesson />
             ) : (
               <ChapterPlaceholder chapter={chapter} />
             )}
