@@ -23,7 +23,15 @@ export default function ProjectShare({ title, description, contentType = "projec
     ? "Help other learners discover this robotics and technology course."
     : "Help other robotics learners discover this beginner-friendly guide.";
 
-  const getUrl = () => window.location.href.split("#")[0];
+  const getUrl = () => {
+    const url = new URL(window.location.href);
+    url.hash = "";
+    if (isCourse) {
+      url.pathname = url.pathname.replace(/\/+$/, "");
+      url.search = "";
+    }
+    return url.toString();
+  };
   const encodedUrl = () => encodeURIComponent(getUrl());
   const encodedText = () =>
     encodeURIComponent(description || (isCourse
