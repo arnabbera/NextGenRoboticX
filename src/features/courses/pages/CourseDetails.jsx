@@ -238,23 +238,6 @@ export default function CourseDetails() {
         </section>
       )}
 
-      <section className="mt-10 overflow-hidden rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 p-7 text-white shadow-xl md:p-10">
-        <h2 className="text-3xl font-bold">Ready to begin?</h2>
-        <p className="mt-3 max-w-3xl text-lg leading-8 text-blue-100">Review the complete course structure above, then enroll for a one-time fee of ₹99. Access is permanently linked to your signed-in Gmail account.</p>
-        <CourseEnrollment course={course} onStatusChange={setEnrolled} />
-        {enrolled && (
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link to={`/courses/${course.id}/learn`} className="inline-flex rounded-xl bg-white px-6 py-4 font-semibold text-blue-700 transition hover:scale-105 hover:shadow-xl">🚀 Start Learning</Link>
-            {["robotics-foundation", "arduino-programming", "raspberry-pi"].includes(course.id) && (
-              <>
-                <Link to={`/courses/${course.id}/mock-test`} className="inline-flex rounded-xl border border-white/40 bg-white/15 px-6 py-4 font-semibold text-white transition hover:bg-white/25">📝 Mock Test</Link>
-                <Link to={`/courses/${course.id}/assessment`} className="inline-flex rounded-xl bg-emerald-500 px-6 py-4 font-semibold text-white transition hover:bg-emerald-400">🎓 Assessment</Link>
-              </>
-            )}
-          </div>
-        )}
-      </section>
-
       {/* Statistics */}
 
       <div className="mt-10 grid gap-6 md:grid-cols-4">
@@ -355,6 +338,23 @@ export default function CourseDetails() {
         </div>
 
       </div>
+
+      <section className="mt-10 overflow-hidden rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 p-7 text-white shadow-xl md:p-10">
+        <h2 className="text-3xl font-bold">Ready to enroll?</h2>
+        <p className="mt-3 max-w-3xl text-lg leading-8 text-blue-100">Review the complete course structure above, then enroll for a one-time fee of ₹99. Access is permanently linked to your signed-in Gmail account.</p>
+        <CourseEnrollment course={course} onStatusChange={setEnrolled} />
+        {enrolled && (
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link to={`/courses/${course.id}/learn`} className="inline-flex rounded-xl bg-white px-6 py-4 font-semibold text-blue-700 transition hover:scale-105 hover:shadow-xl">🚀 Start Learning</Link>
+            {["robotics-foundation", "arduino-programming", "raspberry-pi"].includes(course.id) && (
+              <>
+                <Link to={`/courses/${course.id}/mock-test`} className="inline-flex rounded-xl border border-white/40 bg-white/15 px-6 py-4 font-semibold text-white transition hover:bg-white/25">📝 Mock Test</Link>
+                <Link to={`/courses/${course.id}/assessment`} className="inline-flex rounded-xl bg-emerald-500 px-6 py-4 font-semibold text-white transition hover:bg-emerald-400">🎓 Assessment</Link>
+              </>
+            )}
+          </div>
+        )}
+      </section>
 
       <div className="mt-10 overflow-hidden rounded-3xl shadow-lg">
         <ProjectShare
