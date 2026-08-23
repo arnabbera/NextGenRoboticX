@@ -1,4 +1,20 @@
-import { BookOpen, CheckCircle2, ChevronLeft, ChevronRight, PlayCircle } from "lucide-react";
+import { useMemo, useState } from "react";
+import {
+  BookOpen,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  CircleHelp,
+  Code2,
+  Cpu,
+  Download,
+  Lightbulb,
+  PlayCircle,
+  RotateCcw,
+  ShieldAlert,
+  Usb,
+  XCircle,
+} from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { courseContent } from "../../courses/data/courseContent";
 import ChapterSidebar from "../components/ChapterSidebar";
@@ -43,17 +59,7 @@ export default function ArduinoProgrammingLearningPage() {
               <ChapterVideoManager chapter={chapter.id} />
             </section>
 
-            <article className="rounded-3xl bg-white p-6 shadow-lg md:p-8">
-              <p className="font-semibold uppercase tracking-wider text-blue-700">Chapter {chapter.id}</p>
-              <h2 className="mt-2 text-3xl font-bold text-slate-900">{chapter.title}</h2>
-              <p className="mt-4 leading-8 text-slate-600">
-                This chapter is part of the Arduino Programming curriculum. Follow the video lesson, review the downloadable PDF study material, practise the concepts on an Arduino board, and complete the chapter quiz.
-              </p>
-              <div className="mt-7 grid gap-4 md:grid-cols-2">
-                <LessonFeature icon={BookOpen} title="Study material" text="Chapter PDF is available here after the administrator uploads it." />
-                <LessonFeature icon={CheckCircle2} title="Chapter quiz" text="A knowledge check is included for this chapter with an 80% pass target." />
-              </div>
-            </article>
+            {chapter.id === 1 ? <ArduinoIntroductionLesson /> : <ChapterPlaceholder chapter={chapter} />}
 
             <nav className="flex flex-col justify-between gap-4 sm:flex-row">
               {previous ? (
@@ -71,6 +77,151 @@ export default function ArduinoProgrammingLearningPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+const blinkCode = `const int ledPin = LED_BUILTIN;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(ledPin, HIGH);
+  delay(1000);
+  digitalWrite(ledPin, LOW);
+  delay(1000);
+}`;
+
+const chapterOneQuestions = [
+  { question: "What is Arduino?", options: ["A battery", "An open-source electronics prototyping platform", "Only a programming language", "A mechanical tool"], answer: 1 },
+  { question: "Which application is commonly used to write and upload Arduino sketches?", options: ["Arduino IDE", "Calculator", "File Explorer", "Media Player"], answer: 0 },
+  { question: "Which function runs once after an Arduino starts or resets?", options: ["loop()", "repeat()", "setup()", "upload()"], answer: 2 },
+  { question: "Which function runs repeatedly while the board is powered?", options: ["loop()", "setup()", "pinMode()", "compile()"], answer: 0 },
+  { question: "What must normally be selected before uploading a sketch?", options: ["Font and theme", "Board and port", "Speaker volume", "Browser tab"], answer: 1 },
+  { question: "What is a sketch in Arduino terminology?", options: ["A circuit drawing only", "An Arduino program", "A board defect", "A power supply"], answer: 1 },
+  { question: "What does Verify do in the Arduino IDE?", options: ["Compiles and checks the sketch", "Deletes the sketch", "Powers a motor", "Disconnects USB"], answer: 0 },
+  { question: "What does LED_BUILTIN refer to?", options: ["A built-in LED pin definition", "An external battery", "The USB cable", "An analogue sensor"], answer: 0 },
+  { question: "Which cable is typically used to upload a sketch to an Arduino Uno?", options: ["A suitable USB data cable", "An audio cable", "An HDMI cable only", "No cable or wireless link"], answer: 0 },
+  { question: "What is the safest action before changing circuit wiring?", options: ["Increase voltage", "Disconnect power", "Short 5V to GND", "Touch bare conductors"], answer: 1 },
+];
+
+function ArduinoIntroductionLesson() {
+  return (
+    <>
+      <article className="space-y-8 rounded-3xl bg-white p-6 shadow-lg md:p-8">
+        <header>
+          <p className="font-semibold uppercase tracking-wider text-blue-700">Chapter 1</p>
+          <h2 className="mt-2 text-3xl font-bold text-slate-900">Introduction to Arduino and the Arduino IDE</h2>
+          <p className="mt-4 leading-8 text-slate-600">
+            Arduino is an open-source electronics platform that combines programmable microcontroller boards, development software, and a large ecosystem of sensors and modules. It allows beginners and professionals to turn an idea into a working electronic prototype quickly.
+          </p>
+        </header>
+
+        <section>
+          <h3 className="text-2xl font-bold text-slate-900">Learning objectives</h3>
+          <ul className="mt-4 grid gap-3 md:grid-cols-2">
+            {["Explain what Arduino is and where it is used.", "Identify the main parts of an Arduino Uno.", "Install and navigate the Arduino IDE.", "Describe the structure of an Arduino sketch.", "Select the correct board and communication port.", "Compile, upload, and test the Blink program."].map((item) => (
+              <li key={item} className="rounded-xl border border-slate-200 p-4"><span className="mr-2 font-bold text-emerald-600">✓</span>{item}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="rounded-2xl bg-blue-50 p-6">
+          <div className="flex items-center gap-3"><Cpu className="text-blue-700" size={28} /><h3 className="text-2xl font-bold">How Arduino works</h3></div>
+          <p className="mt-4 leading-8 text-slate-700">You write instructions on a computer, compile them in the Arduino IDE, and upload the resulting program to the microcontroller through USB. The board then reads inputs, processes decisions, and controls outputs independently.</p>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            <LessonFeature icon={Lightbulb} title="Input" text="Buttons, switches, temperature sensors, light sensors, and other devices provide information." />
+            <LessonFeature icon={Cpu} title="Process" text="The microcontroller executes the uploaded program and makes decisions." />
+            <LessonFeature icon={CheckCircle2} title="Output" text="LEDs, displays, buzzers, relays, servos, and motors perform actions." />
+          </div>
+        </section>
+
+        <section>
+          <h3 className="text-2xl font-bold">Arduino Uno at a glance</h3>
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            <LessonFeature icon={Cpu} title="ATmega328P microcontroller" text="The main programmable device that executes your sketch." />
+            <LessonFeature icon={Usb} title="USB interface" text="Provides programming communication and can power the board during development." />
+            <LessonFeature icon={Lightbulb} title="Digital and analogue pins" text="Connect the board to LEDs, switches, sensors, displays, and control modules." />
+            <LessonFeature icon={ShieldAlert} title="Power and reset" text="5V, 3.3V, GND, VIN, and RESET support safe power and program restart." />
+          </div>
+        </section>
+
+        <section>
+          <h3 className="text-2xl font-bold">Getting started with Arduino IDE</h3>
+          <ol className="mt-4 space-y-3">
+            {["Download Arduino IDE from the official Arduino website for your operating system.", "Install and launch the application.", "Connect the Arduino board using a data-capable USB cable.", "Open Tools → Board and select your Arduino model.", "Open Tools → Port and select the port assigned to the board.", "Open File → Examples → 01.Basics → Blink.", "Click Verify to compile the sketch, then Upload to program the board."].map((item, index) => (
+              <li key={item} className="flex gap-4 rounded-xl bg-slate-50 p-4"><span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">{index + 1}</span><span>{item}</span></li>
+            ))}
+          </ol>
+        </section>
+
+        <section>
+          <div className="flex items-center gap-3"><Code2 className="text-emerald-700" size={28} /><h3 className="text-2xl font-bold">Your first sketch: Blink</h3></div>
+          <p className="mt-3 leading-7 text-slate-600"><strong>setup()</strong> runs once and prepares the pin. <strong>loop()</strong> repeats continuously, turning the built-in LED on and off every second.</p>
+          <pre className="mt-5 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-sm leading-6 text-emerald-300"><code>{blinkCode}</code></pre>
+        </section>
+
+        <section className="rounded-2xl border border-amber-200 bg-amber-50 p-6">
+          <div className="flex items-center gap-3"><ShieldAlert className="text-amber-700" size={28} /><h3 className="text-xl font-bold">Safety and good practice</h3></div>
+          <ul className="mt-4 space-y-2 text-slate-700"><li>• Disconnect power before changing circuit connections.</li><li>• Never connect 5V directly to GND.</li><li>• Check module voltage and polarity before connection.</li><li>• Use resistors with external LEDs and a driver circuit for motors.</li><li>• Keep liquids and conductive objects away from powered boards.</li></ul>
+        </section>
+
+        <section className="rounded-2xl bg-slate-900 p-6 text-white">
+          <h3 className="text-2xl font-bold">Hands-on activity</h3>
+          <p className="mt-3 leading-7 text-slate-200">Upload Blink and confirm that the built-in LED flashes. Change both delay values from 1000 ms to 250 ms, upload again, and observe the difference. Explain why the LED flashes faster and identify which part of the program repeats.</p>
+        </section>
+
+        <section className="rounded-2xl border border-blue-200 bg-blue-50 p-6">
+          <div className="flex items-center gap-3"><Download className="text-blue-700" /><h3 className="text-xl font-bold">Chapter completion checklist</h3></div>
+          <p className="mt-3 text-slate-700">Watch the lesson, complete the Blink activity, review the uploaded PDF study material, and score at least 80% in the quiz below before continuing to Chapter 2.</p>
+        </section>
+      </article>
+
+      <ChapterOneQuiz />
+    </>
+  );
+}
+
+function ChapterOneQuiz() {
+  const [answers, setAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const score = useMemo(() => chapterOneQuestions.reduce((total, item, index) => total + (answers[index] === item.answer ? 1 : 0), 0), [answers]);
+  const complete = Object.keys(answers).length === chapterOneQuestions.length;
+  const passed = score >= 8;
+  const reset = () => { setAnswers({}); setSubmitted(false); };
+
+  return (
+    <section className="rounded-3xl bg-white p-6 shadow-lg md:p-8">
+      <div className="flex items-center gap-3 border-b border-slate-200 pb-5"><CircleHelp className="text-blue-600" size={30} /><div><h2 className="text-2xl font-bold">Chapter 1 Quiz</h2><p className="text-sm text-slate-500">10 questions • Pass mark: 80%</p></div></div>
+      <div className="mt-6 space-y-6">
+        {chapterOneQuestions.map((item, questionIndex) => (
+          <fieldset key={item.question} className="rounded-2xl border border-slate-200 p-5">
+            <legend className="px-2 font-bold">{questionIndex + 1}. {item.question}</legend>
+            <div className="mt-3 space-y-2">
+              {item.options.map((option, optionIndex) => {
+                const selected = answers[questionIndex] === optionIndex;
+                const correct = submitted && optionIndex === item.answer;
+                const incorrect = submitted && selected && optionIndex !== item.answer;
+                return <label key={option} className={`flex cursor-pointer gap-3 rounded-xl border p-3 ${correct ? "border-green-300 bg-green-50" : incorrect ? "border-red-300 bg-red-50" : selected ? "border-blue-400 bg-blue-50" : "border-slate-200 hover:bg-slate-50"}`}><input type="radio" name={`arduino-chapter-1-${questionIndex}`} checked={selected} disabled={submitted} onChange={() => setAnswers((current) => ({ ...current, [questionIndex]: optionIndex }))} className="mt-1" /><span>{option}</span></label>;
+              })}
+            </div>
+          </fieldset>
+        ))}
+      </div>
+      {!submitted ? <button type="button" disabled={!complete} onClick={() => setSubmitted(true)} className="mt-6 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300">Submit Quiz</button> : <div className={`mt-6 rounded-2xl border p-6 ${passed ? "border-green-300 bg-green-50" : "border-red-300 bg-red-50"}`}><div className="flex gap-3">{passed ? <CheckCircle2 className="text-green-700" /> : <XCircle className="text-red-700" />}<div><h3 className="text-xl font-bold">{passed ? "Chapter quiz passed" : "Review the lesson and try again"}</h3><p className="mt-1">You scored {score}/10 ({score * 10}%).</p></div></div><button type="button" onClick={reset} className="mt-5 inline-flex items-center gap-2 rounded-xl border bg-white px-5 py-2.5 font-semibold"><RotateCcw size={18} /> Retake Quiz</button></div>}
+    </section>
+  );
+}
+
+function ChapterPlaceholder({ chapter }) {
+  return (
+    <article className="rounded-3xl bg-white p-6 shadow-lg md:p-8">
+      <p className="font-semibold uppercase tracking-wider text-blue-700">Chapter {chapter.id}</p>
+      <h2 className="mt-2 text-3xl font-bold text-slate-900">{chapter.title}</h2>
+      <p className="mt-4 leading-8 text-slate-600">This chapter is part of the Arduino Programming curriculum. Follow the video lesson, review the downloadable PDF study material, practise the concepts on an Arduino board, and complete the chapter quiz.</p>
+      <div className="mt-7 grid gap-4 md:grid-cols-2"><LessonFeature icon={BookOpen} title="Study material" text="Chapter PDF is available here after the administrator uploads it." /><LessonFeature icon={CheckCircle2} title="Chapter quiz" text="A knowledge check is included for this chapter with an 80% pass target." /></div>
+    </article>
   );
 }
 
