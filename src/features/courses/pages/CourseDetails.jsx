@@ -4,6 +4,7 @@ import courses from "../data/courses";
 import CourseEnrollment from "../components/CourseEnrollment";
 import { isAdministrator } from "../../../components/auth/AdminRoute";
 import { useAuth } from "../../../context/AuthContext";
+import ProjectShare from "../../projects/components/ProjectShare";
 
 const COURSE_OVERVIEWS = {
   "robotics-foundation": {
@@ -341,6 +342,14 @@ export default function CourseDetails() {
 
         </div>
 
+      </div>
+
+      <div className="mt-10 overflow-hidden rounded-3xl shadow-lg">
+        <ProjectShare
+          title={course.title}
+          description={`Explore ${course.title} from NextGenRoboticX: ${course.description}`}
+          contentType="course"
+        />
       </div>
 
     </div>
