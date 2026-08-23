@@ -52,6 +52,7 @@ export default function AppRouter() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/features/:featureSlug" element={<FeatureDetailPage />} />
+        <Route path="/courses/:courseId" element={<CourseDetails />} />
 
         <Route element={<ViewOnlyProjectRoute />}>
           <Route path="/projects/obstacle-avoiding-robot" element={<ObstacleAvoidingRobotPage />} />
@@ -71,7 +72,6 @@ export default function AppRouter() {
             <Route path="/courses" element={<Courses />} />
             <Route path="/courses/available" element={<Courses />} />
             <Route path="/courses/enrolled" element={<EnrolledCourses />} />
-            <Route path="/courses/:courseId" element={<CourseDetails />} />
             <Route element={<CourseAccessRoute />}>
               <Route path="/courses/robotics-foundation/learn" element={<LearningPage />} />
               <Route path="/courses/:courseId/learn" element={<CourseLearningPage />} />

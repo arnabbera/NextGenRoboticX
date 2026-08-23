@@ -1,5 +1,6 @@
 import { CheckCircle2, LoaderCircle, LockKeyhole } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 
 function loadRazorpay() {
@@ -21,6 +22,7 @@ function loadRazorpay() {
 
 export default function CourseEnrollment({ course, onStatusChange }) {
   const { user } = useAuth();
+  const location = useLocation();
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [paying, setPaying] = useState(false);
@@ -52,8 +54,15 @@ export default function CourseEnrollment({ course, onStatusChange }) {
   }, [authHeaders, course.id, onStatusChange]);
 
   useEffect(() => {
-    checkStatus();
-  }, [checkStatus]);
+    if (user) {
+      checkStatus();
+      return;
+    }
+    setLoading(false);
+    setActive(false);
+    setError("");
+    onStatusChange?.(false);
+  }, [checkStatus, onStatusChange, user]);
 
   async function enroll() {
     setPaying(true);
@@ -115,6 +124,17 @@ export default function CourseEnrollment({ course, onStatusChange }) {
     } finally {
       setPaying(false);
     }
+  }
+
+  if (!user) {
+    const redirect = encodeURIComponent(location.pathname);
+    return (
+      <div className="mt-8 max-w-xl rounded-2xl border border-white/20 bg-slate-950/25 p-5 text-white">
+        <div className="flex items-center gap-3"><LockKeyhole /><strong className="text-xl">Sign in to enroll</strong></div>
+        <p className="mt-3 text-blue-100">Review the complete course offering on this page. Sign in with the Gmail account that should permanently own the course before making the ₹99 payment.</p>
+        <Link to={`/login?redirect=${redirect}`} className="mt-5 inline-flex rounded-xl bg-white px-6 py-3 font-bold text-blue-700 transition hover:bg-blue-50">Sign in with Google &amp; Enroll</Link>
+      </div>
+    );
   }
 
   if (loading) {
