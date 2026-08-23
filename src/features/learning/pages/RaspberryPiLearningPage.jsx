@@ -6,6 +6,7 @@ import ChapterVideoManager from "../components/ChapterVideoManager";
 import LessonHeader from "../components/LessonHeader";
 import RaspberryPiChapterOneLesson from "./RaspberryPiChapterOneLesson";
 import RaspberryPiChapterTwoLesson from "./RaspberryPiChapterTwoLesson";
+import RaspberryPiChapterThreeLesson from "./RaspberryPiChapterThreeLesson";
 
 const chapters = courseContent["raspberry-pi"]?.chapters || [];
 
@@ -34,7 +35,7 @@ export default function RaspberryPiLearningPage() {
               <ChapterVideoManager chapter={chapter.id} />
             </section>
 
-            {chapter.id === 1 ? <RaspberryPiChapterOneLesson /> : chapter.id === 2 ? <RaspberryPiChapterTwoLesson /> : <ChapterPlaceholder chapter={chapter} />}
+            {chapter.id === 1 ? <RaspberryPiChapterOneLesson /> : chapter.id === 2 ? <RaspberryPiChapterTwoLesson /> : chapter.id === 3 ? <RaspberryPiChapterThreeLesson /> : <ChapterPlaceholder chapter={chapter} />}
 
             <nav className="flex flex-col justify-between gap-4 sm:flex-row">
               {previous ? <Link to={chapterPath(previous.id)} className="inline-flex items-center gap-2 rounded-xl border bg-white px-5 py-3 font-semibold hover:bg-slate-50"><ChevronLeft size={18} /> Chapter {previous.id}: {previous.title}</Link> : <span />}
