@@ -10,6 +10,7 @@ import RaspberryPiChapterThreeLesson from "./RaspberryPiChapterThreeLesson";
 import RaspberryPiChapterFourLesson from "./RaspberryPiChapterFourLesson";
 import RaspberryPiChapterFiveLesson from "./RaspberryPiChapterFiveLesson";
 import RaspberryPiChapterSixLesson from "./RaspberryPiChapterSixLesson";
+import RaspberryPiChapterSevenLesson from "./RaspberryPiChapterSevenLesson";
 
 const chapters = courseContent["raspberry-pi"]?.chapters || [];
 
@@ -38,7 +39,7 @@ export default function RaspberryPiLearningPage() {
               <ChapterVideoManager chapter={chapter.id} />
             </section>
 
-            {chapter.id === 1 ? <RaspberryPiChapterOneLesson /> : chapter.id === 2 ? <RaspberryPiChapterTwoLesson /> : chapter.id === 3 ? <RaspberryPiChapterThreeLesson /> : chapter.id === 4 ? <RaspberryPiChapterFourLesson /> : chapter.id === 5 ? <RaspberryPiChapterFiveLesson /> : chapter.id === 6 ? <RaspberryPiChapterSixLesson /> : <ChapterPlaceholder chapter={chapter} />}
+            {chapter.id === 1 ? <RaspberryPiChapterOneLesson /> : chapter.id === 2 ? <RaspberryPiChapterTwoLesson /> : chapter.id === 3 ? <RaspberryPiChapterThreeLesson /> : chapter.id === 4 ? <RaspberryPiChapterFourLesson /> : chapter.id === 5 ? <RaspberryPiChapterFiveLesson /> : chapter.id === 6 ? <RaspberryPiChapterSixLesson /> : chapter.id === 7 ? <RaspberryPiChapterSevenLesson /> : <ChapterPlaceholder chapter={chapter} />}
 
             <nav className="flex flex-col justify-between gap-4 sm:flex-row">
               {previous ? <Link to={chapterPath(previous.id)} className="inline-flex items-center gap-2 rounded-xl border bg-white px-5 py-3 font-semibold hover:bg-slate-50"><ChevronLeft size={18} /> Chapter {previous.id}: {previous.title}</Link> : <span />}
