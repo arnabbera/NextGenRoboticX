@@ -20,6 +20,7 @@ import { courseContent } from "../../courses/data/courseContent";
 import ChapterSidebar from "../components/ChapterSidebar";
 import ChapterVideoManager from "../components/ChapterVideoManager";
 import LessonHeader from "../components/LessonHeader";
+import ArduinoChapterThreeLesson from "./ArduinoChapterThreeLesson";
 
 const chapters = courseContent["arduino-programming"]?.chapters || [];
 
@@ -63,6 +64,8 @@ export default function ArduinoProgrammingLearningPage() {
               <ArduinoIntroductionLesson />
             ) : chapter.id === 2 ? (
               <ArduinoArchitectureLesson />
+            ) : chapter.id === 3 ? (
+              <ArduinoChapterThreeLesson />
             ) : (
               <ChapterPlaceholder chapter={chapter} />
             )}
