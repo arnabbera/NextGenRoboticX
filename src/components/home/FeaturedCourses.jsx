@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
 import courses from "../../features/courses/data/courses";
 
 export default function FeaturedCourses() {
-  const { user } = useAuth();
   const featuredCourses = courses.slice(0, 6);
 
   return (
@@ -24,9 +22,6 @@ export default function FeaturedCourses() {
           {featuredCourses.map((course) => {
             const available = course.status === "Available";
             const coursePath = `/courses/${course.id}`;
-            const destination = user
-              ? coursePath
-              : `/login?redirect=${encodeURIComponent(coursePath)}`;
 
             return (
               <div
@@ -70,8 +65,8 @@ export default function FeaturedCourses() {
                   </div>
 
                   {available ? (
-                    <Link to={destination} className="mt-8 block rounded-xl bg-blue-600 py-3 text-center font-semibold text-white transition hover:bg-blue-700">
-                      Enroll for ₹99
+                    <Link to={coursePath} className="mt-8 block rounded-xl bg-blue-600 py-3 text-center font-semibold text-white transition hover:bg-blue-700">
+                      View Course Details
                     </Link>
                   ) : (
                     <button type="button" disabled className="mt-8 block w-full cursor-not-allowed rounded-xl bg-slate-300 py-3 text-center font-semibold text-slate-600">
