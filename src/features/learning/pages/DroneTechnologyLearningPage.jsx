@@ -12,6 +12,7 @@ import DroneChapterFiveLesson from "./DroneChapterFiveLesson";
 import DroneChapterSixLesson from "./DroneChapterSixLesson";
 import DroneChapterSevenLesson from "./DroneChapterSevenLesson";
 import DroneChapterEightLesson from "./DroneChapterEightLesson";
+import DroneChapterNineLesson from "./DroneChapterNineLesson";
 
 const chapters = courseContent["drone-technology"]?.chapters || [];
 
@@ -40,7 +41,7 @@ export default function DroneTechnologyLearningPage() {
               <ChapterVideoManager chapter={chapter.id} />
             </section>
 
-            {chapter.id === 1 ? <DroneChapterOneLesson /> : chapter.id === 2 ? <DroneChapterTwoLesson /> : chapter.id === 3 ? <DroneChapterThreeLesson /> : chapter.id === 4 ? <DroneChapterFourLesson /> : chapter.id === 5 ? <DroneChapterFiveLesson /> : chapter.id === 6 ? <DroneChapterSixLesson /> : chapter.id === 7 ? <DroneChapterSevenLesson /> : chapter.id === 8 ? <DroneChapterEightLesson /> : <ChapterPlaceholder chapter={chapter} />}
+            {chapter.id === 1 ? <DroneChapterOneLesson /> : chapter.id === 2 ? <DroneChapterTwoLesson /> : chapter.id === 3 ? <DroneChapterThreeLesson /> : chapter.id === 4 ? <DroneChapterFourLesson /> : chapter.id === 5 ? <DroneChapterFiveLesson /> : chapter.id === 6 ? <DroneChapterSixLesson /> : chapter.id === 7 ? <DroneChapterSevenLesson /> : chapter.id === 8 ? <DroneChapterEightLesson /> : chapter.id === 9 ? <DroneChapterNineLesson /> : <ChapterPlaceholder chapter={chapter} />}
 
             <nav className="flex flex-col justify-between gap-4 sm:flex-row">
               {previous ? <Link to={chapterPath(previous.id)} className="inline-flex items-center gap-2 rounded-xl border bg-white px-5 py-3 font-semibold hover:bg-slate-50"><ChevronLeft size={18} /> Chapter {previous.id}: {previous.title}</Link> : <span />}
