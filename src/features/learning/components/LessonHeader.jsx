@@ -13,6 +13,8 @@ export default function LessonHeader({ chapter = 1, lesson = 1, chapterTitle = "
         ? "Arduino Programming"
         : courseId === "raspberry-pi"
           ? "Raspberry Pi Development"
+        : courseId === "drone-technology"
+          ? "Drone Technology"
         : "Course";
 
   const progress = 0;

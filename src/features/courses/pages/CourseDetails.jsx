@@ -55,6 +55,22 @@ const COURSE_OVERVIEWS = {
       "Final Project: Smart Raspberry Pi IoT System",
     ],
   },
+  "drone-technology": {
+    heading: "Drone Technology Course Summary",
+    summary: "Learn how multirotor drones fly, how their electrical and control systems work, and how to assemble, configure, calibrate, test, and operate a GPS-enabled quadcopter safely.",
+    chapters: [
+      "Introduction to Drones and Aviation Safety",
+      "Drone Types, Frames and Multirotor Aerodynamics",
+      "Brushless Motors, ESCs, Propellers and Power Systems",
+      "Flight Controllers, IMU Sensors and Stabilisation",
+      "Radio Transmitters, Receivers and Flight Modes",
+      "Drone Assembly, Wiring and Pre-Flight Configuration",
+      "Calibration, PID Tuning and Safe Flight Testing",
+      "GPS, Telemetry and Ground Control Stations",
+      "Autonomous Missions, Geofencing and Fail-Safes",
+      "Final Project: Build and Test a GPS Quadcopter",
+    ],
+  },
 };
 
 const COURSE_LEARNING_DETAILS = {
@@ -81,6 +97,14 @@ const COURSE_LEARNING_DETAILS = {
     { title: "GPIO, sensors and actuators", text: "Control LEDs, buttons and PWM, interface common buses and devices, validate sensor data and drive higher-current loads safely." },
     { title: "Networking and secure IoT communication", text: "Publish structured telemetry with MQTT or web APIs using TLS, protected credentials, validation, reconnect backoff and offline-safe behaviour." },
     { title: "Computer vision and production capstone", text: "Capture and process camera images with Picamera2 and OpenCV, then deliver a tested, secured and documented smart IoT system." },
+  ],
+  "drone-technology": [
+    { title: "Flight principles and responsible operation", text: "Understand lift, thrust, torque, multirotor motion, weather limits, operating zones, pre-flight planning, and essential safety responsibilities." },
+    { title: "Airframe, propulsion and electrical systems", text: "Select compatible frames, brushless motors, ESCs, propellers, batteries, connectors, power distribution, and protection for a balanced quadcopter." },
+    { title: "Flight control and sensor fusion", text: "Understand flight-controller architecture, IMU sensors, attitude estimation, stabilisation loops, firmware configuration, and safe calibration practices." },
+    { title: "Radio control and flight modes", text: "Configure transmitters, receivers, channels, arming controls, manual and assisted modes, signal-loss actions, and safe pilot workflows." },
+    { title: "GPS, telemetry and autonomous missions", text: "Use ground-control software, telemetry links, GPS navigation, waypoints, geofencing, return-to-home logic, and mission validation." },
+    { title: "Assembly, tuning and final quadcopter", text: "Wire and inspect a complete aircraft, verify motor order and direction, tune controlled flight behaviour, document tests, and deliver a GPS quadcopter capstone." },
   ],
 };
 
@@ -329,7 +353,7 @@ export default function CourseDetails() {
         {enrolled && (
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to={`/courses/${course.id}/learn`} className="inline-flex rounded-xl bg-white px-6 py-4 font-semibold text-blue-700 transition hover:scale-105 hover:shadow-xl">🚀 Start Learning</Link>
-            {["robotics-foundation", "arduino-programming", "raspberry-pi"].includes(course.id) && (
+            {["robotics-foundation", "arduino-programming", "raspberry-pi", "drone-technology"].includes(course.id) && (
               <>
                 <Link to={`/courses/${course.id}/mock-test`} className="inline-flex rounded-xl border border-white/40 bg-white/15 px-6 py-4 font-semibold text-white transition hover:bg-white/25">📝 Mock Test</Link>
                 <Link to={`/courses/${course.id}/assessment`} className="inline-flex rounded-xl bg-emerald-500 px-6 py-4 font-semibold text-white transition hover:bg-emerald-400">🎓 Assessment</Link>
