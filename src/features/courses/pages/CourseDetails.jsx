@@ -144,6 +144,15 @@ export default function CourseDetails() {
     )}
     <div className="mx-auto max-w-7xl px-6 py-10">
 
+      <Link
+        to="/courses"
+        className="mb-6 inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 shadow-sm transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        aria-label="Back to Courses"
+      >
+        <span aria-hidden="true">←</span>
+        Back to Courses
+      </Link>
+
       {/* Hero Section */}
 
       <div className="overflow-hidden rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 shadow-xl">
