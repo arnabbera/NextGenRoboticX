@@ -238,32 +238,6 @@ export default function CourseDetails() {
         </section>
       )}
 
-      {/* Statistics */}
-
-      <div className="mt-10 grid gap-6 md:grid-cols-4">
-
-        <StatCard
-          title="Level"
-          value={course.level}
-        />
-
-        <StatCard
-          title="Duration"
-          value={course.duration}
-        />
-
-        <StatCard
-          title="Chapters"
-          value={course.chapters}
-        />
-
-        <StatCard
-          title="Certificate"
-          value={course.certificate ? "Yes" : "No"}
-        />
-
-      </div>
-
       {/* Learning Outcomes */}
 
       <div className="mt-10 rounded-2xl bg-white p-8 shadow">
@@ -366,22 +340,6 @@ export default function CourseDetails() {
 
     </div>
     </>
-  );
-}
-
-function StatCard({ title, value }) {
-  return (
-    <div className="rounded-2xl bg-white p-6 text-center shadow">
-
-      <div className="text-3xl font-bold text-blue-700">
-        {value}
-      </div>
-
-      <div className="mt-2 text-slate-500">
-        {title}
-      </div>
-
-    </div>
   );
 }
 
