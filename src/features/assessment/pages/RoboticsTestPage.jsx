@@ -36,8 +36,11 @@ function formatTime(seconds) {
 
 export default function RoboticsTestPage() {
   const { user } = useAuth();
-  const { courseId = "robotics-foundation" } = useParams();
-  const course = assessmentCourses[courseId] || assessmentCourses["robotics-foundation"];
+  const { courseId: requestedCourseId } = useParams();
+  const courseId = assessmentCourses[requestedCourseId]
+    ? requestedCourseId
+    : "robotics-foundation";
+  const course = assessmentCourses[courseId];
   const { pathname } = useLocation();
   const isMock = pathname.endsWith("/mock-test");
   const [status, setStatus] = useState(null);
