@@ -171,17 +171,17 @@ const courses = [
     chapters: 10,
     students: 0,
     progress: 0,
-    status: "Coming Soon",
+    status: "Available",
     certificate: true,
     image: `${BASE}images/courses/drone.jpg`,
     description:
       "Understand drone hardware, flight controllers, telemetry, GPS navigation, autonomous flight, and drone programming.",
     learningOutcomes: [
-      "Understand drone hardware",
-      "Learn GPS navigation",
-      "Configure flight controllers",
-      "Develop autonomous flight logic",
-      "Build drone applications",
+      "Understand multirotor aerodynamics and drone hardware",
+      "Configure flight controllers, ESCs, motors and radio systems",
+      "Use telemetry, GPS and ground-control software",
+      "Plan safe manual and autonomous flight missions",
+      "Build, calibrate and test a complete quadcopter",
     ],
   },
 
