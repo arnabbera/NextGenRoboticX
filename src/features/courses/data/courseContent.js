@@ -294,7 +294,18 @@ Understanding loop()
   },
 
   "drone-technology": {
-    chapters: [],
+    chapters: [
+      { id: 1, title: "Introduction to Drones and Aviation Safety", duration: "40 min", video: "", pdf: "", notes: "", quiz: true, project: false, resources: [], code: [] },
+      { id: 2, title: "Drone Types, Frames and Multirotor Aerodynamics", duration: "50 min", video: "", pdf: "", notes: "", quiz: true, project: false, resources: [], code: [] },
+      { id: 3, title: "Brushless Motors, ESCs, Propellers and Power Systems", duration: "60 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 4, title: "Flight Controllers, IMU Sensors and Stabilisation", duration: "65 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 5, title: "Radio Transmitters, Receivers and Flight Modes", duration: "55 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 6, title: "Drone Assembly, Wiring and Pre-Flight Configuration", duration: "75 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 7, title: "Calibration, PID Tuning and Safe Flight Testing", duration: "70 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 8, title: "GPS, Telemetry and Ground Control Stations", duration: "65 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 9, title: "Autonomous Missions, Geofencing and Fail-Safes", duration: "75 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 10, title: "Final Project: Build and Test a GPS Quadcopter", duration: "90 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+    ],
   },
 
   "sensors-actuators": {
