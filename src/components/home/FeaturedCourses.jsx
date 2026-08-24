@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import courses from "../../features/courses/data/courses";
 
 export default function FeaturedCourses() {
-  const featuredCourses = courses.slice(0, 6);
+  const featuredCourses = courses;
 
   return (
     <section id="courses" className="scroll-mt-24 bg-slate-50 py-20">
