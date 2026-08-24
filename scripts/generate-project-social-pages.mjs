@@ -91,6 +91,14 @@ const projects = [
     image: "/images/courses/raspberrypi.jpg",
     type: "website",
   },
+  {
+    path: "courses/drone-technology",
+    title: "Drone Technology Course | NextGenRoboticX",
+    description:
+      "Learn multirotor flight, drone hardware, flight controllers, radio systems, GPS navigation, autonomous missions and safe quadcopter construction through 10 structured chapters.",
+    image: "/images/courses/drone.jpg",
+    type: "website",
+  },
 ];
 
 const escapeAttribute = (value) =>
