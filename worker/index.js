@@ -18,6 +18,7 @@ const PURCHASABLE_COURSE_IDS = new Set([
   "robotics-foundation",
   "arduino-programming",
   "raspberry-pi",
+  "drone-technology",
 ]);
 const COURSE_TITLES = {
   "robotics-foundation": "Robotics Foundation",
@@ -564,6 +565,13 @@ const CERTIFICATION_CONFIG = {
   },
   "raspberry-pi": {
     title: "Raspberry Pi Development", prefix: "RP",
+    answerKeys: {
+      assessment1: Array.from({ length: 50 }, (_, index) => (4 - ((index + 1) % 4)) % 4),
+      assessment2: Array.from({ length: 50 }, (_, index) => (4 - ((index + 2) % 4)) % 4),
+    },
+  },
+  "drone-technology": {
+    title: "Drone Technology", prefix: "DT",
     answerKeys: {
       assessment1: Array.from({ length: 50 }, (_, index) => (4 - ((index + 1) % 4)) % 4),
       assessment2: Array.from({ length: 50 }, (_, index) => (4 - ((index + 2) % 4)) % 4),
