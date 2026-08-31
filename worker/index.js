@@ -146,19 +146,27 @@ async function verifyFirebaseToken(request) {
   };
 }
 
-const razorpayAuthorization = (env) =>
-  `Basic ${btoa(`${env.RAZORPAY_KEY_ID}:${env.RAZORPAY_KEY_SECRET}`)}`;
+const getRazorpayCredentials = (env) => ({
+  keyId: String(env.RAZORPAY_KEY_ID || "").trim(),
+  keySecret: String(env.RAZORPAY_KEY_SECRET || "").trim(),
+});
+
+const razorpayAuthorization = (env) => {
+  const { keyId, keySecret } = getRazorpayCredentials(env);
+  return `Basic ${btoa(`${keyId}:${keySecret}`)}`;
+};
 
 function getPaymentMode(env) {
-  if (!env.RAZORPAY_KEY_ID || !env.RAZORPAY_KEY_SECRET) {
+  const { keyId, keySecret } = getRazorpayCredentials(env);
+  if (!keyId || !keySecret) {
     return "not-configured";
   }
 
-  if (env.RAZORPAY_KEY_ID.startsWith("rzp_live_")) {
+  if (keyId.startsWith("rzp_live_")) {
     return "live-configured";
   }
 
-  if (env.RAZORPAY_KEY_ID.startsWith("rzp_test_")) {
+  if (keyId.startsWith("rzp_test_")) {
     return "test-configured";
   }
 
@@ -298,7 +306,7 @@ async function handleOrder(request, env) {
     orderId: order.id,
     amount: order.amount,
     currency: order.currency,
-    keyId: env.RAZORPAY_KEY_ID,
+    keyId: getRazorpayCredentials(env).keyId,
   });
 }
 
@@ -322,7 +330,7 @@ async function handleVerify(request, env) {
   }
 
   const expectedSignature = await hmacHex(
-    env.RAZORPAY_KEY_SECRET,
+    getRazorpayCredentials(env).keySecret,
     `${orderId}|${paymentId}`
   );
 
@@ -470,7 +478,7 @@ async function handleCourseOrder(request, env) {
     orderId: order.id,
     amount: order.amount,
     currency: order.currency,
-    keyId: env.RAZORPAY_KEY_ID,
+    keyId: getRazorpayCredentials(env).keyId,
     courseId,
     courseTitle: COURSE_TITLES[courseId],
   });
@@ -501,7 +509,7 @@ async function handleCourseVerify(request, env) {
   }
 
   const expectedSignature = await hmacHex(
-    env.RAZORPAY_KEY_SECRET,
+    getRazorpayCredentials(env).keySecret,
     `${orderId}|${paymentId}`
   );
   if (!constantTimeEqual(expectedSignature, receivedSignature)) {
