@@ -286,7 +286,18 @@ Understanding loop()
   },
 
   "embedded-systems": {
-    chapters: [],
+    chapters: [
+      { id: 1, title: "Introduction to Embedded Systems and Applications", duration: "40 min", video: "", pdf: "", notes: "", quiz: true, project: false, resources: [], code: [] },
+      { id: 2, title: "Microcontrollers, Processors and System Architecture", duration: "50 min", video: "", pdf: "", notes: "", quiz: true, project: false, resources: [], code: [] },
+      { id: 3, title: "Digital Electronics, GPIO and Peripheral Interfacing", duration: "55 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 4, title: "Embedded C Programming and Firmware Structure", duration: "60 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 5, title: "Timers, Counters, Interrupts and PWM", duration: "65 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 6, title: "ADC, DAC, Sensors and Actuator Control", duration: "65 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 7, title: "UART, I2C, SPI and CAN Communication", duration: "70 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 8, title: "Memory, Power Management and Reliability", duration: "65 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 9, title: "RTOS Fundamentals, Tasks and Synchronisation", duration: "75 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 10, title: "Final Project: Real-Time Monitoring and Control System", duration: "90 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+    ],
   },
 
   "artificial-intelligence": {

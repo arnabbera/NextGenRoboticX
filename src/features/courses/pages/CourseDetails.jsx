@@ -71,6 +71,22 @@ const COURSE_OVERVIEWS = {
       "Final Project: Build and Test a GPS Quadcopter",
     ],
   },
+  "embedded-systems": {
+    heading: "Embedded Systems Course Summary",
+    summary: "Learn how resource-constrained electronic products are designed and programmed, from microcontroller architecture and Embedded C through peripherals, real-time control, communication buses, power management, RTOS concepts, and a complete monitoring-and-control capstone.",
+    chapters: [
+      "Introduction to Embedded Systems and Applications",
+      "Microcontrollers, Processors and System Architecture",
+      "Digital Electronics, GPIO and Peripheral Interfacing",
+      "Embedded C Programming and Firmware Structure",
+      "Timers, Counters, Interrupts and PWM",
+      "ADC, DAC, Sensors and Actuator Control",
+      "UART, I2C, SPI and CAN Communication",
+      "Memory, Power Management and Reliability",
+      "RTOS Fundamentals, Tasks and Synchronisation",
+      "Final Project: Real-Time Monitoring and Control System",
+    ],
+  },
 };
 
 const COURSE_LEARNING_DETAILS = {
@@ -105,6 +121,14 @@ const COURSE_LEARNING_DETAILS = {
     { title: "Radio control and flight modes", text: "Configure transmitters, receivers, channels, arming controls, manual and assisted modes, signal-loss actions, and safe pilot workflows." },
     { title: "GPS, telemetry and autonomous missions", text: "Use ground-control software, telemetry links, GPS navigation, waypoints, geofencing, return-to-home logic, and mission validation." },
     { title: "Assembly, tuning and final quadcopter", text: "Wire and inspect a complete aircraft, verify motor order and direction, tune controlled flight behaviour, document tests, and deliver a GPS quadcopter capstone." },
+  ],
+  "embedded-systems": [
+    { title: "Embedded architecture and design decisions", text: "Distinguish microcontrollers, microprocessors and single-board computers, then select an architecture based on timing, power, memory, cost and reliability constraints." },
+    { title: "Embedded C and maintainable firmware", text: "Write structured firmware with data types, bitwise operations, pointers, modules, state machines and defensive error handling suitable for resource-limited devices." },
+    { title: "GPIO, timing and real-world interfacing", text: "Configure digital and analogue peripherals, timers, counters, interrupts and PWM while applying safe voltage, grounding and signal-conditioning practices." },
+    { title: "Sensors, actuators and communication buses", text: "Acquire and validate measurements, control outputs, and integrate devices using UART, I2C, SPI and CAN with systematic protocol troubleshooting." },
+    { title: "Memory, power and dependable operation", text: "Manage stack, heap, non-volatile storage and low-power modes while designing watchdogs, fault handling and recovery paths for reliable field operation." },
+    { title: "RTOS design and production capstone", text: "Use tasks, scheduling, queues, semaphores and synchronisation safely, then integrate the course skills into a documented real-time monitoring and control system." },
   ],
 };
 
