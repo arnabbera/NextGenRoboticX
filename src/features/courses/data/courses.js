@@ -99,14 +99,14 @@ const courses = [
     category: "Embedded",
     level: "Intermediate",
     duration: "3 Months",
-    chapters: 12,
+    chapters: 10,
     students: 0,
     progress: 0,
-    status: "Coming Soon",
+    status: "Available",
     certificate: true,
     image: `${BASE}images/courses/embedded.jpg`,
     description:
-      "Master microcontrollers, Embedded C, RTOS basics, memory management, communication protocols, and debugging.",
+      "Design reliable embedded applications using microcontrollers, Embedded C, peripherals, communication protocols, RTOS concepts, power management, and systematic debugging.",
     learningOutcomes: [
       "Master Embedded C programming",
       "Understand memory management",
