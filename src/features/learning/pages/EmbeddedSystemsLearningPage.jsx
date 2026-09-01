@@ -10,6 +10,7 @@ import EmbeddedSystemsChapterThreeLesson from "./EmbeddedSystemsChapterThreeLess
 import EmbeddedSystemsChapterFourLesson from "./EmbeddedSystemsChapterFourLesson";
 import EmbeddedSystemsChapterFiveLesson from "./EmbeddedSystemsChapterFiveLesson";
 import EmbeddedSystemsChapterSixLesson from "./EmbeddedSystemsChapterSixLesson";
+import EmbeddedSystemsChapterSevenLesson from "./EmbeddedSystemsChapterSevenLesson";
 
 const chapters = courseContent["embedded-systems"]?.chapters || [];
 
@@ -38,7 +39,7 @@ export default function EmbeddedSystemsLearningPage() {
               <ChapterVideoManager chapter={chapter.id} />
             </section>
 
-            {chapter.id === 1 ? <EmbeddedSystemsChapterOneLesson /> : chapter.id === 2 ? <EmbeddedSystemsChapterTwoLesson /> : chapter.id === 3 ? <EmbeddedSystemsChapterThreeLesson /> : chapter.id === 4 ? <EmbeddedSystemsChapterFourLesson /> : chapter.id === 5 ? <EmbeddedSystemsChapterFiveLesson /> : chapter.id === 6 ? <EmbeddedSystemsChapterSixLesson /> : <ChapterPlaceholder chapter={chapter} />}
+            {chapter.id === 1 ? <EmbeddedSystemsChapterOneLesson /> : chapter.id === 2 ? <EmbeddedSystemsChapterTwoLesson /> : chapter.id === 3 ? <EmbeddedSystemsChapterThreeLesson /> : chapter.id === 4 ? <EmbeddedSystemsChapterFourLesson /> : chapter.id === 5 ? <EmbeddedSystemsChapterFiveLesson /> : chapter.id === 6 ? <EmbeddedSystemsChapterSixLesson /> : chapter.id === 7 ? <EmbeddedSystemsChapterSevenLesson /> : <ChapterPlaceholder chapter={chapter} />}
 
             <nav className="flex flex-col justify-between gap-4 sm:flex-row">
               {previous ? <Link to={chapterPath(previous.id)} className="inline-flex items-center gap-2 rounded-xl border bg-white px-5 py-3 font-semibold hover:bg-slate-50"><ChevronLeft size={18} /> Chapter {previous.id}: {previous.title}</Link> : <span />}
