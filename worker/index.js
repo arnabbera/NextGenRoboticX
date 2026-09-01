@@ -857,6 +857,42 @@ async function getCourseChapterVideos(env, courseId) {
   return (await kv.get(`course-chapter-videos:${courseId}`, "json")) || {};
 }
 
+function validateYouTubeUrl(value) {
+  const videoUrl = String(value || "").trim();
+  let parsed;
+  try {
+    parsed = new URL(videoUrl);
+  } catch {
+    throw new Error("Enter a valid YouTube URL.");
+  }
+  const allowedHosts = new Set(["youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be"]);
+  if (parsed.protocol !== "https:" || !allowedHosts.has(parsed.hostname)) {
+    throw new Error("Only HTTPS YouTube links are supported.");
+  }
+  return videoUrl;
+}
+
+async function handleCourseSummaryVideo(env, courseId) {
+  if (!COURSE_IDS.has(courseId)) throw new Error("Invalid course.");
+  const videoUrl = await requireKv(env).get(`course-summary-video:${courseId}`);
+  return json({ courseId, videoUrl: videoUrl || null });
+}
+
+async function handleAdminCourseSummaryVideoUpdate(request, env, courseId) {
+  const user = await verifyFirebaseToken(request);
+  requireAdmin(user);
+  if (!COURSE_IDS.has(courseId)) throw new Error("Invalid course.");
+  const body = await readJson(request);
+  let videoUrl;
+  try {
+    videoUrl = validateYouTubeUrl(body.videoUrl);
+  } catch (error) {
+    return json({ error: error.message }, 400);
+  }
+  await requireKv(env).put(`course-summary-video:${courseId}`, videoUrl);
+  return json({ ok: true, courseId, videoUrl });
+}
+
 async function handleAdminCourseChapters(request, env, courseId) {
   const user = await verifyFirebaseToken(request);
   requireAdmin(user);
@@ -889,17 +925,12 @@ async function handleAdminCourseVideoUpdate(request, env, courseId, chapterId) {
   const user = await verifyFirebaseToken(request);
   requireAdmin(user);
   const chapter = validateCourseChapter(courseId, chapterId);
-  const body = await request.json();
-  const videoUrl = String(body.videoUrl || "").trim();
-  let parsed;
+  const body = await readJson(request);
+  let videoUrl;
   try {
-    parsed = new URL(videoUrl);
-  } catch {
-    return json({ error: "Enter a valid YouTube URL." }, 400);
-  }
-  const allowedHosts = new Set(["youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be"]);
-  if (parsed.protocol !== "https:" || !allowedHosts.has(parsed.hostname)) {
-    return json({ error: "Only HTTPS YouTube links are supported." }, 400);
+    videoUrl = validateYouTubeUrl(body.videoUrl);
+  } catch (error) {
+    return json({ error: error.message }, 400);
   }
   const videos = await getCourseChapterVideos(env, courseId);
   videos[chapter] = videoUrl;
@@ -1080,6 +1111,16 @@ async function handleAdminProjectUpload(request, env, slug, kind) {
 }
 
 async function handleApi(request, env, url) {
+  const courseSummaryVideoMatch = url.pathname.match(/^\/api\/courses\/([^/]+)\/summary-video$/);
+  if (request.method === "GET" && courseSummaryVideoMatch) {
+    return handleCourseSummaryVideo(env, courseSummaryVideoMatch[1]);
+  }
+
+  const adminCourseSummaryVideoMatch = url.pathname.match(/^\/api\/admin\/courses\/([^/]+)\/summary-video$/);
+  if (request.method === "PUT" && adminCourseSummaryVideoMatch) {
+    return handleAdminCourseSummaryVideoUpdate(request, env, adminCourseSummaryVideoMatch[1]);
+  }
+
   const adminCourseChaptersMatch = url.pathname.match(/^\/api\/admin\/courses\/([^/]+)\/chapters$/);
   if (request.method === "GET" && adminCourseChaptersMatch) {
     return handleAdminCourseChapters(request, env, adminCourseChaptersMatch[1]);

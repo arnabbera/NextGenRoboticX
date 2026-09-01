@@ -5,6 +5,7 @@ import CourseEnrollment from "../components/CourseEnrollment";
 import { isAdministrator } from "../../../components/auth/AdminRoute";
 import { useAuth } from "../../../context/AuthContext";
 import ProjectShare from "../../projects/components/ProjectShare";
+import CourseSummaryVideo from "../components/CourseSummaryVideo";
 
 const COURSE_OVERVIEWS = {
   "robotics-foundation": {
@@ -235,6 +236,8 @@ export default function CourseDetails() {
               </span>
 
             </div>
+
+            <CourseSummaryVideo courseId={course.id} />
 
           </div>
 
