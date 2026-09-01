@@ -6,6 +6,7 @@ import {
   CheckCircle2,
   CircleHelp,
   Clock3,
+  Gauge,
   GitBranch,
   Network,
   Radio,
