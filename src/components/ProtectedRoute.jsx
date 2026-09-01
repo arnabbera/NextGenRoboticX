@@ -17,9 +17,11 @@ export default function ProtectedRoute() {
   }
 
   if (!user) {
+    const redirectPath = `${location.pathname}${location.search}${location.hash}`;
+
     return (
       <Navigate
-        to="/"
+        to={`/login?redirect=${encodeURIComponent(redirectPath)}`}
         replace
         state={{ from: location }}
       />
