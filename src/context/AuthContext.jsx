@@ -76,6 +76,13 @@ export function AuthProvider({ children }) {
     setProfile(null);
   }
 
+  async function refreshProfile() {
+    if (!user) return null;
+    const latestProfile = await getCurrentUserProfile();
+    setProfile(latestProfile);
+    return latestProfile;
+  }
+
   const value = {
     user,
     profile,
@@ -85,6 +92,8 @@ export function AuthProvider({ children }) {
     register,
 
     loginWithGoogle,
+
+    refreshProfile,
 
     logout: logoutUser,
 
