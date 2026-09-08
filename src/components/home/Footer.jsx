@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 
 export default function Footer() {
-  const year = new Date().getFullYear();
-
   return (
     <footer className="border-t border-slate-800 bg-slate-950 text-slate-300">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-3">
@@ -55,7 +53,16 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-slate-800 px-6 py-6 text-center text-sm text-slate-500">
-        © {year} NextGenRoboticX. All rights reserved.
+        <span aria-hidden="true">|</span> © 2020 NextGenRoboticX. All rights
+        reserved.{" "}
+        <a
+          href="https://www.emplementer.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transition hover:text-blue-400"
+        >
+          Built by Emplementer
+        </a>
       </div>
     </footer>
   );
