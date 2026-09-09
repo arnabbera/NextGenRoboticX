@@ -151,7 +151,7 @@ export default function FeatureDetailPage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-xl bg-[#1877F2] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#166FE5]"
                 >
-                  <Facebook size={19} aria-hidden="true" />
+                  <span aria-hidden="true" className="flex h-[19px] w-[19px] items-center justify-center text-xl font-black leading-none">f</span>
                   Facebook
                 </a>
 
