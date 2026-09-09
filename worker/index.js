@@ -1260,6 +1260,68 @@ async function handleApi(request, env, url) {
   return json({ error: "API endpoint not found." }, 404);
 }
 
+
+const EXPERT_MENTORSHIP_META = {
+  title: "Expert Robotics & Engineering Mentorship | NextGenRoboticX",
+  description:
+    "Get practical robotics, AI, IoT and engineering project mentorship from experienced industry professionals.",
+  url: "https://www.nextgenroboticx.com/features/expert-mentorship",
+  image:
+    "https://www.nextgenroboticx.com/images/expert-mentorship-sona-bera.webp",
+};
+
+class AttributeHandler {
+  constructor(attribute, value) {
+    this.attribute = attribute;
+    this.value = value;
+  }
+
+  element(element) {
+    element.setAttribute(this.attribute, this.value);
+  }
+}
+
+class ContentHandler {
+  constructor(content) {
+    this.content = content;
+  }
+
+  element(element) {
+    element.setInnerContent(this.content);
+  }
+}
+
+function applyExpertMentorshipMeta(response) {
+  const meta = EXPERT_MENTORSHIP_META;
+
+  return new HTMLRewriter()
+    .on("title", new ContentHandler(meta.title))
+    .on('link[rel="canonical"]', new AttributeHandler("href", meta.url))
+    .on('meta[name="description"]', new AttributeHandler("content", meta.description))
+    .on('meta[property="og:title"]', new AttributeHandler("content", meta.title))
+    .on('meta[property="og:description"]', new AttributeHandler("content", meta.description))
+    .on('meta[property="og:type"]', new AttributeHandler("content", "website"))
+    .on('meta[property="og:url"]', new AttributeHandler("content", meta.url))
+    .on('meta[property="og:image"]', new AttributeHandler("content", meta.image))
+    .on('meta[property="og:image:secure_url"]', new AttributeHandler("content", meta.image))
+    .on('meta[property="og:image:type"]', new AttributeHandler("content", "image/webp"))
+    .on('meta[property="og:image:width"]', new AttributeHandler("content", "1200"))
+    .on('meta[property="og:image:height"]', new AttributeHandler("content", "675"))
+    .on(
+      'meta[property="og:image:alt"]',
+      new AttributeHandler("content", "Expert mentorship at NextGenRoboticX")
+    )
+    .on('meta[name="twitter:card"]', new AttributeHandler("content", "summary_large_image"))
+    .on('meta[name="twitter:title"]', new AttributeHandler("content", meta.title))
+    .on('meta[name="twitter:description"]', new AttributeHandler("content", meta.description))
+    .on('meta[name="twitter:image"]', new AttributeHandler("content", meta.image))
+    .on(
+      'meta[name="twitter:image:alt"]',
+      new AttributeHandler("content", "Expert mentorship at NextGenRoboticX")
+    )
+    .transform(response);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -1277,7 +1339,17 @@ export default {
         return Response.redirect(url.toString(), 301);
       }
 
-      return env.ASSETS.fetch(request);
+      const assetResponse = await env.ASSETS.fetch(request);
+
+      if (
+        request.method === "GET" &&
+        url.pathname === "/features/expert-mentorship" &&
+        assetResponse.headers.get("content-type")?.includes("text/html")
+      ) {
+        return applyExpertMentorshipMeta(assetResponse);
+      }
+
+      return assetResponse;
     } catch (error) {
       console.error("Request failed", url.pathname, error.message);
 
