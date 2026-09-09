@@ -99,6 +99,15 @@ const projects = [
     image: "/images/courses/drone.jpg",
     type: "website",
   },
+  {
+    path: "courses/embedded-systems",
+    title: "Embedded Systems Course | NextGenRoboticX",
+    description:
+      "Explore Embedded Systems from NextGenRoboticX: Design reliable embedded applications using microcontrollers, Embedded C, peripherals, communication protocols, RTOS concepts, power management and systematic debugging.",
+    image: "/images/courses/embedded-social-1200x675.png",
+    imageType: "image/png",
+    type: "website",
+  },
 ];
 
 const escapeAttribute = (value) =>
@@ -109,6 +118,11 @@ const escapeAttribute = (value) =>
     .replaceAll(">", "&gt;");
 
 const baseHtml = await readFile(join("dist", "index.html"), "utf8");
+const cleanBaseHtml = baseHtml
+  .replace(/\s*<meta\s+name="description"[\s\S]*?\/>/gi, "")
+  .replace(/\s*<link\s+rel="canonical"[\s\S]*?\/>/gi, "")
+  .replace(/\s*<meta\s+property="og:[^"]+"[\s\S]*?\/>/gi, "")
+  .replace(/\s*<meta\s+name="twitter:[^"]+"[\s\S]*?\/>/gi, "");
 
 for (const project of projects) {
   const url = `${siteUrl}/${project.path}`;
@@ -126,6 +140,9 @@ for (const project of projects) {
     <meta property="og:url" content="${url}" />
     <meta property="og:image" content="${image}" />
     <meta property="og:image:secure_url" content="${image}" />
+    <meta property="og:image:type" content="${project.imageType || "image/jpeg"}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="675" />
     <meta property="og:image:alt" content="${title}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${title}" />
@@ -133,7 +150,7 @@ for (const project of projects) {
     <meta name="twitter:image" content="${image}" />
   `;
 
-  const html = baseHtml
+  const html = cleanBaseHtml
     .replace(/<title>.*?<\/title>/i, `<title>${title}</title>`)
     .replace("</head>", `${socialMeta}\n  </head>`);
 
