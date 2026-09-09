@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import {\n  ArrowLeft,\n  ArrowRight,\n  Check,\n  CheckCircle2,\n  Copy,\n  Facebook,\n  MessageCircle,\n  Share2,\n} from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  CheckCircle2,
+  Copy,
+  MessageCircle,
+  Share2,
+} from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import Footer from "../../../components/home/Footer";
 import { getFeatureBySlug } from "../data/features";
@@ -20,6 +28,33 @@ function upsertMeta(name, content, property = false) {
 export default function FeatureDetailPage() {
   const { featureSlug } = useParams();
   const feature = getFeatureBySlug(featureSlug);
+  const [copied, setCopied] = useState(false);
+
+  const canonicalUrl = feature
+    ? `https://www.nextgenroboticx.com/features/${feature.slug}`
+    : "";
+  const encodedUrl = encodeURIComponent(canonicalUrl);
+  const encodedTitle = encodeURIComponent(
+    feature?.seoTitle || "NextGenRoboticX"
+  );
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(canonicalUrl);
+    } catch {
+      const textArea = document.createElement("textarea");
+      textArea.value = canonicalUrl;
+      textArea.style.position = "fixed";
+      textArea.style.opacity = "0";
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      textArea.remove();
+    }
+
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     if (!feature) return;
