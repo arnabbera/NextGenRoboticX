@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import {\n  ArrowLeft,\n  ArrowRight,\n  Check,\n  CheckCircle2,\n  Copy,\n  Facebook,\n  MessageCircle,\n  Share2,\n} from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import Footer from "../../../components/home/Footer";
 import { getFeatureBySlug } from "../data/features";
@@ -131,6 +131,64 @@ export default function FeatureDetailPage() {
               alt={`${feature.title} training at NextGenRoboticX`}
               className="aspect-video w-full rounded-3xl object-cover shadow-2xl"
             />
+          </div>
+        </section>
+
+        <section className="border-b border-slate-200 bg-white py-10">
+          <div className="mx-auto max-w-7xl px-5 sm:px-6">
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
+              <h2 className="text-2xl font-bold text-slate-900">
+                Share {feature.title}
+              </h2>
+              <p className="mt-2 text-slate-600">
+                Forward this page to students, parents and technology enthusiasts.
+              </p>
+
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#1877F2] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#166FE5]"
+                >
+                  <Facebook size={19} aria-hidden="true" />
+                  Facebook
+                </a>
+
+                <a
+                  href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl bg-black px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-900"
+                >
+                  <Share2 size={19} aria-hidden="true" />
+                  X (Twitter)
+                </a>
+
+                <a
+                  href={`https://wa.me/?text=${encodedTitle}%20${encodedUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-green-700"
+                >
+                  <MessageCircle size={19} aria-hidden="true" />
+                  WhatsApp
+                </a>
+
+                <button
+                  type="button"
+                  onClick={copyLink}
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800 transition hover:border-blue-500 hover:text-blue-700"
+                >
+                  {copied ? (
+                    <Check size={19} aria-hidden="true" />
+                  ) : (
+                    <Copy size={19} aria-hidden="true" />
+                  )}
+                  {copied ? "Link Copied" : "Copy Link"}
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
