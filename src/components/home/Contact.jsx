@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   Check,
   Copy,
-  Facebook,
   Mail,
   MapPin,
   MessageCircle,
@@ -22,7 +21,7 @@ const encodedShareTitle = encodeURIComponent(shareTitle);
 const shareLinks = [
   {
     label: "Facebook",
-    icon: Facebook,
+    icon: Share2,
     href: `https://www.facebook.com/sharer/sharer.php?u=${encodedShareUrl}`,
     className: "bg-[#1877F2] hover:bg-[#166FE5]",
   },
