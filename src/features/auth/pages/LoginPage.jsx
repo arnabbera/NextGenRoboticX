@@ -1,6 +1,7 @@
 import { Bot, GraduationCap, Rocket } from "lucide-react";
 import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import courses from "../../courses/data/courses";
 
 function getSafeRedirect(value) {
   if (!value || !value.startsWith("/") || value.startsWith("//")) {
@@ -15,6 +16,9 @@ export default function LoginPage() {
   const [searchParams] = useSearchParams();
   const redirectPath = getSafeRedirect(searchParams.get("redirect"));
   const courseRedirect = redirectPath.startsWith("/courses/");
+  const redirectedCourseId = redirectPath.match(/^\/courses\/([^/]+)/)?.[1];
+  const redirectedCourse = courses.find((course) => course.id === redirectedCourseId);
+  const enrollmentPrice = redirectedCourse?.price ?? 99;
 
   if (loading) {
     return (
@@ -60,7 +64,7 @@ export default function LoginPage() {
 
           <p className="mt-3 text-slate-600">
             {courseRedirect
-              ? "Sign in with the Gmail account that should own your ₹99 course enrollment. After login, you will return to the selected course to complete payment."
+              ? `Sign in with the Gmail account that should own your ₹${enrollmentPrice} course enrollment. After login, you will return to the selected course to complete payment.`
               : "Use your Google account to manage enrolled courses, learning progress, projects and certificates."}
           </p>
 
@@ -107,7 +111,7 @@ export default function LoginPage() {
                   2. Course Access Fee
                 </h2>
                 <p className="mt-1">
-                  Each available course requires a one-time ₹99 enrollment fee.
+                  Each available course requires the one-time enrollment fee shown on its course page.
                   Access is activated only after successful payment verification
                   and remains linked to the signed-in Gmail account.
                 </p>
@@ -192,7 +196,7 @@ export default function LoginPage() {
                 2. Course Access Fee
               </h3>
               <p className="mt-2">
-                Each available course requires a one-time ₹99 enrollment payment.
+                Each available course requires the one-time enrollment payment shown on its course page.
                 Enrollment is activated only after Razorpay confirms that the
                 payment was captured successfully, and access remains linked to
                 the Gmail account used to sign in.
@@ -204,7 +208,7 @@ export default function LoginPage() {
                 3. Assessment &amp; Certificate
               </h3>
               <p className="mt-2">
-                The ₹99 enrollment includes access to the selected course and any
+                The enrollment payment includes access to the selected course and any
                 mock test or assessment offered with it. Payment does not
                 guarantee a certificate; the student must meet the applicable
                 assessment and passing requirements.
