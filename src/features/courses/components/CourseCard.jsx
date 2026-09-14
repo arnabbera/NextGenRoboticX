@@ -7,8 +7,11 @@ import {
   ArrowRight,
   Tag,
 } from "lucide-react";
+import { useAuth } from "../../../context/AuthContext";
+import { isAdministrator } from "../../../components/auth/AdminRoute";
 
 export default function CourseCard({ course }) {
+  const { user, profile } = useAuth();
   const {
     id,
     title,
@@ -31,6 +34,8 @@ export default function CourseCard({ course }) {
   };
 
   const isComingSoon = status === "Coming Soon";
+  const administrator = isAdministrator(user, profile);
+  const canOpen = !isComingSoon || administrator;
 
   const card = (
     <div className="group overflow-hidden rounded-3xl bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
@@ -141,20 +146,22 @@ export default function CourseCard({ course }) {
         {/* Button */}
 
         <button
-          disabled={isComingSoon}
+          disabled={!canOpen}
           className={`mt-8 flex w-full items-center justify-center gap-2 rounded-xl py-3 font-semibold transition ${
-            isComingSoon
+            !canOpen
               ? "cursor-not-allowed bg-slate-300 text-slate-600"
               : "bg-blue-600 text-white hover:bg-blue-700"
           }`}
         >
-          {isComingSoon
+          {isComingSoon && administrator
+            ? "View Course Details"
+            : isComingSoon
             ? "Coming Soon"
             : enrolled || progress > 0
             ? "Continue Learning"
             : "Enroll for ₹99"}
 
-          {!isComingSoon && <ArrowRight size={18} />}
+          {canOpen && <ArrowRight size={18} />}
         </button>
 
       </div>
@@ -162,7 +169,7 @@ export default function CourseCard({ course }) {
     </div>
   );
 
-  if (isComingSoon) {
+  if (!canOpen) {
     return card;
   }
 
