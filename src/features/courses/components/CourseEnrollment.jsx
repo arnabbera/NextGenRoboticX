@@ -23,6 +23,7 @@ function loadRazorpay() {
 export default function CourseEnrollment({ course, onStatusChange }) {
   const { user } = useAuth();
   const location = useLocation();
+  const price = course.price ?? 99;
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [paying, setPaying] = useState(false);
@@ -131,7 +132,7 @@ export default function CourseEnrollment({ course, onStatusChange }) {
     return (
       <div className="mt-8 max-w-xl rounded-2xl border border-white/20 bg-slate-950/25 p-5 text-white">
         <div className="flex items-center gap-3"><LockKeyhole /><strong className="text-xl">Sign in to enroll</strong></div>
-        <p className="mt-3 text-blue-100">Review the complete course offering on this page. Sign in with the Gmail account that should permanently own the course before making the ₹99 payment.</p>
+        <p className="mt-3 text-blue-100">Review the complete course offering on this page. Sign in with the Gmail account that should permanently own the course before making the ₹{price} payment.</p>
         <Link to={`/login?redirect=${redirect}`} className="mt-5 inline-flex rounded-xl bg-white px-6 py-3 font-bold text-blue-700 transition hover:bg-blue-50">Sign in with Google &amp; Enroll</Link>
       </div>
     );
@@ -152,10 +153,10 @@ export default function CourseEnrollment({ course, onStatusChange }) {
   return (
     <div className="mt-8 max-w-xl rounded-2xl border border-white/20 bg-slate-950/25 p-5 text-white">
       <div className="flex items-center gap-3"><LockKeyhole /><strong className="text-xl">Enroll to unlock this course</strong></div>
-      <p className="mt-3 text-blue-100">Pay ₹99 once. Access is linked permanently to your signed-in Gmail account: <strong>{user.email}</strong>.</p>
+      <p className="mt-3 text-blue-100">Pay ₹{price} once. Access is linked permanently to your signed-in Gmail account: <strong>{user.email}</strong>.</p>
       <button type="button" disabled={paying} onClick={enroll} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-amber-400 px-6 py-3 font-bold text-slate-950 hover:bg-amber-300 disabled:opacity-60">
         {paying && <LoaderCircle className="animate-spin" size={18} />}
-        {paying ? "Processing..." : "Pay ₹99 & Enroll"}
+        {paying ? "Processing..." : `Pay ₹${price} & Enroll`}
       </button>
       {error && <p className="mt-3 rounded-lg bg-red-950/50 p-3 text-sm text-red-100">{error}</p>}
     </div>

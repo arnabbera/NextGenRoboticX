@@ -25,6 +25,7 @@ export default function CourseCard({ course }) {
     status,
     certificate,
     enrolled,
+    price = 99,
   } = course;
 
   const levelColors = {
@@ -159,7 +160,7 @@ export default function CourseCard({ course }) {
             ? "Coming Soon"
             : enrolled || progress > 0
             ? "Continue Learning"
-            : "Enroll for ₹99"}
+            : `Enroll for ₹${price}`}
 
           {canOpen && <ArrowRight size={18} />}
         </button>
