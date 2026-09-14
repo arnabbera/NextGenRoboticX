@@ -10,10 +10,15 @@ export default function CourseAccessRoute() {
   const { pathname } = useLocation();
   const courseId = pathname.match(/^\/courses\/([^/]+)/)?.[1];
   const course = courses.find((item) => item.id === courseId);
-  const unavailable = course?.status === "Coming Soon" && !isAdministrator(user, profile);
+  const administrator = isAdministrator(user, profile);
+  const unavailable = course?.status === "Coming Soon" && !administrator;
   const [state, setState] = useState({ loading: true, active: false, error: "" });
 
   useEffect(() => {
+    if (administrator) {
+      setState({ loading: false, active: true, error: "" });
+      return undefined;
+    }
     if (unavailable) {
       setState({ loading: false, active: false, error: "" });
       return undefined;
@@ -34,7 +39,11 @@ export default function CourseAccessRoute() {
     }
     verifyAccess();
     return () => { current = false; };
-  }, [courseId, unavailable, user]);
+  }, [administrator, courseId, unavailable, user]);
+
+  if (administrator) {
+    return <Outlet />;
+  }
 
   if (unavailable) {
     return (
