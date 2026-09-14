@@ -4,6 +4,7 @@ const PASS_CURRENCY = "INR";
 const PASS_PRODUCT = "all-nine-projects-lifetime";
 const DEFAULT_COURSE_ACCESS_AMOUNT = 9900;
 const COURSE_ACCESS_AMOUNTS = {
+  "robotics-foundation": 4900,
   "internet-of-things": 4900,
 };
 const getCourseAccessAmount = (courseId) =>
