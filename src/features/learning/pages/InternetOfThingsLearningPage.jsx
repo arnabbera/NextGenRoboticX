@@ -7,6 +7,7 @@ import LessonHeader from "../components/LessonHeader";
 import InternetOfThingsChapterOneLesson from "./InternetOfThingsChapterOneLesson";
 import InternetOfThingsChapterTwoLesson from "./InternetOfThingsChapterTwoLesson";
 import InternetOfThingsChapterThreeLesson from "./InternetOfThingsChapterThreeLesson";
+import InternetOfThingsChapterFourLesson from "./InternetOfThingsChapterFourLesson";
 
 const chapters = courseContent["internet-of-things"]?.chapters || [];
 
@@ -35,7 +36,7 @@ export default function InternetOfThingsLearningPage() {
               <ChapterVideoManager chapter={chapter.id} />
             </section>
 
-            {chapter.id === 1 ? <InternetOfThingsChapterOneLesson /> : chapter.id === 2 ? <InternetOfThingsChapterTwoLesson /> : chapter.id === 3 ? <InternetOfThingsChapterThreeLesson /> : <ChapterPlaceholder chapter={chapter} />}
+            {chapter.id === 1 ? <InternetOfThingsChapterOneLesson /> : chapter.id === 2 ? <InternetOfThingsChapterTwoLesson /> : chapter.id === 3 ? <InternetOfThingsChapterThreeLesson /> : chapter.id === 4 ? <InternetOfThingsChapterFourLesson /> : <ChapterPlaceholder chapter={chapter} />}
 
             <nav className="flex flex-col justify-between gap-4 sm:flex-row">
               {previous ? <Link to={chapterPath(previous.id)} className="inline-flex items-center gap-2 rounded-xl border bg-white px-5 py-3 font-semibold hover:bg-slate-50"><ChevronLeft size={18} /> Chapter {previous.id}: {previous.title}</Link> : <span />}
