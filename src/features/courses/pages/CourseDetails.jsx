@@ -398,7 +398,7 @@ export default function CourseDetails() {
 
       <section className="mt-10 overflow-hidden rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 p-7 text-white shadow-xl md:p-10">
         <h2 className="text-3xl font-bold">Ready to enroll?</h2>
-        <p className="mt-3 max-w-3xl text-lg leading-8 text-blue-100">Review the complete course structure above, then enroll for a one-time fee of ₹99. Access is permanently linked to your signed-in Gmail account.</p>
+        <p className="mt-3 max-w-3xl text-lg leading-8 text-blue-100">Review the complete course structure above, then enroll for a one-time fee of ₹{course.price ?? 99}. Access is permanently linked to your signed-in Gmail account.</p>
         <CourseEnrollment course={course} onStatusChange={setEnrolled} />
         {enrolled && (
           <div className="mt-6 flex flex-wrap gap-3">
