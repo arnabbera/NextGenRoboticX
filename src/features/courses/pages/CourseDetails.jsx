@@ -273,6 +273,14 @@ export default function CourseDetails() {
               className="w-full rounded-2xl shadow-2xl"
             />
 
+            <div className="mt-5 overflow-hidden rounded-2xl shadow-lg">
+              <ProjectShare
+                title={course.title}
+                description={`Explore ${course.title} from NextGenRoboticX: ${course.description}`}
+                contentType="course"
+              />
+            </div>
+
           </div>
 
         </div>
@@ -412,14 +420,6 @@ export default function CourseDetails() {
           </div>
         )}
       </section>
-
-      <div className="mt-10 overflow-hidden rounded-3xl shadow-lg">
-        <ProjectShare
-          title={course.title}
-          description={`Explore ${course.title} from NextGenRoboticX: ${course.description}`}
-          contentType="course"
-        />
-      </div>
 
     </div>
     </>
