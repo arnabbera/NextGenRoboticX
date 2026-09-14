@@ -1,17 +1,9 @@
 import { useState } from "react";
-import { Check, Copy, Share2 } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 
 const FacebookIcon = ({ size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M13.5 22v-9h3l.5-3.5h-3.5V7.3c0-1 .3-1.8 1.8-1.8H17V2.4c-.8-.1-1.7-.2-2.5-.2-2.6 0-4.4 1.6-4.4 4.6v2.7H7V13h3.1v9h3.4Z" />
-  </svg>
-);
-
-const InstagramIcon = ({ size = 20 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-    <rect x="3" y="3" width="18" height="18" rx="5" />
-    <circle cx="12" cy="12" r="4" />
-    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
   </svg>
 );
 
@@ -44,26 +36,6 @@ export default function ProjectShare({ title, description, contentType = "projec
     window.setTimeout(() => setCopied(false), 2000);
   };
 
-  const shareAnywhere = async () => {
-    if (navigator.share) {
-      await navigator.share({
-        title,
-        text: description,
-        url: getUrl(),
-      });
-      return;
-    }
-    await copyLink();
-  };
-
-  const shareInstagram = async () => {
-    if (navigator.share) {
-      await shareAnywhere();
-      return;
-    }
-    await copyLink();
-    window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
-  };
 
   const buttons = [
     {
@@ -105,24 +77,6 @@ export default function ProjectShare({ title, description, contentType = "projec
             </a>
           ))}
 
-          <button
-            type="button"
-            onClick={shareInstagram}
-            className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 px-5 py-3 font-semibold text-white transition hover:opacity-90"
-            aria-label={`Share ${title} using Instagram`}
-          >
-            <InstagramIcon size={20} />
-            Instagram
-          </button>
-
-          <button
-            type="button"
-            onClick={shareAnywhere}
-            className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
-          >
-            <Share2 size={20} />
-            More apps
-          </button>
 
           <button
             type="button"
@@ -134,9 +88,6 @@ export default function ProjectShare({ title, description, contentType = "projec
           </button>
         </div>
 
-        <p className="mt-4 text-xs leading-5 text-slate-500">
-          Instagram does not provide direct web link sharing. On mobile, the Instagram button opens your device share menu; on desktop, it copies the {contentType} link before opening Instagram.
-        </p>
       </div>
     </section>
   );
