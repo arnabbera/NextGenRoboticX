@@ -6,6 +6,7 @@ const DEFAULT_COURSE_ACCESS_AMOUNT = 9900;
 const COURSE_ACCESS_AMOUNTS = {
   "robotics-foundation": 4900,
   "arduino-programming": 4900,
+  "raspberry-pi": 4900,
   "internet-of-things": 4900,
 };
 const getCourseAccessAmount = (courseId) =>
