@@ -2,7 +2,12 @@ const FIREBASE_PROJECT_ID = "nextgenroboticx";
 const PASS_AMOUNT = 9900;
 const PASS_CURRENCY = "INR";
 const PASS_PRODUCT = "all-nine-projects-lifetime";
-const COURSE_ACCESS_AMOUNT = 9900;
+const DEFAULT_COURSE_ACCESS_AMOUNT = 9900;
+const COURSE_ACCESS_AMOUNTS = {
+  "internet-of-things": 4900,
+};
+const getCourseAccessAmount = (courseId) =>
+  COURSE_ACCESS_AMOUNTS[courseId] || DEFAULT_COURSE_ACCESS_AMOUNT;
 const COURSE_IDS = new Set([
   "robotics-foundation",
   "arduino-programming",
@@ -18,6 +23,7 @@ const PURCHASABLE_COURSE_IDS = new Set([
   "robotics-foundation",
   "arduino-programming",
   "raspberry-pi",
+  "internet-of-things",
   "drone-technology",
 ]);
 const COURSE_TITLES = {
@@ -436,6 +442,7 @@ async function handleCourseOrder(request, env) {
   const body = await readJson(request);
   const courseId = String(body.courseId || "");
   validateCourseId(courseId);
+  const courseAccessAmount = getCourseAccessAmount(courseId);
   if (!PURCHASABLE_COURSE_IDS.has(courseId)) {
     return json({ error: "Enrollment is not open for this course yet." }, 409);
   }
@@ -449,7 +456,7 @@ async function handleCourseOrder(request, env) {
   const order = await razorpayRequest(env, "/orders", {
     method: "POST",
     body: JSON.stringify({
-      amount: COURSE_ACCESS_AMOUNT,
+      amount: courseAccessAmount,
       currency: PASS_CURRENCY,
       receipt,
       payment_capture: 1,
@@ -467,7 +474,7 @@ async function handleCourseOrder(request, env) {
       uid: user.uid,
       email: user.email,
       courseId,
-      amount: COURSE_ACCESS_AMOUNT,
+      amount: courseAccessAmount,
       currency: PASS_CURRENCY,
       createdAt: new Date().toISOString(),
     }),
@@ -489,6 +496,7 @@ async function handleCourseVerify(request, env) {
   const body = await readJson(request);
   const courseId = String(body.courseId || "");
   validateCourseId(courseId);
+  const courseAccessAmount = getCourseAccessAmount(courseId);
 
   const orderId = body.razorpay_order_id;
   const paymentId = body.razorpay_payment_id;
@@ -524,7 +532,7 @@ async function handleCourseVerify(request, env) {
 
   if (
     payment.order_id !== orderId ||
-    payment.amount !== COURSE_ACCESS_AMOUNT ||
+    payment.amount !== courseAccessAmount ||
     payment.currency !== PASS_CURRENCY ||
     payment.status !== "captured"
   ) {
@@ -535,7 +543,7 @@ async function handleCourseVerify(request, env) {
     active: true,
     courseId,
     courseTitle: COURSE_TITLES[courseId],
-    amountPaid: 99,
+    amountPaid: courseAccessAmount / 100,
     currency: PASS_CURRENCY,
     purchasedAt: new Date().toISOString(),
     razorpayOrderId: orderId,
