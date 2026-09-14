@@ -88,6 +88,22 @@ const COURSE_OVERVIEWS = {
       "Final Project: Real-Time Monitoring and Control System",
     ],
   },
+  "internet-of-things": {
+    heading: "Internet of Things Course Summary",
+    summary: "Learn how connected products sense the physical world, exchange information securely, process data at the edge and in the cloud, and turn real-time information into useful monitoring and control applications.",
+    chapters: [
+      "Introduction to IoT and Connected Systems",
+      "IoT Architecture, Devices and Communication Models",
+      "ESP32 Hardware, Arduino IDE and Development Setup",
+      "Sensors, Actuators and Edge Data Acquisition",
+      "Wi-Fi Networking and HTTP/REST APIs",
+      "MQTT Messaging and Publish-Subscribe Systems",
+      "Cloud Platforms, Databases and IoT Dashboards",
+      "IoT Security, Privacy and Device Management",
+      "Edge Automation, Rules and Real-Time Monitoring",
+      "Final Project: Smart IoT Monitoring and Control System",
+    ],
+  },
 };
 
 const COURSE_LEARNING_DETAILS = {
@@ -130,6 +146,14 @@ const COURSE_LEARNING_DETAILS = {
     { title: "Sensors, actuators and communication buses", text: "Acquire and validate measurements, control outputs, and integrate devices using UART, I2C, SPI and CAN with systematic protocol troubleshooting." },
     { title: "Memory, power and dependable operation", text: "Manage stack, heap, non-volatile storage and low-power modes while designing watchdogs, fault handling and recovery paths for reliable field operation." },
     { title: "RTOS design and production capstone", text: "Use tasks, scheduling, queues, semaphores and synchronisation safely, then integrate the course skills into a documented real-time monitoring and control system." },
+  ],
+  "internet-of-things": [
+    { title: "IoT architecture and connected-product design", text: "Understand devices, gateways, networks, edge processing, cloud services and applications, then select an appropriate architecture for a real problem." },
+    { title: "ESP32 development and physical interfacing", text: "Configure the ESP32 toolchain, write structured firmware, acquire sensor data and control actuators using safe electrical practices." },
+    { title: "HTTP, REST APIs and MQTT communication", text: "Connect devices over Wi-Fi, exchange structured data through web APIs and build dependable publish-subscribe flows using MQTT." },
+    { title: "Cloud storage and real-time dashboards", text: "Store telemetry, organise time-series information, visualise device status and create practical alerts and control interfaces." },
+    { title: "Security, privacy and reliable operation", text: "Protect credentials and data, validate messages, manage connectivity failures and design safe device recovery and update strategies." },
+    { title: "Smart IoT monitoring and control capstone", text: "Integrate sensing, communication, cloud processing, dashboards and actuation into a tested and documented end-to-end IoT system." },
   ],
 };
 

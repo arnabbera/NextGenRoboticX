@@ -17,10 +17,14 @@ export default function LessonHeader({ chapter = 1, lesson = 1, chapterTitle = "
           ? "Drone Technology"
         : courseId === "embedded-systems"
           ? "Embedded Systems"
+        : courseId === "internet-of-things"
+          ? "Internet of Things"
         : "Course";
 
   const progress = 0;
-  const duration = "2 Months";
+  const duration = ["internet-of-things", "embedded-systems", "drone-technology"].includes(courseId)
+    ? "3 Months"
+    : "2 Months";
 
   return (
     <>
