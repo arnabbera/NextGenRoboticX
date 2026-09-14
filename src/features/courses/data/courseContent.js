@@ -282,7 +282,18 @@ Understanding loop()
   },
 
   "internet-of-things": {
-    chapters: [],
+    chapters: [
+      { id: 1, title: "Introduction to IoT and Connected Systems", duration: "40 min", video: "", pdf: "", notes: "", quiz: true, project: false, resources: [], code: [] },
+      { id: 2, title: "IoT Architecture, Devices and Communication Models", duration: "50 min", video: "", pdf: "", notes: "", quiz: true, project: false, resources: [], code: [] },
+      { id: 3, title: "ESP32 Hardware, Arduino IDE and Development Setup", duration: "55 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 4, title: "Sensors, Actuators and Edge Data Acquisition", duration: "60 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 5, title: "Wi-Fi Networking and HTTP/REST APIs", duration: "65 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 6, title: "MQTT Messaging and Publish-Subscribe Systems", duration: "65 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 7, title: "Cloud Platforms, Databases and IoT Dashboards", duration: "70 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 8, title: "IoT Security, Privacy and Device Management", duration: "65 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 9, title: "Edge Automation, Rules and Real-Time Monitoring", duration: "75 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 10, title: "Final Project: Smart IoT Monitoring and Control System", duration: "90 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+    ],
   },
 
   "embedded-systems": {

@@ -3,6 +3,7 @@ import ArduinoProgrammingLearningPage from "./ArduinoProgrammingLearningPage";
 import RaspberryPiLearningPage from "./RaspberryPiLearningPage";
 import DroneTechnologyLearningPage from "./DroneTechnologyLearningPage";
 import EmbeddedSystemsLearningPage from "./EmbeddedSystemsLearningPage";
+import InternetOfThingsLearningPage from "./InternetOfThingsLearningPage";
 
 export default function CourseLearningPage() {
   const { courseId } = useParams();
@@ -21,6 +22,10 @@ export default function CourseLearningPage() {
 
   if (courseId === "embedded-systems") {
     return <EmbeddedSystemsLearningPage />;
+  }
+
+  if (courseId === "internet-of-things") {
+    return <InternetOfThingsLearningPage />;
   }
 
   return <Navigate to={`/courses/${courseId}`} replace />;

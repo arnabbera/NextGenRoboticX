@@ -76,7 +76,7 @@ const courses = [
     category: "IoT",
     level: "Intermediate",
     duration: "3 Months",
-    chapters: 12,
+    chapters: 10,
     students: 0,
     progress: 0,
     status: "Coming Soon",
@@ -85,11 +85,11 @@ const courses = [
     description:
       "Learn MQTT, cloud integration, ESP32, Wi-Fi, sensors, dashboards, and real-time IoT application development through hands-on projects.",
     learningOutcomes: [
-      "Understand IoT architecture",
-      "Program ESP32 boards",
-      "Connect sensors using MQTT",
-      "Integrate cloud platforms",
-      "Develop real-time IoT dashboards",
+      "Design secure end-to-end IoT architectures",
+      "Program ESP32 devices and interface sensors",
+      "Exchange data using HTTP, REST APIs and MQTT",
+      "Connect devices to cloud databases and dashboards",
+      "Build a reliable real-time IoT monitoring system",
     ],
   },
 
