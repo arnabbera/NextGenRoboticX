@@ -35,6 +35,7 @@ const courses = [
     students: 0,
     progress: 0,
     status: "Available",
+    price: 49,
     certificate: true,
     image: `${BASE}images/courses/arduino.jpg`,
     description:
