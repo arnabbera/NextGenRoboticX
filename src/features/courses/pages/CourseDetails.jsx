@@ -441,10 +441,10 @@ export default function CourseDetails() {
         <h2 className="text-3xl font-bold">Ready to enroll?</h2>
         <p className="mt-3 max-w-3xl text-lg leading-8 text-blue-100">Review the complete course structure above, then enroll for a one-time fee of ₹{course.price ?? 99}. Access is permanently linked to your signed-in Gmail account.</p>
         <CourseEnrollment course={course} onStatusChange={setEnrolled} />
-        {enrolled && (
+        {(enrolled || isAdministrator(user, profile)) && (
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to={`/courses/${course.id}/learn`} className="inline-flex rounded-xl bg-white px-6 py-4 font-semibold text-blue-700 transition hover:scale-105 hover:shadow-xl">🚀 Start Learning</Link>
-            {["robotics-foundation", "arduino-programming", "raspberry-pi", "drone-technology"].includes(course.id) && (
+            {["robotics-foundation", "arduino-programming", "raspberry-pi", "drone-technology", "pcb-design-hardware-development"].includes(course.id) && (
               <>
                 <Link to={`/courses/${course.id}/mock-test`} className="inline-flex rounded-xl border border-white/40 bg-white/15 px-6 py-4 font-semibold text-white transition hover:bg-white/25">📝 Mock Test</Link>
                 <Link to={`/courses/${course.id}/assessment`} className="inline-flex rounded-xl bg-emerald-500 px-6 py-4 font-semibold text-white transition hover:bg-emerald-400">🎓 Assessment</Link>
