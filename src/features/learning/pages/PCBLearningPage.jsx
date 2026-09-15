@@ -13,6 +13,7 @@ import PCBChapterSixLesson from "./PCBChapterSixLesson";
 import PCBChapterSevenLesson from "./PCBChapterSevenLesson";
 import PCBChapterEightLesson from "./PCBChapterEightLesson";
 import PCBChapterNineLesson from "./PCBChapterNineLesson";
+import PCBChapterTenLesson from "./PCBChapterTenLesson";
 
 const courseId = "pcb-design-hardware-development";
 const chapters = courseContent[courseId]?.chapters || [];
@@ -36,7 +37,7 @@ export default function PCBLearningPage() {
               <div className="flex aspect-video items-center justify-center rounded-2xl bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-950 p-8 text-center text-white"><div><CircuitBoard className="mx-auto text-blue-300" size={64} /><h3 className="mt-5 text-2xl font-bold">Video lesson coming soon</h3><p className="mt-3 text-blue-100">The administrator can add the YouTube lesson for this chapter below.</p></div></div>
               <ChapterVideoManager chapter={chapter.id} />
             </section>
-            {chapter.id === 1 ? <PCBChapterOneLesson /> : chapter.id === 2 ? <PCBChapterTwoLesson /> : chapter.id === 3 ? <PCBChapterThreeLesson /> : chapter.id === 4 ? <PCBChapterFourLesson /> : chapter.id === 5 ? <PCBChapterFiveLesson /> : chapter.id === 6 ? <PCBChapterSixLesson /> : chapter.id === 7 ? <PCBChapterSevenLesson /> : chapter.id === 8 ? <PCBChapterEightLesson /> : chapter.id === 9 ? <PCBChapterNineLesson /> : <ChapterPlaceholder chapter={chapter} />}
+            {chapter.id === 1 ? <PCBChapterOneLesson /> : chapter.id === 2 ? <PCBChapterTwoLesson /> : chapter.id === 3 ? <PCBChapterThreeLesson /> : chapter.id === 4 ? <PCBChapterFourLesson /> : chapter.id === 5 ? <PCBChapterFiveLesson /> : chapter.id === 6 ? <PCBChapterSixLesson /> : chapter.id === 7 ? <PCBChapterSevenLesson /> : chapter.id === 8 ? <PCBChapterEightLesson /> : chapter.id === 9 ? <PCBChapterNineLesson /> : chapter.id === 10 ? <PCBChapterTenLesson /> : <ChapterPlaceholder chapter={chapter} />}
             <nav className="flex flex-col justify-between gap-4 sm:flex-row">
               {previous ? <Link to={chapterPath(previous.id)} className="inline-flex items-center gap-2 rounded-xl border bg-white px-5 py-3 font-semibold hover:bg-slate-50"><ChevronLeft size={18} /> Chapter {previous.id}: {previous.title}</Link> : <span />}
               {next ? <Link to={chapterPath(next.id)} className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700">Chapter {next.id}: {next.title} <ChevronRight size={18} /></Link> : <Link to={"/courses/" + courseId} className="inline-flex rounded-xl bg-emerald-600 px-5 py-3 font-semibold text-white hover:bg-emerald-700">Course Overview</Link>}
