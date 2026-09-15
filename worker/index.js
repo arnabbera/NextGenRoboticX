@@ -8,6 +8,7 @@ const COURSE_ACCESS_AMOUNTS = {
   "arduino-programming": 4900,
   "raspberry-pi": 4900,
   "internet-of-things": 4900,
+  "pcb-design-hardware-development": 4900,
 };
 const getCourseAccessAmount = (courseId) =>
   COURSE_ACCESS_AMOUNTS[courseId] || DEFAULT_COURSE_ACCESS_AMOUNT;
@@ -27,6 +28,7 @@ const PURCHASABLE_COURSE_IDS = new Set([
   "arduino-programming",
   "raspberry-pi",
   "internet-of-things",
+  "pcb-design-hardware-development",
   "drone-technology",
 ]);
 const COURSE_TITLES = {
