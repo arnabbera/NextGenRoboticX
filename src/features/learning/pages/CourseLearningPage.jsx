@@ -4,6 +4,7 @@ import RaspberryPiLearningPage from "./RaspberryPiLearningPage";
 import DroneTechnologyLearningPage from "./DroneTechnologyLearningPage";
 import EmbeddedSystemsLearningPage from "./EmbeddedSystemsLearningPage";
 import InternetOfThingsLearningPage from "./InternetOfThingsLearningPage";
+import PCBLearningPage from "./PCBLearningPage";
 
 export default function CourseLearningPage() {
   const { courseId } = useParams();
@@ -26,6 +27,10 @@ export default function CourseLearningPage() {
 
   if (courseId === "internet-of-things") {
     return <InternetOfThingsLearningPage />;
+  }
+
+  if (courseId === "pcb-design-hardware-development") {
+    return <PCBLearningPage />;
   }
 
   return <Navigate to={`/courses/${courseId}`} replace />;
