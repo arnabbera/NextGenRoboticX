@@ -335,6 +335,17 @@ Understanding loop()
   },
 
   "pcb-design-hardware-development": {
-    chapters: [],
+    chapters: [
+      { id: 1, title: "Electronic Product Development and PCB Design Workflow", duration: "40 min", video: "", pdf: "", notes: "", quiz: true, project: false, resources: [], code: [] },
+      { id: 2, title: "Electronic Components, Datasheets and Component Selection", duration: "50 min", video: "", pdf: "", notes: "", quiz: true, project: false, resources: [], code: [] },
+      { id: 3, title: "Schematic Capture and Circuit Design", duration: "60 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 4, title: "Power Supply, Protection and Signal Integrity Fundamentals", duration: "65 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 5, title: "PCB Stack-Up, Footprints and Board Planning", duration: "60 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 6, title: "Component Placement and PCB Routing", duration: "75 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 7, title: "Grounding, EMI/EMC, Thermal and Reliability Design", duration: "70 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 8, title: "Design Rule Checks, DFM and Manufacturing Files", duration: "65 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 9, title: "PCB Assembly, Soldering, Bring-Up and Debugging", duration: "75 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+      { id: 10, title: "Final Project: Design and Validate a Complete PCB", duration: "90 min", video: "", pdf: "", notes: "", quiz: true, project: true, resources: [], code: [] },
+    ],
   },
 };
