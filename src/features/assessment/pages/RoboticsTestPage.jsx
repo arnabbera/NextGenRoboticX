@@ -21,12 +21,14 @@ import {
 import { arduinoQuestionBanks } from "../data/arduinoQuestionBanks";
 import { raspberryPiQuestionBanks } from "../data/raspberryPiQuestionBanks";
 import { droneQuestionBanks } from "../data/droneQuestionBanks";
+import { pcbQuestionBanks } from "../data/pcbQuestionBanks";
 
 const assessmentCourses = {
   "robotics-foundation": { title: "Robotics Foundation", banks: roboticsQuestionBanks },
   "arduino-programming": { title: "Arduino Programming", banks: arduinoQuestionBanks },
   "raspberry-pi": { title: "Raspberry Pi Development", banks: raspberryPiQuestionBanks },
   "drone-technology": { title: "Drone Technology", banks: droneQuestionBanks },
+  "pcb-design-hardware-development": { title: "PCB Design & Hardware Development", banks: pcbQuestionBanks },
 };
 
 function formatTime(seconds) {
