@@ -287,6 +287,15 @@ export default function CourseDetails() {
 
             <CourseSummaryVideo courseId={course.id} />
 
+            {course.status === "Coming Soon" && isAdministrator(user, profile) && (
+              <Link
+                to={`/courses/${course.id}/learn`}
+                className="mt-6 inline-flex rounded-xl bg-white px-6 py-3 font-semibold text-blue-700 shadow-lg transition hover:bg-blue-50"
+              >
+                Admin: Preview Course Lessons
+              </Link>
+            )}
+
           </div>
 
           <div>
