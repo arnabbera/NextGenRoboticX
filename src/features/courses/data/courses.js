@@ -129,7 +129,8 @@ const courses = [
     chapters: 10,
     students: 0,
     progress: 0,
-    status: "Coming Soon",
+    status: "Available",
+    price: 49,
     certificate: true,
     image: `${BASE}images/courses/pcb.jpg`,
     description:
