@@ -104,6 +104,22 @@ const COURSE_OVERVIEWS = {
       "Final Project: Smart IoT Monitoring and Control System",
     ],
   },
+  "pcb-design-hardware-development": {
+    heading: "PCB Design & Hardware Development Course Summary",
+    summary: "Learn the complete hardware-development workflow—from requirements, component selection and schematic capture through PCB layout, manufacturing files, assembly, bring-up, testing and design validation.",
+    chapters: [
+      "Electronic Product Development and PCB Design Workflow",
+      "Electronic Components, Datasheets and Component Selection",
+      "Schematic Capture and Circuit Design",
+      "Power Supply, Protection and Signal Integrity Fundamentals",
+      "PCB Stack-Up, Footprints and Board Planning",
+      "Component Placement and PCB Routing",
+      "Grounding, EMI/EMC, Thermal and Reliability Design",
+      "Design Rule Checks, DFM and Manufacturing Files",
+      "PCB Assembly, Soldering, Bring-Up and Debugging",
+      "Final Project: Design and Validate a Complete PCB",
+    ],
+  },
 };
 
 const COURSE_LEARNING_DETAILS = {
@@ -154,6 +170,14 @@ const COURSE_LEARNING_DETAILS = {
     { title: "Cloud storage and real-time dashboards", text: "Store telemetry, organise time-series information, visualise device status and create practical alerts and control interfaces." },
     { title: "Security, privacy and reliable operation", text: "Protect credentials and data, validate messages, manage connectivity failures and design safe device recovery and update strategies." },
     { title: "Smart IoT monitoring and control capstone", text: "Integrate sensing, communication, cloud processing, dashboards and actuation into a tested and documented end-to-end IoT system." },
+  ],
+  "pcb-design-hardware-development": [
+    { title: "Hardware requirements and component selection", text: "Convert a product idea into electrical requirements, read datasheets, compare parts and select components based on ratings, availability, cost and lifecycle." },
+    { title: "Professional schematic design", text: "Create clear, reviewable schematics with correct symbols, net labels, power architecture, decoupling, protection and interface circuitry." },
+    { title: "PCB footprints, placement and routing", text: "Build and verify footprints, plan the board outline and stack-up, place components logically and route power, digital and analogue signals." },
+    { title: "Signal integrity, EMI/EMC and reliability", text: "Apply grounding, return-path, thermal, clearance, creepage and noise-control practices for dependable real-world hardware." },
+    { title: "Manufacturing and assembly readiness", text: "Run electrical and design-rule checks, perform DFM review and generate Gerber, drill, BOM and pick-and-place files." },
+    { title: "Bring-up, debugging and final PCB project", text: "Assemble prototypes safely, use measurement tools, follow a structured bring-up plan and validate a complete manufactured PCB." },
   ],
 };
 
