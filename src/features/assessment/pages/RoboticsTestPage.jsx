@@ -22,6 +22,7 @@ import { arduinoQuestionBanks } from "../data/arduinoQuestionBanks";
 import { raspberryPiQuestionBanks } from "../data/raspberryPiQuestionBanks";
 import { droneQuestionBanks } from "../data/droneQuestionBanks";
 import { pcbQuestionBanks } from "../data/pcbQuestionBanks";
+import { iotQuestionBanks } from "../data/iotQuestionBanks";
 
 const assessmentCourses = {
   "robotics-foundation": { title: "Robotics Foundation", banks: roboticsQuestionBanks },
@@ -29,6 +30,7 @@ const assessmentCourses = {
   "raspberry-pi": { title: "Raspberry Pi Development", banks: raspberryPiQuestionBanks },
   "drone-technology": { title: "Drone Technology", banks: droneQuestionBanks },
   "pcb-design-hardware-development": { title: "PCB Design & Hardware Development", banks: pcbQuestionBanks },
+  "internet-of-things": { title: "Internet of Things", banks: iotQuestionBanks },
 };
 
 function formatTime(seconds) {
