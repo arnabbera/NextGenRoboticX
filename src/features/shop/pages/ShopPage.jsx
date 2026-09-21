@@ -105,6 +105,17 @@ const products = [
     rating: "3.8",
     link: "https://www.amazon.in/dp/B0B522JCYS?asc_item-id=amzn1.shoppablemedia.v1.03e032c1-19a6-4801-869f-60cdf0ef80e9&th=1&linkCode=ll2&tag=arnabbera05-21&linkId=fdd21308dff1af000893571da1041205&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B0FJ2L67HJ",
+    title: "DJI Osmo Mobile 8 Advanced Tracking Combo",
+    category: "Creator Accessories",
+    description:
+      "Premium smartphone gimbal with three-axis stabilization, native AI tracking with audio and lighting support, 360° pan rotation, built-in extension rod and tripod, magnetic phone clamp and up to 10 hours of battery life.",
+    image: "https://media-ik.croma.com/Croma%20Assets/Imaging/Camera%20Accessories/Images/319557_0_XBm9M3ZqJ.png?updatedAt=1771320951567",
+    discount: null,
+    rating: "4.2",
+    link: "https://www.amazon.in/DJI-Stabilizer-Tracking-Extension-Stabilization/dp/B0FJ2L67HJ?pd_rd_w=rF7Nj&content-id=amzn1.sym.e84a26b2-5470-42e6-b7fa-162e7bb17185&pf_rd_p=e84a26b2-5470-42e6-b7fa-162e7bb17185&pf_rd_r=YRK6VA0DCDQT1MTG34VB&pd_rd_wg=Y0YfA&pd_rd_r=b215b666-4153-4b84-886c-00a8603e7b75&pd_rd_i=B0FJ2L67HJ&th=1&linkCode=ll2&tag=arnabbera05-21&linkId=b84d9960d6e19674b05824e573b5d986&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
