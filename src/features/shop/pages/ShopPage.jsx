@@ -94,6 +94,17 @@ const products = [
     rating: null,
     link: "https://www.amazon.in/Logitech-Calling-Noise-Canceling-Correction-Microsoft/dp/B09NBWWP79?crid=2R2T1H4UJ4WDO&dib=eyJ2IjoiMSJ9.LzxDfSudF4afcVn9PUA3tCIoVlX5xWZGqAZ3xn5eAXsmgQ9TXrDncFgpDRFO8nbanRgVjQRQzzLoJEKcyifSSChc6-6iKcWI0xY67QHZg-WHBUGcrDBszHofSweXyMTlmjlLyX1Lj4XS0wZ_deNxWE--7JW4ZxPCdVWylyzZlR4.tTADW7hndiuL7oyRSYsoBYOQL7Rad4vSONWu1YcOQ7k&dib_tag=se&keywords=Logitech%2BMX%2BBrio%2BUltra%2BHD%2B4K%2BCollabo&nsdOptOutParam=true&qid=1790009621&sprefix=logitech%2Bmx%2Bbrio%2Bultra%2Bhd%2B4k%2Bcollabo%2Caps%2C352&sr=8-5&th=1&linkCode=ll2&tag=arnabbera05-21&linkId=388956d046b5e40aac4ac1f9ec85a981&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B0B522JCYS",
+    title: "Digitek DSG-007F 3-Axis Smartphone Gimbal",
+    category: "Creator Accessories",
+    description:
+      "Foldable handheld smartphone stabilizer with three-axis anti-shake control, face and object tracking, horizontal and vertical shooting, follow and lock modes, and broad Android and iPhone compatibility.",
+    image: "https://digitek.net.in/cdn/shop/files/DSG_007F_1.jpg?v=1723026563&width=1500",
+    discount: null,
+    rating: "3.8",
+    link: "https://www.amazon.in/dp/B0B522JCYS?asc_item-id=amzn1.shoppablemedia.v1.03e032c1-19a6-4801-869f-60cdf0ef80e9&th=1&linkCode=ll2&tag=arnabbera05-21&linkId=fdd21308dff1af000893571da1041205&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
