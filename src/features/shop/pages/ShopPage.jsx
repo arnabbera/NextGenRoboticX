@@ -50,6 +50,17 @@ const products = [
     rating: "3.1",
     link: "https://www.amazon.in/dp/B0FQ32PZ1L?linkCode=ssc&creativeASIN=B0FQ32PZ1L&asc_item-id=amzn1.shoppablemedia.v1.0f3f9c8f-51f3-453f-b89b-9041b72cc0e2&ref_=aip_sf_photo_spv_ons_mixed_d_qv_asin_mlt&tag=onamzarnabber-21",
   },
+  {
+    asin: "B0DWWFST91",
+    title: "DIY Quadcopter Drone Kit with Pixhawk & FSi6",
+    category: "Drone Kits",
+    description:
+      "Complete drone assembly set with Pixhawk flight controller, FSi6 transmitter and receiver, motors, ESCs, propellers, frame, battery and charger.",
+    image: "https://m.media-amazon.com/images/I/51boByx7wBL._SL500_.jpg",
+    discount: 39,
+    rating: "1.0",
+    link: "https://www.amazon.in/dp/B0DWWFST91?linkCode=ssc&tag=arnabbera05-21&creativeASIN=B0DWWFST91&asc_item-id=amzn1.shoppablemedia.v1.0f3f9c8f-51f3-453f-b89b-9041b72cc0e2&ref_=aip_sf_photo_spv_ofs_mixed_d_asin",
+  },
 ];
 
 export default function ShopPage() {
