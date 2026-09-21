@@ -1,6 +1,6 @@
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const items = [
   ["Home", "top"],
@@ -13,11 +13,32 @@ const items = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.pathname !== "/") return;
+    const sectionId = location.hash.slice(1);
+    if (!sectionId) return;
+    const frame = window.requestAnimationFrame(() => {
+      document
+        .getElementById(sectionId)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [location.hash, location.pathname]);
 
   function scrollTo(sectionId) {
     setOpen(false);
+
+    if (location.pathname !== "/") {
+      navigate(sectionId === "top" ? "/" : `/#${sectionId}`);
+      return;
+    }
+
     if (sectionId === "top") {
       window.scrollTo({ top: 0, behavior: "smooth" });
+      window.history.replaceState(null, "", "/");
       return;
     }
 
