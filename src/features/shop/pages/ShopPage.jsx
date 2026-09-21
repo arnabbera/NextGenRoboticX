@@ -72,6 +72,17 @@ const products = [
     rating: null,
     link: "https://www.amazon.in/dp/B096D8P8G7?asc_item-id=amzn1.shoppablemedia.v1.b00d5a7b-3963-48dd-ae67-6c6b08ccd301&linkCode=ll2&tag=arnabbera05-21&linkId=0d54b14e18b2c292ddc44723d8324acd&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B0H8T6914Y",
+    title: "Build-o-Bot Smart Robotics Kit with Uno R3",
+    category: "Robotics Kits",
+    description:
+      "Complete STEM learning kit for ages 10+ with an Uno R3-compatible board, ultrasonic and IR sensors, four-wheel chassis, motors and video curriculum for Bluetooth, line-following and obstacle-avoidance projects.",
+    image: null,
+    discount: null,
+    rating: null,
+    link: "https://www.amazon.in/dp/B0H8T6914Y?psc=1&aref=vTcjn7KEK5&sp_csd=d2lkZ2V0TmFtZT1zcF9taXNzaW9uX2JsZW5kZWQ&linkCode=ll2&tag=arnabbera05-21&linkId=cc55a686bab91e578f12b15f52338170&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
@@ -146,7 +157,14 @@ export default function ShopPage() {
                   {product.discount ? `-${product.discount}% OFF` : "CHECK LATEST DEAL"}
                 </span>
                 <div className="aspect-square overflow-hidden bg-white p-5">
-                  <img src={product.image} alt={product.title} className="h-full w-full object-contain transition duration-300 group-hover:scale-105" />
+                  {product.image ? (
+                    <img src={product.image} alt={product.title} className="h-full w-full object-contain transition duration-300 group-hover:scale-105" />
+                  ) : (
+                    <div className="flex h-full flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-100 px-6 text-center text-blue-800">
+                      <ShoppingBag size={54} />
+                      <span className="mt-4 font-bold">View product on Amazon</span>
+                    </div>
+                  )}
                 </div>
                 <div className="border-t border-slate-100 p-5">
                   <p className="text-xs font-bold uppercase tracking-wider text-blue-700">{product.category}</p>
