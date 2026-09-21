@@ -6,6 +6,7 @@ import {
   Cpu,
   GraduationCap,
   FolderKanban,
+  ShoppingBag,
   LayoutDashboard,
   UserRound,
 } from "lucide-react";
@@ -17,6 +18,7 @@ const menuItems = [
   { name: "Available Courses", path: "/courses/available", icon: BookOpen },
   { name: "Enrolled Courses", path: "/courses/enrolled", icon: GraduationCap },
   { name: "Projects", path: "/projects", icon: FolderKanban },
+  { name: "Shop", path: "/shop", icon: ShoppingBag },
   { name: "Certificates", path: "/certificates", icon: Award },
   { name: "Student Profile", path: "/profile", icon: UserRound },
 ];

@@ -6,6 +6,7 @@ const items = [
   ["Home", "top"],
   ["Courses", "courses"],
   ["Projects", "projects"],
+  ["Shop", "/shop", "route"],
   ["Why Us", "why-us"],
   ["Contact", "contact"],
 ];
@@ -40,16 +41,26 @@ export default function Navbar() {
           </Link>
 
           <nav className="hidden items-center gap-8 md:flex" aria-label="Main navigation">
-            {items.map(([label, sectionId]) => (
-              <button
-                key={sectionId}
-                type="button"
-                onClick={() => scrollTo(sectionId)}
-                className="font-medium text-slate-700 transition hover:text-blue-600"
-              >
-                {label}
-              </button>
-            ))}
+            {items.map(([label, target, type]) =>
+              type === "route" ? (
+                <Link
+                  key={target}
+                  to={target}
+                  className="font-medium text-slate-700 transition hover:text-blue-600"
+                >
+                  {label}
+                </Link>
+              ) : (
+                <button
+                  key={target}
+                  type="button"
+                  onClick={() => scrollTo(target)}
+                  className="font-medium text-slate-700 transition hover:text-blue-600"
+                >
+                  {label}
+                </button>
+              )
+            )}
           </nav>
 
           <button
@@ -66,16 +77,27 @@ export default function Navbar() {
 
         {open && (
           <nav id="mobile-navigation" className="border-t border-slate-200 py-3 md:hidden" aria-label="Mobile navigation">
-            {items.map(([label, sectionId]) => (
-              <button
-                key={sectionId}
-                type="button"
-                onClick={() => scrollTo(sectionId)}
-                className="block w-full rounded-xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-700"
-              >
-                {label}
-              </button>
-            ))}
+            {items.map(([label, target, type]) =>
+              type === "route" ? (
+                <Link
+                  key={target}
+                  to={target}
+                  onClick={() => setOpen(false)}
+                  className="block w-full rounded-xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-700"
+                >
+                  {label}
+                </Link>
+              ) : (
+                <button
+                  key={target}
+                  type="button"
+                  onClick={() => scrollTo(target)}
+                  className="block w-full rounded-xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-700"
+                >
+                  {label}
+                </button>
+              )
+            )}
           </nav>
         )}
       </div>
