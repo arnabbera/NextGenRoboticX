@@ -39,6 +39,17 @@ const products = [
     rating: "2.6",
     link: "https://www.amazon.in/dp/B09G84NRRJ?asc_item-id=amzn1.shoppablemedia.v1.047128fd-448f-4bff-95d0-f0bb094046c1&linkCode=ll2&tag=arnabbera05-21&linkId=0e3965535925443a92105df95aa168d8&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B0FQ32PZ1L",
+    title: "KITSONIX DIY Quadcopter Drone Kit – Complete Set",
+    category: "Drone Kits",
+    description:
+      "Complete intermediate-level quadcopter build kit with brushless motors, ESCs, propellers, flight controller, frame and transmitter-receiver set.",
+    image: "https://m.media-amazon.com/images/I/51vQFVJUM4L.jpg",
+    discount: 18,
+    rating: "3.1",
+    link: "https://www.amazon.in/dp/B0FQ32PZ1L?linkCode=ssc&creativeASIN=B0FQ32PZ1L&asc_item-id=amzn1.shoppablemedia.v1.0f3f9c8f-51f3-453f-b89b-9041b72cc0e2&ref_=aip_sf_photo_spv_ons_mixed_d_qv_asin_mlt&tag=onamzarnabber-21",
+  },
 ];
 
 export default function ShopPage() {
