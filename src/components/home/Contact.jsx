@@ -3,7 +3,6 @@ import {
   Check,
   Copy,
   Mail,
-  MapPin,
   MessageCircle,
   Phone,
   Share2,
@@ -51,11 +50,6 @@ const contactItems = [
     label: "Email",
     value: "info@nextgenroboticx.com",
     href: "mailto:info@nextgenroboticx.com",
-  },
-  {
-    icon: MapPin,
-    label: "Location",
-    value: "Kolkata, West Bengal, India",
   },
 ];
 
