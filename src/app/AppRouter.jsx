@@ -44,6 +44,7 @@ import CourseManagement from "../features/admin/pages/CourseManagement";
 import CourseEditor from "../features/admin/pages/CourseEditor";
 import CourseChaptersManagement from "../features/admin/pages/CourseChaptersManagement";
 import ProjectManagement from "../features/admin/pages/ProjectManagement";
+import ShopPage from "../features/shop/pages/ShopPage";
 
 export default function AppRouter() {
   return (
@@ -53,6 +54,7 @@ export default function AppRouter() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/features/:featureSlug" element={<FeatureDetailPage />} />
         <Route path="/courses/:courseId" element={<CourseDetails />} />
+        <Route path="/shop" element={<ShopPage />} />
 
         <Route element={<ViewOnlyProjectRoute />}>
           <Route path="/projects/obstacle-avoiding-robot" element={<ObstacleAvoidingRobotPage />} />
