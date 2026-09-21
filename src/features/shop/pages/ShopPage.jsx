@@ -83,6 +83,17 @@ const products = [
     rating: null,
     link: "https://www.amazon.in/dp/B0H8T6914Y?psc=1&aref=vTcjn7KEK5&sp_csd=d2lkZ2V0TmFtZT1zcF9taXNzaW9uX2JsZW5kZWQ&linkCode=ll2&tag=arnabbera05-21&linkId=cc55a686bab91e578f12b15f52338170&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B09NBWWP79",
+    title: "Logitech Brio Ultra HD 4K Webcam",
+    category: "Webcams",
+    description:
+      "Premium 4K webcam with autofocus, RightLight 3 HDR correction, dual noise-cancelling microphones, adjustable 65°, 78° and 90° field of view, 5x digital zoom and Windows Hello support.",
+    image: "https://media.falabella.com/falabellaCO/144845789_03/w%3D1500%2Ch%3D1500%2Cfit%3Dcover",
+    discount: null,
+    rating: null,
+    link: "https://www.amazon.in/Logitech-Calling-Noise-Canceling-Correction-Microsoft/dp/B09NBWWP79?crid=2R2T1H4UJ4WDO&dib=eyJ2IjoiMSJ9.LzxDfSudF4afcVn9PUA3tCIoVlX5xWZGqAZ3xn5eAXsmgQ9TXrDncFgpDRFO8nbanRgVjQRQzzLoJEKcyifSSChc6-6iKcWI0xY67QHZg-WHBUGcrDBszHofSweXyMTlmjlLyX1Lj4XS0wZ_deNxWE--7JW4ZxPCdVWylyzZlR4.tTADW7hndiuL7oyRSYsoBYOQL7Rad4vSONWu1YcOQ7k&dib_tag=se&keywords=Logitech%2BMX%2BBrio%2BUltra%2BHD%2B4K%2BCollabo&nsdOptOutParam=true&qid=1790009621&sprefix=logitech%2Bmx%2Bbrio%2Bultra%2Bhd%2B4k%2Bcollabo%2Caps%2C352&sr=8-5&th=1&linkCode=ll2&tag=arnabbera05-21&linkId=388956d046b5e40aac4ac1f9ec85a981&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
