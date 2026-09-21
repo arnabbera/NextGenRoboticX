@@ -17,6 +17,17 @@ const products = [
     rating: "4.3",
     link: "https://www.amazon.in/dp/B08DHRLJ1N?linkCode=ssc&tag=onamzarnabber-21&creativeASIN=B08DHRLJ1N&asc_item-id=amzn1.shoppablemedia.v1.b00d5a7b-3963-48dd-ae67-6c6b08ccd301&ref_=aip_sf_photo_spv_ons_mixed_d_asin",
   },
+  {
+    asin: "B0FHG4W9MF",
+    title: "Electrobot Smart Robot Car Kit for Beginners with UNO R3",
+    category: "Robotics Kits",
+    description:
+      "Beginner-friendly DIY STEM kit with an UNO R3-compatible board, ultrasonic obstacle detection, line tracking, IR remote control, motors and chassis.",
+    image: "https://api.electrobot.co.in/file/inventory_images/EB-KIT-160/EB-KIT-160-2e908db3b2d72f53-full.jpg",
+    discount: null,
+    rating: "2.4",
+    link: "https://www.amazon.in/dp/B0FHG4W9MF?linkCode=ssc&tag=onamzarnabber-21&creativeASIN=B0FHG4W9MF&asc_item-id=amzn1.shoppablemedia.v1.322d6c9f-1c09-4813-8c63-2ed9768fd97a&ref_=hype_hm_sf_e_asin",
+  },
 ];
 
 export default function ShopPage() {
@@ -87,8 +98,8 @@ export default function ShopPage() {
           <div className="mt-9 grid gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {visibleProducts.map((product) => (
               <article key={product.asin} className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-                <span className="absolute left-4 top-4 z-10 rounded-full bg-red-600 px-3 py-1.5 text-sm font-extrabold text-white shadow-lg">
-                  -{product.discount}% OFF
+                <span className={`absolute left-4 top-4 z-10 rounded-full px-3 py-1.5 text-sm font-extrabold text-white shadow-lg ${product.discount ? "bg-red-600" : "bg-blue-700"}`}>
+                  {product.discount ? `-${product.discount}% OFF` : "CHECK LATEST DEAL"}
                 </span>
                 <div className="aspect-square overflow-hidden bg-white p-5">
                   <img src={product.image} alt={product.title} className="h-full w-full object-contain transition duration-300 group-hover:scale-105" />
