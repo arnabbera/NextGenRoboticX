@@ -28,6 +28,17 @@ const products = [
     rating: "2.4",
     link: "https://www.amazon.in/dp/B0FHG4W9MF?linkCode=ssc&tag=onamzarnabber-21&creativeASIN=B0FHG4W9MF&asc_item-id=amzn1.shoppablemedia.v1.322d6c9f-1c09-4813-8c63-2ed9768fd97a&ref_=hype_hm_sf_e_asin",
   },
+  {
+    asin: "B09G84NRRJ",
+    title: "IDUINO Starter Kit for Arduino UNO R3, Nano and Mega 2560",
+    category: "Arduino Kits",
+    description:
+      "Electronics project kit with displays, DHT11 and ultrasonic sensors, relay, joystick, servo motor, breadboards, LEDs, resistors and jumper wires.",
+    image: "https://images-na.ssl-images-amazon.com/images/I/61HPua8qitL.jpg",
+    discount: null,
+    rating: "2.6",
+    link: "https://www.amazon.in/dp/B09G84NRRJ?asc_item-id=amzn1.shoppablemedia.v1.047128fd-448f-4bff-95d0-f0bb094046c1&linkCode=ll2&tag=arnabbera05-21&linkId=0e3965535925443a92105df95aa168d8&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
