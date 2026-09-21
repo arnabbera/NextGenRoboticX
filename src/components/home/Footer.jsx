@@ -35,7 +35,6 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold text-white">Contact</h3>
           <div className="mt-4 space-y-3 text-slate-400">
-            <p>Kolkata, West Bengal, India</p>
             <a
               href="tel:+919830068336"
               className="block transition hover:text-blue-400"
