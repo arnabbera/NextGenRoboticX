@@ -61,6 +61,17 @@ const products = [
     rating: "1.0",
     link: "https://www.amazon.in/dp/B0DWWFST91?linkCode=ssc&tag=arnabbera05-21&creativeASIN=B0DWWFST91&asc_item-id=amzn1.shoppablemedia.v1.0f3f9c8f-51f3-453f-b89b-9041b72cc0e2&ref_=aip_sf_photo_spv_ofs_mixed_d_asin",
   },
+  {
+    asin: "B096D8P8G7",
+    title: "OSOYOO Smart Robot Car Kit with Servo Steering",
+    category: "Robotics Kits",
+    description:
+      "Arduino-compatible programmable robot car with servo power steering, Wi-Fi and Bluetooth control, ultrasonic obstacle avoidance, line tracking and IR remote control.",
+    image: "https://osoyoo.com/picture/Arduino_Sport_Car/lesson1/L5.jpg",
+    discount: null,
+    rating: null,
+    link: "https://www.amazon.in/dp/B096D8P8G7?asc_item-id=amzn1.shoppablemedia.v1.b00d5a7b-3963-48dd-ae67-6c6b08ccd301&linkCode=ll2&tag=arnabbera05-21&linkId=0d54b14e18b2c292ddc44723d8324acd&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
@@ -140,7 +151,7 @@ export default function ShopPage() {
                 <div className="border-t border-slate-100 p-5">
                   <p className="text-xs font-bold uppercase tracking-wider text-blue-700">{product.category}</p>
                   <h3 className="mt-2 line-clamp-2 text-lg font-bold text-slate-900">{product.title}</h3>
-                  <p className="mt-2 text-sm text-amber-600">★ {product.rating} on Amazon</p>
+                  {product.rating && <p className="mt-2 text-sm text-amber-600">★ {product.rating} on Amazon</p>}
                   <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{product.description}</p>
                   <a
                     href={product.link}
