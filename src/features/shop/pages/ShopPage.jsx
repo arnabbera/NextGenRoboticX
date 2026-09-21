@@ -116,6 +116,17 @@ const products = [
     rating: "4.2",
     link: "https://www.amazon.in/DJI-Stabilizer-Tracking-Extension-Stabilization/dp/B0FJ2L67HJ?pd_rd_w=rF7Nj&content-id=amzn1.sym.e84a26b2-5470-42e6-b7fa-162e7bb17185&pf_rd_p=e84a26b2-5470-42e6-b7fa-162e7bb17185&pf_rd_r=YRK6VA0DCDQT1MTG34VB&pd_rd_wg=Y0YfA&pd_rd_r=b215b666-4153-4b84-886c-00a8603e7b75&pd_rd_i=B0FJ2L67HJ&th=1&linkCode=ll2&tag=arnabbera05-21&linkId=b84d9960d6e19674b05824e573b5d986&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B09DK9J27F",
+    title: "SanDisk Ultra 256GB USB 3.0 Flash Drive",
+    category: "Storage",
+    description:
+      "Compact 256GB USB-A flash drive with a retractable connector, read speeds up to 130 MB/s, USB 2.0 backward compatibility and password-protection support for portable file storage.",
+    image: "https://cdn.mafrservices.com/sys-master-root/h80/h51/46979604709406/598445_main.jpg",
+    discount: null,
+    rating: "4.3",
+    link: "https://www.amazon.in/dp/B09DK9J27F?th=1&linkCode=ll2&tag=arnabbera05-21&linkId=43797e1cf59e25d77bcd56abb0a0b9f5&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
