@@ -127,6 +127,17 @@ const products = [
     rating: "4.3",
     link: "https://www.amazon.in/dp/B09DK9J27F?th=1&linkCode=ll2&tag=arnabbera05-21&linkId=43797e1cf59e25d77bcd56abb0a0b9f5&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B085HP8YJ3",
+    title: "KIDWILL 14-in-1 Solar Robot STEM Kit",
+    category: "STEM Kits",
+    description:
+      "Hands-on 261-piece engineering kit that builds 14 robot models, including wheeled, walking and water-based designs, with solar and battery power modes for learning mechanics and renewable energy.",
+    image: "https://cdn03.ciceksepeti.com/cicek/kcm61112869-1/XL/kidwill-cocuklar-icin-gunes-enerjili-robot-seti-14-u-1-arada-egitici-yesil-kcm61112869-b59c7b2b-113b-4e56-b703-a86ace29f49d.jpg",
+    discount: null,
+    rating: "4.2",
+    link: "https://www.amazon.in/Educational-Science-Building-Assembly-Operated/dp/B085HP8YJ3?dib=eyJ2IjoiMSJ9.8GbRZ55rhubf8rUsiVS17WBO7DSt39rTSTnU7is5BMR54AqoG6hJFru_6E864jVf4L55UtUtQ6oJAMedJp6RSTHNsE4G5mLj0oExyABYBDFDFVbR--K7xq1WYX38S71lOwNRMB5CcUJV9b3-czF35suyWQrdrXLNCYOXnII44aE9ruRbGqFbHOl1cOzhlk6_zHXDOyeyEk7jtqEawRsRlOUwnEK8MTGO0Pf7exRvpuGJ3rfgB6sAPEUH5tFnPedFI3e8U66Vt5lZ1uma8kbNkkhwg-wx0_QpEhui3WmjdqA.aXtte8juh15bOpKoXwcmyRCHOjbmFgPeyPiytUwqd6g&dib_tag=se&keywords=robotics&qid=1790010742&sr=8-16&linkCode=ll2&tag=arnabbera05-21&linkId=e164cec0a91c44a4ebab9bd4c2a291ea&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
