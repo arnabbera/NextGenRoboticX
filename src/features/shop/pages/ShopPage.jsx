@@ -248,6 +248,17 @@ const products = [
     rating: "4.4",
     link: "https://www.amazon.in/permanent-guarantee-Arduino-Uno/dp/B0044X2E5S?source=ps-sl-shoppingads-lpcontext&smid=A2X89M7O6ZTQRI&th=1&linkCode=ll2&tag=arnabbera05-21&linkId=7a93892fb8aebf32dbffab71f5e8bff8&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B00X86U4RW",
+    title: "Robocraze HC-05 Bluetooth Module",
+    category: "Wireless Modules",
+    description:
+      "Bluetooth 2.0+EDR wireless serial communication module with UART interface, 9600 baud default rate, AT-command configuration and master/slave support for Arduino, robotics, IoT and embedded projects.",
+    image: "https://robocraze.com/cdn/shop/files/HC-05_Bluetooth_Module_1000x.png?v=1743775130",
+    discount: 42,
+    rating: "4.0",
+    link: "https://www.amazon.in/HC-05-Bluetooth-Module-10g/dp/B00X86U4RW?pd_rd_w=L3kfF&content-id=amzn1.sym.7ccbe032-5929-4c88-ab39-4923842061df&pf_rd_p=7ccbe032-5929-4c88-ab39-4923842061df&pf_rd_r=4PFAC5267HBC04ZFPN58&pd_rd_wg=ADLgO&pd_rd_r=cd52b6b2-4991-48b1-bbc6-322500e4151e&pd_rd_i=B00X86U4RW&psc=1&linkCode=ll2&tag=arnabbera05-21&linkId=92663916151b1dd4208308f7dd3660f0&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
