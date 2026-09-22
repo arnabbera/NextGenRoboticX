@@ -241,8 +241,8 @@ export default function ShopPage() {
           <div className="mt-9 grid gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {visibleProducts.map((product) => (
               <article key={product.asin} className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-                <span className={`absolute left-4 top-4 z-10 rounded-full px-3 py-1.5 text-sm font-extrabold text-white shadow-lg ${product.discount ? "bg-red-600" : "bg-blue-700"}`}>
-                  {product.discount ? `-${product.discount}% OFF` : "CHECK LATEST DEAL"}
+                <span className={`absolute left-4 top-4 z-10 rounded-full px-3 py-1.5 text-sm font-extrabold shadow-lg ${product.discount ? "bg-red-600 text-white" : "bg-amber-400 text-slate-950"}`}>
+                  {product.discount ? `-${product.discount}% OFF` : "AMAZON DEAL"}
                 </span>
                 <div className="aspect-square overflow-hidden bg-white p-5">
                   {product.image ? (
