@@ -331,6 +331,8 @@ export default function CourseDetails() {
 
       </div>
 
+      <CourseTrustSection course={course} />
+
       {overview && (
         <section className="mt-10 space-y-8 rounded-3xl bg-white p-7 shadow-xl md:p-10" aria-labelledby="robotics-course-overview">
           <div className="max-w-4xl">
@@ -497,6 +499,116 @@ export default function CourseDetails() {
       </div>
     </div>
     </>
+  );
+}
+
+function CourseTrustSection({ course }) {
+  const supportMessage = encodeURIComponent(
+    `Hello NextGenRoboticX, I have a question about the ${course.title} course before enrollment.`
+  );
+
+  return (
+    <section
+      className="mt-10 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl"
+      aria-labelledby="course-trust-heading"
+    >
+      <div className="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50 p-7 md:p-10">
+        <span className="inline-flex rounded-full bg-emerald-100 px-4 py-2 font-bold text-emerald-700">
+          Verified course information
+        </span>
+        <h2 id="course-trust-heading" className="mt-4 text-3xl font-black text-slate-900 md:text-4xl">
+          See what you receive before enrolling
+        </h2>
+        <p className="mt-3 max-w-4xl text-lg leading-8 text-slate-600">
+          Review the instructor, practical project examples, certificate format, support options and secure-access process before making a payment.
+        </p>
+      </div>
+
+      <div className="grid gap-6 p-7 md:grid-cols-2 md:p-10">
+        <article className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+          <div className="flex items-center gap-4">
+            <img
+              src="/images/instructor.png"
+              alt="Sona Bera, NextGenRoboticX instructor"
+              className="h-20 w-20 rounded-2xl border border-slate-200 bg-white object-cover"
+            />
+            <div>
+              <p className="text-sm font-bold uppercase tracking-wider text-blue-700">Course instructor</p>
+              <h3 className="mt-1 text-xl font-bold text-slate-900">Sona Bera</h3>
+              <p className="mt-1 text-sm leading-6 text-slate-600">
+                M.Tech in VLSI &amp; Embedded Systems • Electronics Engineer • AI &amp; Robotics Trainer
+              </p>
+            </div>
+          </div>
+          <p className="mt-5 leading-7 text-slate-600">
+            More than 10 years of experience across embedded systems, robotics, IoT, AI and software engineering.
+          </p>
+          <p className="mt-3 rounded-xl bg-blue-50 p-3 text-sm font-semibold text-blue-800">
+            The course overview video is available in the hero section above.
+          </p>
+        </article>
+
+        <article className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+          <p className="text-sm font-bold uppercase tracking-wider text-blue-700">Practical evidence</p>
+          <h3 className="mt-2 text-xl font-bold text-slate-900">Explore working project examples</h3>
+          <p className="mt-3 leading-7 text-slate-600">
+            Inspect published robotics, Arduino, IoT, automation, drone and AI project examples before deciding whether the teaching approach suits you.
+          </p>
+          <Link
+            to="/#projects"
+            className="mt-5 inline-flex rounded-xl bg-blue-700 px-5 py-3 font-bold text-white transition hover:bg-blue-800"
+          >
+            View Project Portfolio
+          </Link>
+        </article>
+
+        <article className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6">
+          <p className="text-sm font-bold uppercase tracking-wider text-emerald-700">Enrollment assurance</p>
+          <h3 className="mt-2 text-xl font-bold text-slate-900">Verified payment and permanent access</h3>
+          <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-700">
+            <li>✓ Razorpay verifies the payment before course access is activated.</li>
+            <li>✓ The one-time enrollment is linked to the learner's verified email.</li>
+            <li>✓ Course progress, assessments and certificates remain available through the learner account.</li>
+            <li>✓ Card, UPI and banking credentials are handled by Razorpay, not stored by NextGenRoboticX.</li>
+          </ul>
+        </article>
+
+        <article className="rounded-2xl border border-blue-200 bg-blue-50 p-6">
+          <p className="text-sm font-bold uppercase tracking-wider text-blue-700">Direct support</p>
+          <h3 className="mt-2 text-xl font-bold text-slate-900">Ask before you enroll</h3>
+          <p className="mt-3 leading-7 text-slate-600">
+            Questions about the curriculum, payment, course access or assessment can be discussed directly with NextGenRoboticX before enrollment.
+          </p>
+          <a
+            href={`https://wa.me/919830068336?text=${supportMessage}`}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-5 inline-flex rounded-xl bg-emerald-600 px-5 py-3 font-bold text-white transition hover:bg-emerald-700"
+          >
+            Ask on WhatsApp
+          </a>
+        </article>
+
+        <article className="relative overflow-hidden rounded-3xl border-4 border-double border-amber-300 bg-gradient-to-br from-amber-50 via-white to-blue-50 p-7 text-center md:col-span-2 md:p-10">
+          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-12 text-7xl font-black tracking-widest text-slate-900/5 sm:text-9xl">
+            SAMPLE
+          </span>
+          <div className="relative">
+            <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-700">NextGenRoboticX</p>
+            <h3 className="mt-4 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">Certificate of Completion</h3>
+            <p className="mt-4 text-slate-600">This sample demonstrates the certificate format awarded for</p>
+            <p className="mt-2 text-2xl font-black text-blue-800">{course.title}</p>
+            <p className="mx-auto mt-5 max-w-2xl leading-7 text-slate-600">
+              The learner's name and completion details are generated after completing the course and scoring at least 80% in the final assessment.
+            </p>
+            <div className="mx-auto mt-7 h-px w-52 bg-slate-400" />
+            <p className="mt-2 text-sm font-semibold text-slate-600">Instructor verification</p>
+            <p className="mt-5 text-xs font-bold uppercase tracking-widest text-amber-700">Sample preview — not a valid certificate</p>
+          </div>
+        </article>
+      </div>
+
+    </section>
   );
 }
 
