@@ -555,7 +555,7 @@ async function handleCourseOrder(request, env) {
 }
 
 async function handleCourseVerify(request, env) {
-  const user = await verifyFirebaseToken(request);
+  const user = await getOptionalFirebaseUser(request);
   const body = await readJson(request);
   const courseId = String(body.courseId || "");
   validateCourseId(courseId);
@@ -570,13 +570,11 @@ async function handleCourseVerify(request, env) {
 
   const kv = requireKv(env);
   const pending = await kv.get(`course-order:${orderId}`, "json");
-  if (
-    !pending ||
-    pending.uid !== user.uid ||
-    pending.email !== user.email ||
-    pending.courseId !== courseId
-  ) {
-    return json({ error: "Payment order does not belong to this course or student." }, 403);
+  if (!pending || pending.courseId !== courseId) {
+    return json({ error: "Payment order does not belong to this course." }, 403);
+  }
+  if (pending.uid && (!user || pending.uid !== user.uid)) {
+    return json({ error: "Payment order does not belong to this student." }, 403);
   }
 
   const expectedSignature = await hmacHex(
@@ -602,29 +600,42 @@ async function handleCourseVerify(request, env) {
     return json({ error: "Payment has not been captured successfully." }, 409);
   }
 
+  const purchasedAt = new Date().toISOString();
   const entitlement = {
     active: true,
     courseId,
     courseTitle: COURSE_TITLES[courseId],
     amountPaid: courseAccessAmount / 100,
     currency: PASS_CURRENCY,
-    purchasedAt: new Date().toISOString(),
+    purchasedAt,
     razorpayOrderId: orderId,
     razorpayPaymentId: paymentId,
-    uid: user.uid,
-    email: user.email,
+    uid: user?.uid || null,
+    email: pending.email,
+    checkoutType: pending.checkoutType,
   };
 
-  await kv.put(courseEntitlementKey(user.uid, courseId), JSON.stringify(entitlement));
+  if (user) {
+    await kv.put(
+      courseEntitlementKey(user.uid, courseId),
+      JSON.stringify({ ...entitlement, uid: user.uid })
+    );
+  } else {
+    await kv.put(
+      guestCourseEntitlementKey(pending.email, courseId),
+      JSON.stringify(entitlement)
+    );
+  }
   await kv.delete(`course-order:${orderId}`);
 
   return json({
-    active: true,
+    active: Boolean(user),
     courseId,
-    purchasedAt: entitlement.purchasedAt,
+    purchasedAt,
+    requiresSignIn: !user,
+    email: pending.email,
   });
 }
-
 const ASSESSMENT_DURATION_MS = 30 * 60 * 1000;
 const REASSESSMENT_WINDOW_MS = 15 * 24 * 60 * 60 * 1000;
 const CERTIFICATION_CONFIG = {
