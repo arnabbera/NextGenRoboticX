@@ -1,4 +1,4 @@
-import { CheckCircle2, LoaderCircle, LockKeyhole } from "lucide-react";
+import { CheckCircle2, LoaderCircle, LockKeyhole, Mail } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
@@ -28,18 +28,21 @@ export default function CourseEnrollment({ course, onStatusChange }) {
   const [loading, setLoading] = useState(true);
   const [paying, setPaying] = useState(false);
   const [error, setError] = useState("");
+  const [guestEmail, setGuestEmail] = useState("");
+  const [guestPaidEmail, setGuestPaidEmail] = useState("");
 
-  const authHeaders = useCallback(async () => ({
-    Authorization: `Bearer ${await user.getIdToken()}`,
-    "Content-Type": "application/json",
-  }), [user]);
+  const requestHeaders = useCallback(async () => {
+    const headers = { "Content-Type": "application/json" };
+    if (user) headers.Authorization = `Bearer ${await user.getIdToken()}`;
+    return headers;
+  }, [user]);
 
   const checkStatus = useCallback(async () => {
     setLoading(true);
     setError("");
     try {
       const response = await fetch(`/api/course-access/${course.id}/status`, {
-        headers: await authHeaders(),
+        headers: await requestHeaders(),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Unable to check enrollment.");
@@ -52,7 +55,7 @@ export default function CourseEnrollment({ course, onStatusChange }) {
     } finally {
       setLoading(false);
     }
-  }, [authHeaders, course.id, onStatusChange]);
+  }, [requestHeaders, course.id, onStatusChange]);
 
   useEffect(() => {
     if (user) {
@@ -66,6 +69,12 @@ export default function CourseEnrollment({ course, onStatusChange }) {
   }, [checkStatus, onStatusChange, user]);
 
   async function enroll() {
+    const checkoutEmail = String(user?.email || guestEmail).trim().toLowerCase();
+    if (!user && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(checkoutEmail)) {
+      setError("Enter a valid email address before continuing to payment.");
+      return;
+    }
+
     setPaying(true);
     setError("");
     try {
@@ -74,13 +83,13 @@ export default function CourseEnrollment({ course, onStatusChange }) {
 
       const orderResponse = await fetch("/api/course-access/order", {
         method: "POST",
-        headers: await authHeaders(),
-        body: JSON.stringify({ courseId: course.id }),
+        headers: await requestHeaders(),
+        body: JSON.stringify({ courseId: course.id, email: checkoutEmail }),
       });
       const order = await orderResponse.json();
       if (!orderResponse.ok) throw new Error(order.error || "Unable to create payment order.");
 
-      await new Promise((resolve, reject) => {
+      const verification = await new Promise((resolve, reject) => {
         const checkout = new window.Razorpay({
           key: order.keyId,
           amount: order.amount,
@@ -89,8 +98,8 @@ export default function CourseEnrollment({ course, onStatusChange }) {
           name: "NextGenRoboticX",
           description: `${course.title} course access`,
           prefill: {
-            name: user.displayName || "",
-            email: user.email || "",
+            name: user?.displayName || "",
+            email: checkoutEmail,
           },
           notes: { course_id: course.id },
           theme: { color: "#2563eb" },
@@ -98,7 +107,7 @@ export default function CourseEnrollment({ course, onStatusChange }) {
             try {
               const verifyResponse = await fetch("/api/course-access/verify", {
                 method: "POST",
-                headers: await authHeaders(),
+                headers: await requestHeaders(),
                 body: JSON.stringify({ ...payment, courseId: course.id }),
               });
               const result = await verifyResponse.json();
@@ -118,6 +127,13 @@ export default function CourseEnrollment({ course, onStatusChange }) {
         checkout.open();
       });
 
+      if (!user && verification?.requiresSignIn) {
+        setGuestPaidEmail(verification.email || checkoutEmail);
+        setActive(false);
+        onStatusChange?.(false);
+        return;
+      }
+
       setActive(true);
       onStatusChange?.(true);
     } catch (paymentError) {
@@ -129,11 +145,69 @@ export default function CourseEnrollment({ course, onStatusChange }) {
 
   if (!user) {
     const redirect = encodeURIComponent(location.pathname);
+
+    if (guestPaidEmail) {
+      return (
+        <div className="mt-8 max-w-xl rounded-2xl border border-emerald-300 bg-emerald-950/35 p-5 text-white">
+          <div className="flex items-center gap-3">
+            <CheckCircle2 className="text-emerald-300" />
+            <strong className="text-xl">Payment successful</strong>
+          </div>
+          <p className="mt-3 text-emerald-50">
+            Your course purchase is safely reserved for <strong>{guestPaidEmail}</strong>.
+            Sign in with the same Google email to claim permanent access.
+          </p>
+          <Link
+            to={`/login?redirect=${redirect}`}
+            className="mt-5 inline-flex rounded-xl bg-white px-6 py-3 font-bold text-emerald-800 transition hover:bg-emerald-50"
+          >
+            Sign in to Access Course
+          </Link>
+        </div>
+      );
+    }
+
     return (
       <div className="mt-8 max-w-xl rounded-2xl border border-white/20 bg-slate-950/25 p-5 text-white">
-        <div className="flex items-center gap-3"><LockKeyhole /><strong className="text-xl">Sign in to enroll</strong></div>
-        <p className="mt-3 text-blue-100">Review the complete course offering on this page. Sign in with the Gmail account that should permanently own the course before making the ₹{price} payment.</p>
-        <Link to={`/login?redirect=${redirect}`} className="mt-5 inline-flex rounded-xl bg-white px-6 py-3 font-bold text-blue-700 transition hover:bg-blue-50">Sign in with Google &amp; Enroll</Link>
+        <div className="flex items-center gap-3">
+          <LockKeyhole />
+          <strong className="text-xl">Enroll without signing in</strong>
+        </div>
+        <p className="mt-3 text-blue-100">
+          Enter your email and complete the ₹{price} payment. After payment, sign in with the same Google email to claim permanent course access.
+        </p>
+        <label className="mt-5 block">
+          <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-blue-100">
+            <Mail size={17} /> Email for course access
+          </span>
+          <input
+            type="email"
+            value={guestEmail}
+            onChange={(event) => {
+              setGuestEmail(event.target.value);
+              setError("");
+            }}
+            placeholder="you@example.com"
+            autoComplete="email"
+            className="w-full rounded-xl border border-white/25 bg-white px-4 py-3 text-slate-900 outline-none focus:border-amber-300 focus:ring-4 focus:ring-amber-300/20"
+          />
+        </label>
+        <button
+          type="button"
+          disabled={paying}
+          onClick={enroll}
+          className="mt-5 inline-flex items-center gap-2 rounded-xl bg-amber-400 px-6 py-3 font-bold text-slate-950 hover:bg-amber-300 disabled:opacity-60"
+        >
+          {paying && <LoaderCircle className="animate-spin" size={18} />}
+          {paying ? "Processing..." : `Pay ₹${price} & Enroll`}
+        </button>
+        <p className="mt-4 text-sm text-blue-100">
+          Already have an account?{" "}
+          <Link to={`/login?redirect=${redirect}`} className="font-bold text-white underline">
+            Sign in first
+          </Link>
+        </p>
+        {error && <p className="mt-3 rounded-lg bg-red-950/50 p-3 text-sm text-red-100">{error}</p>}
       </div>
     );
   }
