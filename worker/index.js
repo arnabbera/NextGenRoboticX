@@ -1557,6 +1557,37 @@ export default {
     const url = new URL(request.url);
 
     try {
+      if (
+        (request.method === "GET" || request.method === "HEAD") &&
+        (url.pathname === "/contact.html" || url.pathname === "/contact-us.html")
+      ) {
+        const body = request.method === "HEAD"
+          ? null
+          : `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Page permanently removed | NextGenRoboticX</title>
+</head>
+<body>
+  <main>
+    <h1>This obsolete contact page has been permanently removed.</h1>
+    <p>Visit <a href="https://www.nextgenroboticx.com/#contact">the official NextGenRoboticX contact section</a>.</p>
+  </main>
+</body>
+</html>`;
+
+        return new Response(body, {
+          status: 410,
+          headers: {
+            "content-type": "text/html; charset=UTF-8",
+            "cache-control": "public, max-age=3600",
+            "x-robots-tag": "noindex, nofollow",
+            "x-content-type-options": "nosniff",
+          },
+        });
+      }
       if (url.pathname.startsWith("/api/")) {
         return await handleApi(request, env, url);
       }
