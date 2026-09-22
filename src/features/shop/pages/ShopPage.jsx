@@ -149,6 +149,17 @@ const products = [
     rating: "4.2",
     link: "https://www.amazon.in/Kit4Curious%C2%AE-Experiments-School-Science-Project/dp/B0FBGGWNXF?dib=eyJ2IjoiMSJ9.8GbRZ55rhubf8rUsiVS17WBO7DSt39rTSTnU7is5BMR54AqoG6hJFru_6E864jVf4L55UtUtQ6oJAMedJp6RSTHNsE4G5mLj0oExyABYBDFDFVbR--K7xq1WYX38S71lOwNRMB5CcUJV9b3-czF35suyWQrdrXLNCYOXnII44aE9ruRbGqFbHOl1cOzhlk6_zHXDOyeyEk7jtqEawRsRlOUwnEK8MTGO0Pf7exRvpuGJ3rfgB6sAPEUH5tFnPedFI3e8U66Vt5lZ1uma8kbNkkhwg-wx0_QpEhui3WmjdqA.aXtte8juh15bOpKoXwcmyRCHOjbmFgPeyPiytUwqd6g&dib_tag=se&keywords=robotics&qid=1790010742&sr=8-24&th=1&linkCode=ll2&tag=arnabbera05-21&linkId=3a7da7bb5087301ed02e67a7d80d8389&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B08CZ4MG5P",
+    title: "ELEGOO Conqueror Robot Tank Kit with UNO R3",
+    category: "Robotics Kits",
+    description:
+      "Arduino-compatible tracked robot kit with an UNO R3 controller, Wi-Fi FPV camera, ultrasonic obstacle avoidance, line tracking, auto-follow, IR remote control and a two-axis camera gimbal.",
+    image: null,
+    discount: null,
+    rating: null,
+    link: "https://www.amazon.in/ELEGOO-Conqueror-Robot-Tank/dp/B08CZ4MG5P?pd_rd_w=0Anwi&content-id=amzn1.sym.f834d454-55cc-4825-9252-c75a5f644237&pf_rd_p=f834d454-55cc-4825-9252-c75a5f644237&pf_rd_r=VGGZ9Z5FV383EN4Z3DG3&pd_rd_wg=t1bpK&pd_rd_r=6ec14c18-f15c-4b1a-bc79-9149bb8d12bf&pd_rd_i=B08CZ4MG5P&psc=1&linkCode=ll2&tag=arnabbera05-21&linkId=065999f656d6b33876a8a32fa1798231&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
