@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   BookOpen,
@@ -25,7 +26,9 @@ export default function CourseCard({ course }) {
     status,
     certificate,
     enrolled,
-    price = 99,
+    price = 199,
+    regularPrice = 499,
+    launchLimit,
   } = course;
 
   const levelColors = {
@@ -37,6 +40,31 @@ export default function CourseCard({ course }) {
   const isComingSoon = status === "Coming Soon";
   const administrator = isAdministrator(user, profile);
   const canOpen = !isComingSoon || administrator;
+  const [offer, setOffer] = useState({
+    price,
+    regularPrice,
+    launchLimit,
+    remaining: launchLimit,
+    launchActive: Boolean(launchLimit),
+  });
+
+  useEffect(() => {
+    if (isComingSoon || !launchLimit) return undefined;
+    let cancelled = false;
+    fetch(`/api/course-access/${id}/offer`)
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Unable to load offer.");
+        return data;
+      })
+      .then((data) => {
+        if (!cancelled) setOffer(data);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [id, isComingSoon, launchLimit]);
 
   const card = (
     <div className="group overflow-hidden rounded-3xl bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
@@ -103,6 +131,24 @@ export default function CourseCard({ course }) {
 
         </div>
 
+        {!isComingSoon && launchLimit && (
+          <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-4">
+            {offer.launchActive ? (
+              <>
+                <div className="flex items-baseline gap-2">
+                  <strong className="text-xl text-slate-900">Launch offer ₹{offer.price}</strong>
+                  <span className="text-sm text-slate-500 line-through">₹{offer.regularPrice}</span>
+                </div>
+                <p className="mt-1 text-sm text-amber-800">
+                  First {offer.launchLimit} students · Complete course, assessments and certificate included
+                </p>
+              </>
+            ) : (
+              <strong className="text-xl text-slate-900">Course fee ₹{offer.price}</strong>
+            )}
+          </div>
+        )}
+
         {/* Status */}
 
         <div className="mt-6 flex items-center justify-between">
@@ -160,7 +206,7 @@ export default function CourseCard({ course }) {
             ? "Coming Soon"
             : enrolled || progress > 0
             ? "Continue Learning"
-            : `Enroll for ₹${price}`}
+            : `Enroll for ₹${offer.price}`}
 
           {canOpen && <ArrowRight size={18} />}
         </button>
