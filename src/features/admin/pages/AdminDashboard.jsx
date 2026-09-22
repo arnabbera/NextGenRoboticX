@@ -1,4 +1,4 @@
-import { BookOpen, FolderKanban, Settings2, Wrench } from "lucide-react";
+import { BarChart3, BookOpen, FolderKanban, Settings2, Wrench } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import WelcomeBanner from "../../dashboard/components/WelcomeBanner";
@@ -8,6 +8,7 @@ const sections = [
   { title: "Projects", description: "View every practical robotics, IoT, AI, drone, and automation project with full administrator permissions.", path: "/admin/all-projects", icon: FolderKanban, color: "bg-cyan-600" },
   { title: "Course Management", description: "Manage the course catalog, chapters, and upload or replace lesson PDFs.", path: "/admin/courses", icon: Settings2, color: "bg-emerald-600" },
   { title: "Project Management", description: "Edit project details and manage connection diagrams and project PDF resources.", path: "/admin/projects", icon: Wrench, color: "bg-amber-500" },
+  { title: "Enrollment Analytics", description: "Measure homepage traffic, course interest, enrollment clicks, checkout openings, payment results and funnel drop-off.", path: "/admin/analytics", icon: BarChart3, color: "bg-violet-600" },
 ];
 
 export default function AdminDashboard() {
