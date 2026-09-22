@@ -164,7 +164,7 @@ async function getOptionalFirebaseUser(request) {
 }
 
 const normalizeEmail = (value) => String(value || "").trim().toLowerCase();
-const validEmail = (value) => /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);
+const validEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 const getRazorpayCredentials = (env) => ({
   keyId: String(env.RAZORPAY_KEY_ID || "").trim(),
