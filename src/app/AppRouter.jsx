@@ -53,6 +53,7 @@ export default function AppRouter() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/features/:featureSlug" element={<FeatureDetailPage />} />
+        <Route path="/courses" element={<Courses publicView />} />
         <Route path="/courses/:courseId" element={<CourseDetails />} />
         <Route path="/shop" element={<ShopPage />} />
 
@@ -71,7 +72,6 @@ export default function AppRouter() {
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/courses" element={<Courses />} />
             <Route path="/courses/available" element={<Courses />} />
             <Route path="/courses/enrolled" element={<EnrolledCourses />} />
             <Route element={<CourseAccessRoute />}>
