@@ -70,7 +70,7 @@ export default function CourseEnrollment({ course, onStatusChange }) {
 
   async function enroll() {
     const checkoutEmail = String(user?.email || guestEmail).trim().toLowerCase();
-    if (!user && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(checkoutEmail)) {
+    if (!user && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(checkoutEmail)) {
       setError("Enter a valid email address before continuing to payment.");
       return;
     }
