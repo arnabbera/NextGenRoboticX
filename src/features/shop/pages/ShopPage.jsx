@@ -170,7 +170,18 @@ const products = [
     discount: 69,
     rating: "4.6",
     link: "https://www.amazon.in/Makeblock-Bluetooth-Programmable-Robotics-Electronics/dp/B00SK5RUQY?pd_rd_w=4Cc4Y&content-id=amzn1.sym.0640b4dc-6d30-422d-bb8f-d11de15b1b49&pf_rd_p=0640b4dc-6d30-422d-bb8f-d11de15b1b49&pf_rd_r=6P3AJZG7PK42AQYFZC00&pd_rd_wg=uqEQ1&pd_rd_r=f62298d3-af3c-408e-a37c-2d5ec6f7d8b7&pd_rd_i=B00SK5RUQY&psc=1&linkCode=ll2&tag=arnabbera05-21&linkId=110042eccbc3fe5f04303724657e9367&ref_=as_li_ss_tl",
+  },  {
+    asin: "B0GQ4R7Y69",
+    title: "Robocraze 4WD Smart Robot Car Chassis Kit",
+    category: "Robotics Kits",
+    description:
+      "Transparent double-layer acrylic robot chassis with four geared motors, four wheels and flexible mounting space for Arduino, ESP32, Raspberry Pi, sensors and motor drivers.",
+    image: "https://robocraze.com/cdn/shop/files/19_f5897e1d-8616-4cc3-8cd9-21418b586179_1000x.png?v=1748869783",
+    discount: 25,
+    rating: null,
+    link: "https://www.amazon.in/Robocraze-Transparent-Robotics-Learning-Automation/dp/B0GQ4R7Y69?&linkCode=ll2&tag=arnabbera05-21&linkId=7d130ae794e64ffd43fceba2ed600744&ref_=as_li_ss_tl",
   },
+
 ];
 
 export default function ShopPage() {
