@@ -1,4 +1,4 @@
-import { FolderKanban, PlayCircle } from "lucide-react";
+import { Award, FolderKanban, Headphones, PlayCircle, Wrench } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -18,12 +18,27 @@ export default function Hero() {
           </h1>
 
           <p className="mt-6 max-w-xl text-base leading-7 text-slate-300 sm:text-lg">
-            Learn Robotics, Artificial Intelligence, Arduino, Raspberry Pi,
-            Drone Technology and IoT through hands-on projects and
-            industry-oriented certification.
+            Go from curious beginner to confident builder. Follow structured
+            lessons, create working hardware projects, complete assessments,
+            and earn a personalized course-completion certificate.
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="mt-8 grid max-w-2xl gap-3 text-sm text-slate-200 sm:grid-cols-3">
+            <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 p-3">
+              <Wrench className="shrink-0 text-amber-300" size={20} />
+              Build practical projects
+            </div>
+            <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 p-3">
+              <Award className="shrink-0 text-amber-300" size={20} />
+              Assessment and certificate
+            </div>
+            <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 p-3">
+              <Headphones className="shrink-0 text-amber-300" size={20} />
+              Help when you get stuck
+            </div>
+          </div>
+
+          <div className="mt-8 flex flex-wrap gap-4">
             <a href="#courses" className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-7 py-4 font-semibold text-white transition hover:bg-blue-700">
               <PlayCircle size={21} />
               Explore Courses
