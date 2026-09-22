@@ -155,7 +155,7 @@ const products = [
     category: "Robotics Kits",
     description:
       "Arduino-compatible tracked robot kit with an UNO R3 controller, Wi-Fi FPV camera, ultrasonic obstacle avoidance, line tracking, auto-follow, IR remote control and a two-axis camera gimbal.",
-    image: "https://images-na.ssl-images-amazon.com/images/P/B08CZ4MG5P.01.LZZZZZZZ.jpg",
+    image: "https://www.elegoo.com/cdn/shop/products/elegoo-conqueror-robot-tank-kit-compatible-with-arduino-ide-arduino-stem-kits-elegoo-shop-453102.jpg?v=1620814051&width=900",
     discount: null,
     rating: null,
     link: "https://www.amazon.in/ELEGOO-Conqueror-Robot-Tank/dp/B08CZ4MG5P?pd_rd_w=0Anwi&content-id=amzn1.sym.f834d454-55cc-4825-9252-c75a5f644237&pf_rd_p=f834d454-55cc-4825-9252-c75a5f644237&pf_rd_r=VGGZ9Z5FV383EN4Z3DG3&pd_rd_wg=t1bpK&pd_rd_r=6ec14c18-f15c-4b1a-bc79-9149bb8d12bf&pd_rd_i=B08CZ4MG5P&psc=1&linkCode=ll2&tag=arnabbera05-21&linkId=065999f656d6b33876a8a32fa1798231&ref_=as_li_ss_tl",
