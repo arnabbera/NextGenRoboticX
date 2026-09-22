@@ -9,6 +9,7 @@ import {
 import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import courses from "../../courses/data/courses";
+import { trackEvent } from "../../../services/analytics";
 
 function getSafeRedirect(value) {
   if (!value || !value.startsWith("/") || value.startsWith("//")) {
@@ -49,6 +50,7 @@ export default function LoginPage() {
   async function handleLogin() {
     try {
       await loginWithGoogle();
+      trackEvent("google_login_complete", { courseId: redirectedCourseId });
     } catch (error) {
       console.error("Google sign-in failed:", error);
       alert(error.message || "Unable to sign in with Google. Please try again.");

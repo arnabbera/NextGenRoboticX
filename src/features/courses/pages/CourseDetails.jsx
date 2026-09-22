@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import courses from "../data/courses";
 import CourseEnrollment from "../components/CourseEnrollment";
@@ -6,6 +6,7 @@ import { isAdministrator } from "../../../components/auth/AdminRoute";
 import { useAuth } from "../../../context/AuthContext";
 import ProjectShare from "../../projects/components/ProjectShare";
 import CourseSummaryVideo from "../components/CourseSummaryVideo";
+import { trackEvent } from "../../../services/analytics";
 
 const COURSE_OVERVIEWS = {
   "robotics-foundation": {
@@ -191,6 +192,10 @@ export default function CourseDetails() {
   const displayedPrice = courseOffer?.price ?? course?.price ?? 199;
   const regularPrice = courseOffer?.regularPrice ?? course?.regularPrice ?? 499;
   const launchActive = courseOffer?.launchActive ?? Boolean(course?.launchLimit);
+
+  useEffect(() => {
+    if (courseId) trackEvent("course_page_view", { courseId });
+  }, [courseId]);
   const overview = COURSE_OVERVIEWS[courseId];
   const learningDetails = COURSE_LEARNING_DETAILS[courseId] || course?.learningOutcomes?.map((title) => ({
     title,

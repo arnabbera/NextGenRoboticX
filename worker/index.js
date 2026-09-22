@@ -5,6 +5,15 @@ const PASS_PRODUCT = "all-nine-projects-lifetime";
 const LAUNCH_COURSE_ACCESS_AMOUNT = 19900;
 const REGULAR_COURSE_ACCESS_AMOUNT = 49900;
 const COURSE_LAUNCH_LIMIT = 100;
+const ANALYTICS_EVENTS = new Set([
+  "homepage_view",
+  "course_page_view",
+  "enrollment_click",
+  "google_login_complete",
+  "razorpay_open",
+  "payment_success",
+  "payment_failure",
+]);
 const COURSE_IDS = new Set([
   "robotics-foundation",
   "arduino-programming",
@@ -257,6 +266,127 @@ function requireKv(env) {
   }
   return env.PROJECT_ACCESS;
 }
+
+function analyticsDate(offsetDays = 0) {
+  const date = new Date();
+  date.setUTCDate(date.getUTCDate() - offsetDays);
+  return date.toISOString().slice(0, 10);
+}
+
+async function recordAnalyticsEvent(env, event, courseId = "", source = "") {
+  if (!ANALYTICS_EVENTS.has(event)) return;
+  const kv = requireKv(env);
+  const date = analyticsDate();
+  const key = `analytics-day:${date}`;
+  const summary = (await kv.get(key, "json")) || {
+    date,
+    totals: {},
+    courses: {},
+    sources: {},
+  };
+
+  summary.totals[event] = (summary.totals[event] || 0) + 1;
+  if (courseId && COURSE_IDS.has(courseId)) {
+    summary.courses[courseId] ||= {};
+    summary.courses[courseId][event] =
+      (summary.courses[courseId][event] || 0) + 1;
+  }
+  if (source) {
+    const safeSource = String(source).toLowerCase().replace(/[^a-z0-9._-]/g, "").slice(0, 60);
+    if (safeSource) {
+      summary.sources[safeSource] ||= {};
+      summary.sources[safeSource][event] =
+        (summary.sources[safeSource][event] || 0) + 1;
+    }
+  }
+
+  await kv.put(key, JSON.stringify(summary), { expirationTtl: 60 * 60 * 24 * 400 });
+}
+
+async function handleAnalyticsEvent(request, env) {
+  const origin = request.headers.get("origin") || "";
+  if (origin) {
+    let originHost = "";
+    try {
+      originHost = new URL(origin).hostname;
+    } catch {
+      return json({ error: "Invalid analytics origin." }, 403);
+    }
+    if (
+      originHost !== "nextgenroboticx.com" &&
+      !originHost.endsWith(".nextgenroboticx.com") &&
+      originHost !== "localhost"
+    ) {
+      return json({ error: "Invalid analytics origin." }, 403);
+    }
+  }
+
+  const body = await readJson(request);
+  const event = String(body.event || "");
+  const courseId = String(body.courseId || "");
+  const sessionId = String(body.sessionId || "").replace(/[^a-zA-Z0-9-]/g, "").slice(0, 80);
+  const source = String(body.source || "");
+  if (!ANALYTICS_EVENTS.has(event) || sessionId.length < 8) {
+    return json({ error: "Invalid analytics event." }, 400);
+  }
+  if (courseId && !COURSE_IDS.has(courseId)) {
+    return json({ error: "Invalid course." }, 400);
+  }
+
+  const kv = requireKv(env);
+  const date = analyticsDate();
+  const seenKey = `analytics-seen:${date}:${event}:${courseId || "all"}:${sessionId}`;
+  if (!(await kv.get(seenKey))) {
+    await recordAnalyticsEvent(env, event, courseId, source);
+    await kv.put(seenKey, "1", { expirationTtl: 60 * 60 * 48 });
+  }
+
+  return json({ recorded: true }, 202);
+}
+
+async function handleAdminAnalytics(request, env, url) {
+  const user = await verifyFirebaseToken(request);
+  requireAdmin(user);
+  const days = Math.min(90, Math.max(1, Number.parseInt(url.searchParams.get("days") || "30", 10) || 30));
+  const kv = requireKv(env);
+  const daily = [];
+
+  for (let offset = days - 1; offset >= 0; offset -= 1) {
+    const date = analyticsDate(offset);
+    daily.push(
+      (await kv.get(`analytics-day:${date}`, "json")) || {
+        date,
+        totals: {},
+        courses: {},
+        sources: {},
+      }
+    );
+  }
+
+  const totals = {};
+  const courses = {};
+  const sources = {};
+  for (const day of daily) {
+    for (const [event, count] of Object.entries(day.totals || {})) {
+      totals[event] = (totals[event] || 0) + count;
+    }
+    for (const [courseId, events] of Object.entries(day.courses || {})) {
+      courses[courseId] ||= {};
+      for (const [event, count] of Object.entries(events)) {
+        courses[courseId][event] = (courses[courseId][event] || 0) + count;
+      }
+    }
+    for (const [source, events] of Object.entries(day.sources || {})) {
+      sources[source] ||= {};
+      for (const [event, count] of Object.entries(events)) {
+        sources[source][event] = (sources[source][event] || 0) + count;
+      }
+    }
+  }
+
+  return json({ days, totals, courses, sources, daily });
+}
+
 
 async function getEntitlement(env, uid) {
   const kv = requireKv(env);
@@ -658,6 +788,7 @@ async function handleCourseVerify(request, env) {
     Number.parseInt(await kv.get(courseSalesCountKey(courseId)) || "0", 10) || 0
   );
   await kv.put(courseSalesCountKey(courseId), String(paidEnrollments + 1));
+  await recordAnalyticsEvent(env, "payment_success", courseId);
   await kv.delete(`course-order:${orderId}`);
 
   return json({
@@ -1239,6 +1370,14 @@ async function handleAdminProjectUpload(request, env, slug, kind) {
 }
 
 async function handleApi(request, env, url) {
+  if (request.method === "POST" && url.pathname === "/api/analytics/event") {
+    return handleAnalyticsEvent(request, env);
+  }
+
+  if (request.method === "GET" && url.pathname === "/api/admin/analytics") {
+    return handleAdminAnalytics(request, env, url);
+  }
+
   const courseSummaryVideoMatch = url.pathname.match(/^\/api\/courses\/([^/]+)\/summary-video$/);
   if (request.method === "GET" && courseSummaryVideoMatch) {
     return handleCourseSummaryVideo(env, courseSummaryVideoMatch[1]);

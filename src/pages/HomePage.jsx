@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { trackEvent } from "../services/analytics";
 import {
   Navbar,
   Hero,
@@ -10,6 +12,10 @@ import {
 } from "../components/home";
 
 export default function HomePage() {
+  useEffect(() => {
+    trackEvent("homepage_view");
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
