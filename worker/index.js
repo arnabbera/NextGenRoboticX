@@ -479,18 +479,36 @@ async function handleCourseEnrollments(request, env) {
 }
 
 async function handleCourseOrder(request, env) {
-  const user = await verifyFirebaseToken(request);
+  const user = await getOptionalFirebaseUser(request);
   const body = await readJson(request);
   const courseId = String(body.courseId || "");
   validateCourseId(courseId);
   const courseAccessAmount = getCourseAccessAmount(courseId);
+
   if (!PURCHASABLE_COURSE_IDS.has(courseId)) {
     return json({ error: "Enrollment is not open for this course yet." }, 409);
   }
 
-  const existing = await getCourseEntitlement(env, user.uid, courseId);
-  if (existing?.active) {
-    return json({ error: "This course is already enrolled." }, 409);
+  const email = normalizeEmail(user?.email || body.email);
+  if (!validEmail(email)) {
+    return json({ error: "Enter a valid email address for course access." }, 400);
+  }
+
+  if (user) {
+    const existing = await claimGuestCourseEntitlement(env, user, courseId);
+    if (existing?.active) {
+      return json({ error: "This course is already enrolled." }, 409);
+    }
+  } else {
+    const guestExisting = await requireKv(env).get(
+      guestCourseEntitlementKey(email, courseId),
+      "json"
+    );
+    if (guestExisting?.active) {
+      return json({
+        error: "This email already owns the course. Sign in with the same Google email to access it.",
+      }, 409);
+    }
   }
 
   const receipt = `course_${courseId.slice(0, 12)}_${Date.now()}`;
@@ -502,9 +520,10 @@ async function handleCourseOrder(request, env) {
       receipt,
       payment_capture: 1,
       notes: {
-        firebase_uid: user.uid,
-        student_email: user.email,
+        firebase_uid: user?.uid || "guest",
+        student_email: email,
         course_id: courseId,
+        checkout_type: user ? "account" : "guest",
       },
     }),
   });
@@ -512,11 +531,12 @@ async function handleCourseOrder(request, env) {
   await requireKv(env).put(
     `course-order:${order.id}`,
     JSON.stringify({
-      uid: user.uid,
-      email: user.email,
+      uid: user?.uid || null,
+      email,
       courseId,
       amount: courseAccessAmount,
       currency: PASS_CURRENCY,
+      checkoutType: user ? "account" : "guest",
       createdAt: new Date().toISOString(),
     }),
     { expirationTtl: 86400 }
@@ -529,6 +549,8 @@ async function handleCourseOrder(request, env) {
     keyId: getRazorpayCredentials(env).keyId,
     courseId,
     courseTitle: COURSE_TITLES[courseId],
+    email,
+    checkoutType: user ? "account" : "guest",
   });
 }
 
