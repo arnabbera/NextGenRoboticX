@@ -204,6 +204,17 @@ const products = [
     rating: "3.8",
     link: "https://www.amazon.in/APTECH-DEALS-AP-IS11A005-Multimeter-Measuring/dp/B07KK5LZBK?pd_rd_w=mPF6r&content-id=amzn1.sym.142c0d31-3594-485b-b879-def9251f61c0&pf_rd_p=142c0d31-3594-485b-b879-def9251f61c0&pf_rd_r=NXRM0FCN825SKNPXH2VJ&pd_rd_wg=cwNAu&pd_rd_r=ff50c428-5451-4d82-854b-272a73eab1ff&pd_rd_i=B07KK5LZBK&th=1&linkCode=ll2&tag=arnabbera05-21&linkId=594b6a42dba1b4ca05d54e1d1deadc19&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B0CN8XK3GT",
+    title: "SunFounder GalaxyRVR Mars Rover Kit for Arduino",
+    category: "Robotics Kits",
+    description:
+      "Arduino-compatible six-wheel Mars rover with rocker-bogie suspension, solar charging, ESP32 camera with real-time FPV, ultrasonic and infrared obstacle avoidance, RGB lighting and app control.",
+    image: "https://www.sunfounder.com/cdn/shop/files/sunfounder-default-title-sunfounder-galaxyrvr-mars-rover-kit-for-arduino-uno-r3-33197980090603_1000x.jpg?v=1768447084",
+    discount: null,
+    rating: "4.8",
+    link: "https://www.amazon.in/SunFounder-GalaxyRVR-Compatible-Real-Time-Rechargeable/dp/B0CN8XK3GT?pd_rd_w=sr99J&content-id=amzn1.sym.0640b4dc-6d30-422d-bb8f-d11de15b1b49&pf_rd_p=0640b4dc-6d30-422d-bb8f-d11de15b1b49&pf_rd_r=5RA0GXJJ3G7P1BRTY519&pd_rd_wg=7Qezt&pd_rd_r=38aab340-1f3a-468c-aa2b-822a90d9bf7d&pd_rd_i=B0CN8XK3GT&psc=1&linkCode=ll2&tag=arnabbera05-21&linkId=af04d0c48a2ba03de62b7e837044ac4a&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
