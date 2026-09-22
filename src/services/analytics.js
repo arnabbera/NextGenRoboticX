@@ -22,7 +22,15 @@ export function trackEvent(event, details = {}) {
     sessionId: getSessionId(),
     courseId: details.courseId || "",
     path: window.location.pathname,
-    source: new URLSearchParams(window.location.search).get("utm_source") || "",
+    source:
+      new URLSearchParams(window.location.search).get("utm_source") ||
+      (() => {
+        try {
+          return document.referrer ? new URL(document.referrer).hostname : "direct";
+        } catch {
+          return "direct";
+        }
+      })(),
   };
 
   fetch(ANALYTICS_ENDPOINT, {
