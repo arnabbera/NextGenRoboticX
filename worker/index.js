@@ -1396,6 +1396,33 @@ async function handleApi(request, env, url) {
 }
 
 
+const COURSE_SEARCH_META = {
+  "robotics-foundation": {
+    description: "Learn robotics fundamentals through 10 structured chapters, practical projects, assessments and a certificate. Introductory enrollment is ₹199 for the first 100 students.",
+    image: "/images/courses/robotics.jpg",
+  },
+  "arduino-programming": {
+    description: "Learn Arduino programming, Embedded C, GPIO, PWM, interrupts, communication, sensors and projects. Launch offer ₹199 for the first 100 students; regular price ₹499.",
+    image: "/images/courses/arduino.jpg",
+  },
+  "raspberry-pi": {
+    description: "Learn Raspberry Pi, Linux, Python, GPIO, networking, IoT and computer vision through a complete course with assessments and certificate.",
+    image: "/images/courses/raspberrypi.jpg",
+  },
+  "internet-of-things": {
+    description: "Learn IoT architecture, ESP32, sensors, MQTT, cloud dashboards, automation and security through practical lessons, assessments and a certificate.",
+    image: "/images/courses/iot.jpg",
+  },
+  "pcb-design-hardware-development": {
+    description: "Learn schematic design, PCB layout, fabrication, assembly, testing and hardware development through a complete course with assessments and certificate.",
+    image: "/images/courses/pcb.jpg",
+  },
+  "drone-technology": {
+    description: "Learn drone fundamentals, flight systems, electronics, control and practical development through structured lessons, assessments and a certificate.",
+    image: "/images/courses/drone.jpg",
+  },
+};
+
 const EXPERT_MENTORSHIP_META = {
   title: "Expert Robotics & Engineering Mentorship | NextGenRoboticX",
   description:
@@ -1424,6 +1451,74 @@ class ContentHandler {
   element(element) {
     element.setInnerContent(this.content);
   }
+}
+
+class HeadJsonLdHandler {
+  constructor(data) {
+    this.json = JSON.stringify(data).replaceAll("<", "\\u003c");
+  }
+
+  element(element) {
+    element.append(`<script type="application/ld+json">${this.json}</script>`, {
+      html: true,
+    });
+  }
+}
+
+async function applyCourseSearchMeta(response, env, courseId) {
+  const configured = COURSE_SEARCH_META[courseId];
+  if (!configured || !PURCHASABLE_COURSE_IDS.has(courseId)) return response;
+
+  const offer = await getCourseOffer(env, courseId);
+  const title = `${COURSE_TITLES[courseId]} Online Course | ₹${offer.price} Launch Offer`;
+  const url = `https://www.nextgenroboticx.com/courses/${courseId}`;
+  const image = `https://www.nextgenroboticx.com${configured.image}`;
+  const description = offer.launchActive
+    ? configured.description
+    : configured.description.replace(
+        /Launch offer ₹199 for the first 100 students; regular price ₹499\.|Introductory enrollment is ₹199 for the first 100 students\./,
+        "Enrollment is available for ₹499."
+      );
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: COURSE_TITLES[courseId],
+    description,
+    url,
+    image,
+    provider: {
+      "@type": "Organization",
+      name: "NextGenRoboticX",
+      url: "https://www.nextgenroboticx.com/",
+    },
+    offers: {
+      "@type": "Offer",
+      url,
+      priceCurrency: "INR",
+      price: String(offer.price),
+      availability: "https://schema.org/InStock",
+      category: offer.launchActive ? "Introductory offer" : "Regular price",
+    },
+  };
+
+  return new HTMLRewriter()
+    .on("title", new ContentHandler(title))
+    .on('link[rel="canonical"]', new AttributeHandler("href", url))
+    .on('meta[name="description"]', new AttributeHandler("content", description))
+    .on('meta[property="og:title"]', new AttributeHandler("content", title))
+    .on('meta[property="og:description"]', new AttributeHandler("content", description))
+    .on('meta[property="og:type"]', new AttributeHandler("content", "website"))
+    .on('meta[property="og:url"]', new AttributeHandler("content", url))
+    .on('meta[property="og:image"]', new AttributeHandler("content", image))
+    .on('meta[property="og:image:secure_url"]', new AttributeHandler("content", image))
+    .on('meta[property="og:image:alt"]', new AttributeHandler("content", `${COURSE_TITLES[courseId]} course`))
+    .on('meta[name="twitter:card"]', new AttributeHandler("content", "summary_large_image"))
+    .on('meta[name="twitter:title"]', new AttributeHandler("content", title))
+    .on('meta[name="twitter:description"]', new AttributeHandler("content", description))
+    .on('meta[name="twitter:image"]', new AttributeHandler("content", image))
+    .on('meta[name="twitter:image:alt"]', new AttributeHandler("content", `${COURSE_TITLES[courseId]} course`))
+    .on("head", new HeadJsonLdHandler(structuredData))
+    .transform(response);
 }
 
 function applyExpertMentorshipMeta(response) {
@@ -1475,6 +1570,15 @@ export default {
       }
 
       const assetResponse = await env.ASSETS.fetch(request);
+
+      const coursePageMatch = url.pathname.match(/^\/courses\/([^/]+)$/);
+      if (
+        request.method === "GET" &&
+        coursePageMatch &&
+        assetResponse.headers.get("content-type")?.includes("text/html")
+      ) {
+        return applyCourseSearchMeta(assetResponse, env, coursePageMatch[1]);
+      }
 
       if (
         request.method === "GET" &&
