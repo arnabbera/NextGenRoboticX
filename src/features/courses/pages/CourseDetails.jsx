@@ -238,7 +238,7 @@ export default function CourseDetails() {
         </div>
       </header>
     )}
-    <div className="mx-auto max-w-7xl px-6 py-10">
+    <div className="mx-auto max-w-7xl px-6 pb-28 pt-10 md:pb-10">
 
       <Link
         to="/courses"
@@ -283,6 +283,17 @@ export default function CourseDetails() {
                 📚 {course.chapters} Chapters
               </span>
 
+            </div>
+
+            <div id="course-enrollment" className="mt-8 scroll-mt-28">
+              <div className="inline-flex items-end gap-3 rounded-2xl border border-white/25 bg-white/15 px-5 py-4 shadow-lg backdrop-blur">
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-wider text-blue-100">One-time course fee</p>
+                  <p className="mt-1 text-4xl font-black">₹{course.price ?? 99}</p>
+                </div>
+                <p className="pb-1 text-sm leading-6 text-blue-100">Permanent access<br />Certificate assessment included</p>
+              </div>
+              <CourseEnrollment course={course} onStatusChange={setEnrolled} />
             </div>
 
             <CourseSummaryVideo courseId={course.id} />
@@ -438,9 +449,17 @@ export default function CourseDetails() {
       </div>
 
       <section className="mt-10 overflow-hidden rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 p-7 text-white shadow-xl md:p-10">
-        <h2 className="text-3xl font-bold">Ready to enroll?</h2>
-        <p className="mt-3 max-w-3xl text-lg leading-8 text-blue-100">Review the complete course structure above, then enroll for a one-time fee of ₹{course.price ?? 99}. Access is permanently linked to your signed-in Gmail account.</p>
-        <CourseEnrollment course={course} onStatusChange={setEnrolled} />
+        <h2 className="text-3xl font-bold">{enrolled ? "Continue your course" : "Ready to start learning?"}</h2>
+        <p className="mt-3 max-w-3xl text-lg leading-8 text-blue-100">
+          {enrolled
+            ? "Your enrollment is active. Continue with the lessons, mock test and final assessment."
+            : `The ₹${course.price ?? 99} enrollment option is available at the top of this page, before the curriculum, so you can start whenever you are ready.`}
+        </p>
+        {!enrolled && !isAdministrator(user, profile) && (
+          <a href="#course-enrollment" className="mt-6 inline-flex rounded-xl bg-amber-400 px-6 py-4 font-bold text-slate-950 transition hover:bg-amber-300">
+            Enroll Now for ₹{course.price ?? 99}
+          </a>
+        )}
         {(enrolled || isAdministrator(user, profile)) && (
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to={`/courses/${course.id}/learn`} className="inline-flex rounded-xl bg-white px-6 py-4 font-semibold text-blue-700 transition hover:scale-105 hover:shadow-xl">🚀 Start Learning</Link>
@@ -454,6 +473,28 @@ export default function CourseDetails() {
         )}
       </section>
 
+    </div>
+
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-2xl backdrop-blur md:hidden">
+      <div className="mx-auto flex max-w-lg items-center justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            {enrolled ? "Enrollment active" : "One-time fee"}
+          </p>
+          <p className="text-xl font-black text-slate-900">
+            {enrolled ? course.title : `₹${course.price ?? 99}`}
+          </p>
+        </div>
+        {enrolled || isAdministrator(user, profile) ? (
+          <Link to={`/courses/${course.id}/learn`} className="shrink-0 rounded-xl bg-emerald-600 px-5 py-3 font-bold text-white">
+            Continue Learning
+          </Link>
+        ) : (
+          <a href="#course-enrollment" className="shrink-0 rounded-xl bg-blue-700 px-5 py-3 font-bold text-white">
+            Enroll Now
+          </a>
+        )}
+      </div>
     </div>
     </>
   );
