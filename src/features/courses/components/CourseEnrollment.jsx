@@ -20,16 +20,54 @@ function loadRazorpay() {
   });
 }
 
-export default function CourseEnrollment({ course, onStatusChange }) {
+export default function CourseEnrollment({ course, onStatusChange, onOfferChange }) {
   const { user } = useAuth();
   const location = useLocation();
-  const price = course.price ?? 99;
+  const [offer, setOffer] = useState({
+    price: course.price ?? 199,
+    regularPrice: course.regularPrice ?? 499,
+    launchLimit: course.launchLimit ?? 100,
+    remaining: course.launchLimit ?? 100,
+    launchActive: true,
+  });
+  const price = offer.price;
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [paying, setPaying] = useState(false);
   const [error, setError] = useState("");
   const [guestEmail, setGuestEmail] = useState("");
   const [guestPaidEmail, setGuestPaidEmail] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/course-access/${course.id}/offer`)
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Unable to load course offer.");
+        return data;
+      })
+      .then((data) => {
+        if (cancelled) return;
+        setOffer(data);
+        onOfferChange?.(data);
+      })
+      .catch(() => {
+        const fallback = {
+          price: course.price ?? 199,
+          regularPrice: course.regularPrice ?? 499,
+          launchLimit: course.launchLimit ?? 100,
+          remaining: course.launchLimit ?? 100,
+          launchActive: true,
+        };
+        if (!cancelled) {
+          setOffer(fallback);
+          onOfferChange?.(fallback);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [course.id, course.launchLimit, course.price, course.regularPrice, onOfferChange]);
 
   const requestHeaders = useCallback(async () => {
     const headers = { "Content-Type": "application/json" };
@@ -88,6 +126,11 @@ export default function CourseEnrollment({ course, onStatusChange }) {
       });
       const order = await orderResponse.json();
       if (!orderResponse.ok) throw new Error(order.error || "Unable to create payment order.");
+      if (typeof order.price === "number") {
+        const refreshedOffer = { ...offer, ...order };
+        setOffer(refreshedOffer);
+        onOfferChange?.(refreshedOffer);
+      }
 
       const verification = await new Promise((resolve, reject) => {
         const checkout = new window.Razorpay({
@@ -176,6 +219,18 @@ export default function CourseEnrollment({ course, onStatusChange }) {
         <p className="mt-3 text-blue-100">
           Enter your email and complete the ₹{price} payment. After payment, sign in with the same Google email to claim permanent course access.
         </p>
+        {offer.launchActive ? (
+          <div className="mt-4 rounded-xl border border-amber-300/40 bg-amber-300/10 p-3 text-sm text-amber-50">
+            <strong>Launch offer ₹{price}</strong>{" "}
+            <span className="line-through opacity-75">₹{offer.regularPrice}</span>
+            <span> · First {offer.launchLimit} students · {offer.remaining} places remaining</span>
+            <div className="mt-1">Complete course, assessments and certificate included.</div>
+          </div>
+        ) : (
+          <div className="mt-4 text-sm text-blue-100">
+            Regular price ₹{price}. Complete course, assessments and certificate included.
+          </div>
+        )}
         <label className="mt-5 block">
           <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-blue-100">
             <Mail size={17} /> Email for course access
@@ -228,6 +283,18 @@ export default function CourseEnrollment({ course, onStatusChange }) {
     <div className="mt-8 max-w-xl rounded-2xl border border-white/20 bg-slate-950/25 p-5 text-white">
       <div className="flex items-center gap-3"><LockKeyhole /><strong className="text-xl">Enroll to unlock this course</strong></div>
       <p className="mt-3 text-blue-100">Pay ₹{price} once. Access is linked permanently to your signed-in Gmail account: <strong>{user.email}</strong>.</p>
+      {offer.launchActive ? (
+        <div className="mt-4 rounded-xl border border-amber-300/40 bg-amber-300/10 p-3 text-sm text-amber-50">
+          <strong>Launch offer ₹{price}</strong>{" "}
+          <span className="line-through opacity-75">₹{offer.regularPrice}</span>
+          <span> · First {offer.launchLimit} students · {offer.remaining} places remaining</span>
+          <div className="mt-1">Complete course, assessments and certificate included.</div>
+        </div>
+      ) : (
+        <div className="mt-4 text-sm text-blue-100">
+          Regular price ₹{price}. Complete course, assessments and certificate included.
+        </div>
+      )}
       <button type="button" disabled={paying} onClick={enroll} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-amber-400 px-6 py-3 font-bold text-slate-950 hover:bg-amber-300 disabled:opacity-60">
         {paying && <LoaderCircle className="animate-spin" size={18} />}
         {paying ? "Processing..." : `Pay ₹${price} & Enroll`}

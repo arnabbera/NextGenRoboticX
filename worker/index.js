@@ -2,16 +2,9 @@ const FIREBASE_PROJECT_ID = "nextgenroboticx";
 const PASS_AMOUNT = 9900;
 const PASS_CURRENCY = "INR";
 const PASS_PRODUCT = "all-nine-projects-lifetime";
-const DEFAULT_COURSE_ACCESS_AMOUNT = 9900;
-const COURSE_ACCESS_AMOUNTS = {
-  "robotics-foundation": 4900,
-  "arduino-programming": 4900,
-  "raspberry-pi": 4900,
-  "internet-of-things": 4900,
-  "pcb-design-hardware-development": 4900,
-};
-const getCourseAccessAmount = (courseId) =>
-  COURSE_ACCESS_AMOUNTS[courseId] || DEFAULT_COURSE_ACCESS_AMOUNT;
+const LAUNCH_COURSE_ACCESS_AMOUNT = 19900;
+const REGULAR_COURSE_ACCESS_AMOUNT = 49900;
+const COURSE_LAUNCH_LIMIT = 100;
 const COURSE_IDS = new Set([
   "robotics-foundation",
   "arduino-programming",
@@ -412,6 +405,38 @@ function courseEntitlementKey(uid, courseId) {
   return `course-entitlement:${uid}:${courseId}`;
 }
 
+function courseSalesCountKey(courseId) {
+  return `course-sales-count:${courseId}`;
+}
+
+async function getCourseOffer(env, courseId) {
+  validateCourseId(courseId);
+  const storedCount = await requireKv(env).get(courseSalesCountKey(courseId));
+  const paidEnrollments = Math.max(0, Number.parseInt(storedCount || "0", 10) || 0);
+  const launchActive = paidEnrollments < COURSE_LAUNCH_LIMIT;
+  const amount = launchActive
+    ? LAUNCH_COURSE_ACCESS_AMOUNT
+    : REGULAR_COURSE_ACCESS_AMOUNT;
+
+  return {
+    amount,
+    price: amount / 100,
+    regularPrice: REGULAR_COURSE_ACCESS_AMOUNT / 100,
+    launchLimit: COURSE_LAUNCH_LIMIT,
+    paidEnrollments,
+    remaining: Math.max(0, COURSE_LAUNCH_LIMIT - paidEnrollments),
+    launchActive,
+  };
+}
+
+async function handleCourseOffer(env, courseId) {
+  validateCourseId(courseId);
+  if (!PURCHASABLE_COURSE_IDS.has(courseId)) {
+    return json({ error: "Enrollment is not open for this course yet." }, 409);
+  }
+  return json(await getCourseOffer(env, courseId));
+}
+
 function guestCourseEntitlementKey(email, courseId) {
   return `guest-course-entitlement:${normalizeEmail(email)}:${courseId}`;
 }
@@ -483,12 +508,12 @@ async function handleCourseOrder(request, env) {
   const body = await readJson(request);
   const courseId = String(body.courseId || "");
   validateCourseId(courseId);
-  const courseAccessAmount = getCourseAccessAmount(courseId);
-
   if (!PURCHASABLE_COURSE_IDS.has(courseId)) {
     return json({ error: "Enrollment is not open for this course yet." }, 409);
   }
 
+  const offer = await getCourseOffer(env, courseId);
+  const courseAccessAmount = offer.amount;
   const email = normalizeEmail(user?.email || body.email);
   if (!validEmail(email)) {
     return json({ error: "Enter a valid email address for course access." }, 400);
@@ -551,6 +576,10 @@ async function handleCourseOrder(request, env) {
     courseTitle: COURSE_TITLES[courseId],
     email,
     checkoutType: user ? "account" : "guest",
+    price: offer.price,
+    regularPrice: offer.regularPrice,
+    launchActive: offer.launchActive,
+    remaining: offer.remaining,
   });
 }
 
@@ -559,8 +588,6 @@ async function handleCourseVerify(request, env) {
   const body = await readJson(request);
   const courseId = String(body.courseId || "");
   validateCourseId(courseId);
-  const courseAccessAmount = getCourseAccessAmount(courseId);
-
   const orderId = body.razorpay_order_id;
   const paymentId = body.razorpay_payment_id;
   const receivedSignature = body.razorpay_signature;
@@ -593,7 +620,7 @@ async function handleCourseVerify(request, env) {
 
   if (
     payment.order_id !== orderId ||
-    payment.amount !== courseAccessAmount ||
+    payment.amount !== pending.amount ||
     payment.currency !== PASS_CURRENCY ||
     payment.status !== "captured"
   ) {
@@ -605,7 +632,7 @@ async function handleCourseVerify(request, env) {
     active: true,
     courseId,
     courseTitle: COURSE_TITLES[courseId],
-    amountPaid: courseAccessAmount / 100,
+    amountPaid: pending.amount / 100,
     currency: PASS_CURRENCY,
     purchasedAt,
     razorpayOrderId: orderId,
@@ -626,6 +653,11 @@ async function handleCourseVerify(request, env) {
       JSON.stringify(entitlement)
     );
   }
+  const paidEnrollments = Math.max(
+    0,
+    Number.parseInt(await kv.get(courseSalesCountKey(courseId)) || "0", 10) || 0
+  );
+  await kv.put(courseSalesCountKey(courseId), String(paidEnrollments + 1));
   await kv.delete(`course-order:${orderId}`);
 
   return json({
@@ -1285,6 +1317,13 @@ async function handleApi(request, env, url) {
 
   if (request.method === "GET" && url.pathname === "/api/course-access/enrollments") {
     return handleCourseEnrollments(request, env);
+  }
+
+  const courseOfferMatch = url.pathname.match(
+    /^\/api\/course-access\/([^/]+)\/offer$/
+  );
+  if (request.method === "GET" && courseOfferMatch) {
+    return handleCourseOffer(env, courseOfferMatch[1]);
   }
 
   const courseStatusMatch = url.pathname.match(
