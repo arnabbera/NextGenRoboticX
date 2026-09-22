@@ -185,8 +185,12 @@ export default function CourseDetails() {
   const { courseId } = useParams();
   const { user, profile } = useAuth();
   const [enrolled, setEnrolled] = useState(false);
+  const [courseOffer, setCourseOffer] = useState(null);
 
   const course = courses.find((c) => c.id === courseId);
+  const displayedPrice = courseOffer?.price ?? course?.price ?? 199;
+  const regularPrice = courseOffer?.regularPrice ?? course?.regularPrice ?? 499;
+  const launchActive = courseOffer?.launchActive ?? Boolean(course?.launchLimit);
   const overview = COURSE_OVERVIEWS[courseId];
   const learningDetails = COURSE_LEARNING_DETAILS[courseId] || course?.learningOutcomes?.map((title) => ({
     title,
@@ -288,12 +292,18 @@ export default function CourseDetails() {
             <div id="course-enrollment" className="mt-8 scroll-mt-28">
               <div className="inline-flex items-end gap-3 rounded-2xl border border-white/25 bg-white/15 px-5 py-4 shadow-lg backdrop-blur">
                 <div>
-                  <p className="text-sm font-semibold uppercase tracking-wider text-blue-100">One-time course fee</p>
-                  <p className="mt-1 text-4xl font-black">₹{course.price ?? 99}</p>
+                  <p className="text-sm font-semibold uppercase tracking-wider text-blue-100">{launchActive ? "Introductory price" : "One-time course fee"}</p>
+                  <div className="mt-1 flex items-baseline gap-3">
+                    <p className="text-4xl font-black">₹{displayedPrice}</p>
+                    {launchActive && <p className="text-lg text-blue-100 line-through">₹{regularPrice}</p>}
+                  </div>
                 </div>
-                <p className="pb-1 text-sm leading-6 text-blue-100">Permanent access<br />Certificate assessment included</p>
+                <p className="pb-1 text-sm leading-6 text-blue-100">
+                  {launchActive ? "Only for the first 100 students" : "Permanent access"}<br />
+                  Complete course, assessments and certificate included
+                </p>
               </div>
-              <CourseEnrollment course={course} onStatusChange={setEnrolled} />
+              <CourseEnrollment course={course} onStatusChange={setEnrolled} onOfferChange={setCourseOffer} />
             </div>
 
             <CourseSummaryVideo courseId={course.id} />
@@ -455,11 +465,11 @@ export default function CourseDetails() {
         <p className="mt-3 max-w-3xl text-lg leading-8 text-blue-100">
           {enrolled
             ? "Your enrollment is active. Continue with the lessons, mock test and final assessment."
-            : `The ₹${course.price ?? 99} enrollment option is available at the top of this page, before the curriculum, so you can start whenever you are ready.`}
+            : `The ₹${displayedPrice} enrollment option is available at the top of this page, before the curriculum, so you can start whenever you are ready.`}
         </p>
         {!enrolled && !isAdministrator(user, profile) && (
           <a href="#course-enrollment" className="mt-6 inline-flex rounded-xl bg-amber-400 px-6 py-4 font-bold text-slate-950 transition hover:bg-amber-300">
-            Enroll Now for ₹{course.price ?? 99}
+            Enroll Now for ₹{displayedPrice}
           </a>
         )}
         {(enrolled || isAdministrator(user, profile)) && (
@@ -481,10 +491,10 @@ export default function CourseDetails() {
       <div className="mx-auto flex max-w-lg items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-            {enrolled ? "Enrollment active" : "One-time fee"}
+            {enrolled ? "Enrollment active" : launchActive ? "Launch offer" : "One-time fee"}
           </p>
           <p className="text-xl font-black text-slate-900">
-            {enrolled ? course.title : `₹${course.price ?? 99}`}
+            {enrolled ? course.title : `₹${displayedPrice}`}
           </p>
         </div>
         {enrolled || isAdministrator(user, profile) ? (
