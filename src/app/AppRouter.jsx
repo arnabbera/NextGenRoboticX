@@ -44,6 +44,7 @@ import CourseManagement from "../features/admin/pages/CourseManagement";
 import CourseEditor from "../features/admin/pages/CourseEditor";
 import CourseChaptersManagement from "../features/admin/pages/CourseChaptersManagement";
 import ProjectManagement from "../features/admin/pages/ProjectManagement";
+import FunnelAnalytics from "../features/admin/pages/FunnelAnalytics";
 import ShopPage from "../features/shop/pages/ShopPage";
 
 export default function AppRouter() {
@@ -112,6 +113,7 @@ export default function AppRouter() {
           <Route path="/admin/courses/:courseId/edit" element={<CourseEditor />} />
           <Route path="/admin/courses/:courseId/chapters" element={<CourseChaptersManagement />} />
           <Route path="/admin/projects" element={<ProjectManagement />} />
+          <Route path="/admin/analytics" element={<FunnelAnalytics />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
