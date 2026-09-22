@@ -182,6 +182,17 @@ const products = [
     link: "https://www.amazon.in/Robocraze-Transparent-Robotics-Learning-Automation/dp/B0GQ4R7Y69?&linkCode=ll2&tag=arnabbera05-21&linkId=7d130ae794e64ffd43fceba2ed600744&ref_=as_li_ss_tl",
   },
 
+  {
+    asin: "B07PM6134P",
+    title: "THEMISTO Beginners 8-in-1 Soldering Iron Kit",
+    category: "Tools & Soldering",
+    description:
+      "Beginner-friendly 25W corded soldering kit with essential accessories for electronics projects, circuit-board work, DIY repairs and practical soldering practice.",
+    image: null,
+    discount: null,
+    rating: "3.7",
+    link: "https://www.amazon.in/THEMISTO-passion-Themisto-Beginners-Soldering/dp/B07PM6134P?psc=1&linkCode=ll2&tag=arnabbera05-21&linkId=340ce94cbf548fc7d4ec44d9bd0dc81f&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
