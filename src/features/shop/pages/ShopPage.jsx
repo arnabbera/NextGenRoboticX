@@ -226,6 +226,17 @@ const products = [
     rating: "4.3",
     link: "https://www.amazon.in/Smartivity-Hydraulic-Educational-Construction-Multi-Color/dp/B08J3XJ1GK?psc=1&linkCode=ll2&tag=arnabbera05-21&linkId=78471824dfafb448e58aa16f7e8976e5&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B07XZB1HXB",
+    title: "Kit4Curious 125 Projects Electronics & Robotics Starter Kit",
+    category: "STEM Kits",
+    description:
+      "Hands-on STEM kit with 70+ reusable components for 125 electronics, robotics, magnetism and mechanical-engineering projects, supported by a user guide, connection diagrams and video tutorials.",
+    image: "https://images.price.tools/images/kit4curious-125-projects-diy-activity-science-m-Weyi54z74.jpg",
+    discount: 41,
+    rating: "4.1",
+    link: "https://www.amazon.in/kit4curious-projects-activity-science-electronics/dp/B07XZB1HXB?th=1&linkCode=ll2&tag=arnabbera05-21&linkId=e701fb7484f19ba634fd154b3c46b3d1&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
