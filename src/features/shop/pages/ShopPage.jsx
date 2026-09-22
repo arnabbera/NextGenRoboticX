@@ -215,6 +215,17 @@ const products = [
     rating: "4.8",
     link: "https://www.amazon.in/SunFounder-GalaxyRVR-Compatible-Real-Time-Rechargeable/dp/B0CN8XK3GT?pd_rd_w=sr99J&content-id=amzn1.sym.0640b4dc-6d30-422d-bb8f-d11de15b1b49&pf_rd_p=0640b4dc-6d30-422d-bb8f-d11de15b1b49&pf_rd_r=5RA0GXJJ3G7P1BRTY519&pd_rd_wg=7Qezt&pd_rd_r=38aab340-1f3a-468c-aa2b-822a90d9bf7d&pd_rd_i=B0CN8XK3GT&psc=1&linkCode=ll2&tag=arnabbera05-21&linkId=af04d0c48a2ba03de62b7e837044ac4a&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B08J3XJ1GK",
+    title: "Smartivity 2-in-1 Hydraulic Plane & Dart Launcher",
+    category: "STEM Kits",
+    description:
+      "Build-it-yourself hydraulic launcher for children aged 6–14 that launches paper aeroplanes and darts while teaching pressure, motion and mechanical construction through hands-on play.",
+    image: "https://m.media-amazon.com/images/I/517yFqPD9PL._SL1000_.jpg",
+    discount: null,
+    rating: "4.3",
+    link: "https://www.amazon.in/Smartivity-Hydraulic-Educational-Construction-Multi-Color/dp/B08J3XJ1GK?psc=1&linkCode=ll2&tag=arnabbera05-21&linkId=78471824dfafb448e58aa16f7e8976e5&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
