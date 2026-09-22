@@ -157,6 +157,15 @@ async function verifyFirebaseToken(request) {
   };
 }
 
+async function getOptionalFirebaseUser(request) {
+  const authorization = request.headers.get("authorization") || "";
+  if (!authorization.startsWith("Bearer ")) return null;
+  return verifyFirebaseToken(request);
+}
+
+const normalizeEmail = (value) => String(value || "").trim().toLowerCase();
+const validEmail = (value) => /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);
+
 const getRazorpayCredentials = (env) => ({
   keyId: String(env.RAZORPAY_KEY_ID || "").trim(),
   keySecret: String(env.RAZORPAY_KEY_SECRET || "").trim(),
@@ -403,8 +412,35 @@ function courseEntitlementKey(uid, courseId) {
   return `course-entitlement:${uid}:${courseId}`;
 }
 
+function guestCourseEntitlementKey(email, courseId) {
+  return `guest-course-entitlement:${normalizeEmail(email)}:${courseId}`;
+}
+
 async function getCourseEntitlement(env, uid, courseId) {
   return requireKv(env).get(courseEntitlementKey(uid, courseId), "json");
+}
+
+async function claimGuestCourseEntitlement(env, user, courseId) {
+  const email = normalizeEmail(user.email);
+  if (!email) return getCourseEntitlement(env, user.uid, courseId);
+
+  const kv = requireKv(env);
+  const current = await getCourseEntitlement(env, user.uid, courseId);
+  if (current?.active === true) return current;
+
+  const guestKey = guestCourseEntitlementKey(email, courseId);
+  const guestEntitlement = await kv.get(guestKey, "json");
+  if (guestEntitlement?.active !== true) return current;
+
+  const claimed = {
+    ...guestEntitlement,
+    uid: user.uid,
+    email,
+    claimedAt: new Date().toISOString(),
+  };
+  await kv.put(courseEntitlementKey(user.uid, courseId), JSON.stringify(claimed));
+  await kv.delete(guestKey);
+  return claimed;
 }
 
 async function handleCourseAccessStatus(request, env, courseId) {
@@ -415,7 +451,7 @@ async function handleCourseAccessStatus(request, env, courseId) {
     return json({ active: true, admin: true, courseId });
   }
 
-  const entitlement = await getCourseEntitlement(env, user.uid, courseId);
+  const entitlement = await claimGuestCourseEntitlement(env, user, courseId);
   return json({
     active: entitlement?.active === true,
     courseId,
@@ -435,7 +471,7 @@ async function handleCourseEnrollments(request, env) {
       courseIds.push(courseId);
       continue;
     }
-    const entitlement = await getCourseEntitlement(env, user.uid, courseId);
+    const entitlement = await claimGuestCourseEntitlement(env, user, courseId);
     if (entitlement?.active === true) courseIds.push(courseId);
   }
 
