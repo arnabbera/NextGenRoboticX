@@ -2,6 +2,7 @@ import {
   Navbar,
   Hero,
   FeaturedCourses,
+  LearnerConfidence,
   StudentProjects,
   WhyChooseUs,
   Contact,
@@ -15,6 +16,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <FeaturedCourses />
+        <LearnerConfidence />
         <StudentProjects />
         <WhyChooseUs />
         <Contact />
