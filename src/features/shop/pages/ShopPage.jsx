@@ -144,7 +144,7 @@ const products = [
     category: "STEM Kits",
     description:
       "Reusable educational kit for 150 hands-on projects across solar energy, electricity, electronics, circuits, engineering, machines and electric art, with diagrams, templates and a project booklet.",
-    image: "https://images-na.ssl-images-amazon.com/images/P/B0FBGGWNXF.01.LZZZZZZZ.jpg",
+    image: "https://images.price.tools/images/kit4curious-school-science-project-kit-150-m-JEv0OmcF3.jpg",
     discount: 21,
     rating: "4.2",
     link: "https://www.amazon.in/Kit4Curious%C2%AE-Experiments-School-Science-Project/dp/B0FBGGWNXF?dib=eyJ2IjoiMSJ9.8GbRZ55rhubf8rUsiVS17WBO7DSt39rTSTnU7is5BMR54AqoG6hJFru_6E864jVf4L55UtUtQ6oJAMedJp6RSTHNsE4G5mLj0oExyABYBDFDFVbR--K7xq1WYX38S71lOwNRMB5CcUJV9b3-czF35suyWQrdrXLNCYOXnII44aE9ruRbGqFbHOl1cOzhlk6_zHXDOyeyEk7jtqEawRsRlOUwnEK8MTGO0Pf7exRvpuGJ3rfgB6sAPEUH5tFnPedFI3e8U66Vt5lZ1uma8kbNkkhwg-wx0_QpEhui3WmjdqA.aXtte8juh15bOpKoXwcmyRCHOjbmFgPeyPiytUwqd6g&dib_tag=se&keywords=robotics&qid=1790010742&sr=8-24&th=1&linkCode=ll2&tag=arnabbera05-21&linkId=3a7da7bb5087301ed02e67a7d80d8389&ref_=as_li_ss_tl",
