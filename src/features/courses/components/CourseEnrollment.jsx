@@ -2,6 +2,7 @@ import { CheckCircle2, LoaderCircle, LockKeyhole, Mail } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import { trackEvent } from "../../../services/analytics";
 
 function loadRazorpay() {
   return new Promise((resolve) => {
@@ -107,6 +108,7 @@ export default function CourseEnrollment({ course, onStatusChange, onOfferChange
   }, [checkStatus, onStatusChange, user]);
 
   async function enroll() {
+    trackEvent("enrollment_click", { courseId: course.id });
     const checkoutEmail = String(user?.email || guestEmail).trim().toLowerCase();
     if (!user && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(checkoutEmail)) {
       setError("Enter a valid email address before continuing to payment.");
@@ -164,6 +166,7 @@ export default function CourseEnrollment({ course, onStatusChange, onOfferChange
             ondismiss: () => reject(new Error("Payment was cancelled.")),
           },
         });
+        trackEvent("razorpay_open", { courseId: course.id });
         checkout.on("payment.failed", (event) => {
           reject(new Error(event.error?.description || "Payment failed."));
         });
@@ -180,6 +183,7 @@ export default function CourseEnrollment({ course, onStatusChange, onOfferChange
       setActive(true);
       onStatusChange?.(true);
     } catch (paymentError) {
+      trackEvent("payment_failure", { courseId: course.id });
       setError(paymentError.message);
     } finally {
       setPaying(false);
