@@ -237,6 +237,17 @@ const products = [
     rating: "4.1",
     link: "https://www.amazon.in/kit4curious-projects-activity-science-electronics/dp/B07XZB1HXB?th=1&linkCode=ll2&tag=arnabbera05-21&linkId=e701fb7484f19ba634fd154b3c46b3d1&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B0044X2E5S",
+    title: "Original Arduino UNO R3 Development Board",
+    category: "Microcontrollers",
+    description:
+      "Genuine Arduino UNO R3 made in Italy with a DIP ATmega328P microcontroller, 14 digital I/O pins, 6 PWM outputs, 6 analog inputs and full compatibility with Arduino IDE, shields, sensors and modules.",
+    image: "https://images.price.tools/images/arduino-uno-r3-original-genuine-arduino-m-okcdfvAP1.jpg",
+    discount: 32,
+    rating: "4.4",
+    link: "https://www.amazon.in/permanent-guarantee-Arduino-Uno/dp/B0044X2E5S?source=ps-sl-shoppingads-lpcontext&smid=A2X89M7O6ZTQRI&th=1&linkCode=ll2&tag=arnabbera05-21&linkId=7a93892fb8aebf32dbffab71f5e8bff8&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
