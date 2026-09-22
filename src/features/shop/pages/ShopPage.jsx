@@ -199,7 +199,7 @@ const products = [
     category: "Tools & Measurement",
     description:
       "Compact battery-powered digital multimeter for measuring AC/DC voltage, DC current and resistance, with transistor hFE testing for electronics projects, troubleshooting and learning.",
-    image: null,
+    image: "https://themisto.in/cdn/shop/files/AP-850-5.jpg?v=1758778096&width=1445",
     discount: null,
     rating: "3.8",
     link: "https://www.amazon.in/APTECH-DEALS-AP-IS11A005-Multimeter-Measuring/dp/B07KK5LZBK?pd_rd_w=mPF6r&content-id=amzn1.sym.142c0d31-3594-485b-b879-def9251f61c0&pf_rd_p=142c0d31-3594-485b-b879-def9251f61c0&pf_rd_r=NXRM0FCN825SKNPXH2VJ&pd_rd_wg=cwNAu&pd_rd_r=ff50c428-5451-4d82-854b-272a73eab1ff&pd_rd_i=B07KK5LZBK&th=1&linkCode=ll2&tag=arnabbera05-21&linkId=594b6a42dba1b4ca05d54e1d1deadc19&ref_=as_li_ss_tl",
