@@ -160,6 +160,17 @@ const products = [
     rating: null,
     link: "https://www.amazon.in/ELEGOO-Conqueror-Robot-Tank/dp/B08CZ4MG5P?pd_rd_w=0Anwi&content-id=amzn1.sym.f834d454-55cc-4825-9252-c75a5f644237&pf_rd_p=f834d454-55cc-4825-9252-c75a5f644237&pf_rd_r=VGGZ9Z5FV383EN4Z3DG3&pd_rd_wg=t1bpK&pd_rd_r=6ec14c18-f15c-4b1a-bc79-9149bb8d12bf&pd_rd_i=B08CZ4MG5P&psc=1&linkCode=ll2&tag=arnabbera05-21&linkId=065999f656d6b33876a8a32fa1798231&ref_=as_li_ss_tl",
   },
+  {
+    asin: "B00SK5RUQY",
+    title: "Makeblock mBot Bluetooth Programmable Robot Kit",
+    category: "Robotics Kits",
+    description:
+      "Beginner-friendly metal robot kit for learning Scratch-based programming, electronics and robotics, with Bluetooth control, ultrasonic obstacle detection, line following, motors and an IR remote.",
+    image: "https://robotsteam.vn/sites/default/files/anh_bai_viet/HTB11ESxKFXXXXXgXXXXq6xXFXXXr_0.jpg",
+    discount: 69,
+    rating: "4.6",
+    link: "https://www.amazon.in/Makeblock-Bluetooth-Programmable-Robotics-Electronics/dp/B00SK5RUQY?pd_rd_w=4Cc4Y&content-id=amzn1.sym.0640b4dc-6d30-422d-bb8f-d11de15b1b49&pf_rd_p=0640b4dc-6d30-422d-bb8f-d11de15b1b49&pf_rd_r=6P3AJZG7PK42AQYFZC00&pd_rd_wg=uqEQ1&pd_rd_r=f62298d3-af3c-408e-a37c-2d5ec6f7d8b7&pd_rd_i=B00SK5RUQY&psc=1&linkCode=ll2&tag=arnabbera05-21&linkId=110042eccbc3fe5f04303724657e9367&ref_=as_li_ss_tl",
+  },
 ];
 
 export default function ShopPage() {
