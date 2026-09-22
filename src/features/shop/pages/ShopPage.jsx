@@ -78,7 +78,7 @@ const products = [
     category: "Robotics Kits",
     description:
       "Complete STEM learning kit for ages 10+ with an Uno R3-compatible board, ultrasonic and IR sensors, four-wheel chassis, motors and video curriculum for Bluetooth, line-following and obstacle-avoidance projects.",
-    image: null,
+    image: "https://www.buildobot.in/images/newsletter-robot.png",
     discount: null,
     rating: null,
     link: "https://www.amazon.in/dp/B0H8T6914Y?psc=1&aref=vTcjn7KEK5&sp_csd=d2lkZ2V0TmFtZT1zcF9taXNzaW9uX2JsZW5kZWQ&linkCode=ll2&tag=arnabbera05-21&linkId=cc55a686bab91e578f12b15f52338170&ref_=as_li_ss_tl",
