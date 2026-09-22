@@ -608,9 +608,6 @@ function CourseTrustSection({ course }) {
         </article>
       </div>
 
-      <div className="border-t border-slate-200 bg-slate-50 px-7 py-5 text-sm leading-6 text-slate-600 md:px-10">
-        NextGenRoboticX does not display invented reviews, ratings or enrollment numbers. Genuine learner feedback can be added after verified students voluntarily provide permission to publish it.
-      </div>
     </section>
   );
 }
