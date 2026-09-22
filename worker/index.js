@@ -157,6 +157,15 @@ async function verifyFirebaseToken(request) {
   };
 }
 
+async function getOptionalFirebaseUser(request) {
+  const authorization = request.headers.get("authorization") || "";
+  if (!authorization.startsWith("Bearer ")) return null;
+  return verifyFirebaseToken(request);
+}
+
+const normalizeEmail = (value) => String(value || "").trim().toLowerCase();
+const validEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
 const getRazorpayCredentials = (env) => ({
   keyId: String(env.RAZORPAY_KEY_ID || "").trim(),
   keySecret: String(env.RAZORPAY_KEY_SECRET || "").trim(),
@@ -403,8 +412,35 @@ function courseEntitlementKey(uid, courseId) {
   return `course-entitlement:${uid}:${courseId}`;
 }
 
+function guestCourseEntitlementKey(email, courseId) {
+  return `guest-course-entitlement:${normalizeEmail(email)}:${courseId}`;
+}
+
 async function getCourseEntitlement(env, uid, courseId) {
   return requireKv(env).get(courseEntitlementKey(uid, courseId), "json");
+}
+
+async function claimGuestCourseEntitlement(env, user, courseId) {
+  const email = normalizeEmail(user.email);
+  if (!email) return getCourseEntitlement(env, user.uid, courseId);
+
+  const kv = requireKv(env);
+  const current = await getCourseEntitlement(env, user.uid, courseId);
+  if (current?.active === true) return current;
+
+  const guestKey = guestCourseEntitlementKey(email, courseId);
+  const guestEntitlement = await kv.get(guestKey, "json");
+  if (guestEntitlement?.active !== true) return current;
+
+  const claimed = {
+    ...guestEntitlement,
+    uid: user.uid,
+    email,
+    claimedAt: new Date().toISOString(),
+  };
+  await kv.put(courseEntitlementKey(user.uid, courseId), JSON.stringify(claimed));
+  await kv.delete(guestKey);
+  return claimed;
 }
 
 async function handleCourseAccessStatus(request, env, courseId) {
@@ -415,7 +451,7 @@ async function handleCourseAccessStatus(request, env, courseId) {
     return json({ active: true, admin: true, courseId });
   }
 
-  const entitlement = await getCourseEntitlement(env, user.uid, courseId);
+  const entitlement = await claimGuestCourseEntitlement(env, user, courseId);
   return json({
     active: entitlement?.active === true,
     courseId,
@@ -435,7 +471,7 @@ async function handleCourseEnrollments(request, env) {
       courseIds.push(courseId);
       continue;
     }
-    const entitlement = await getCourseEntitlement(env, user.uid, courseId);
+    const entitlement = await claimGuestCourseEntitlement(env, user, courseId);
     if (entitlement?.active === true) courseIds.push(courseId);
   }
 
@@ -443,18 +479,36 @@ async function handleCourseEnrollments(request, env) {
 }
 
 async function handleCourseOrder(request, env) {
-  const user = await verifyFirebaseToken(request);
+  const user = await getOptionalFirebaseUser(request);
   const body = await readJson(request);
   const courseId = String(body.courseId || "");
   validateCourseId(courseId);
   const courseAccessAmount = getCourseAccessAmount(courseId);
+
   if (!PURCHASABLE_COURSE_IDS.has(courseId)) {
     return json({ error: "Enrollment is not open for this course yet." }, 409);
   }
 
-  const existing = await getCourseEntitlement(env, user.uid, courseId);
-  if (existing?.active) {
-    return json({ error: "This course is already enrolled." }, 409);
+  const email = normalizeEmail(user?.email || body.email);
+  if (!validEmail(email)) {
+    return json({ error: "Enter a valid email address for course access." }, 400);
+  }
+
+  if (user) {
+    const existing = await claimGuestCourseEntitlement(env, user, courseId);
+    if (existing?.active) {
+      return json({ error: "This course is already enrolled." }, 409);
+    }
+  } else {
+    const guestExisting = await requireKv(env).get(
+      guestCourseEntitlementKey(email, courseId),
+      "json"
+    );
+    if (guestExisting?.active) {
+      return json({
+        error: "This email already owns the course. Sign in with the same Google email to access it.",
+      }, 409);
+    }
   }
 
   const receipt = `course_${courseId.slice(0, 12)}_${Date.now()}`;
@@ -466,9 +520,10 @@ async function handleCourseOrder(request, env) {
       receipt,
       payment_capture: 1,
       notes: {
-        firebase_uid: user.uid,
-        student_email: user.email,
+        firebase_uid: user?.uid || "guest",
+        student_email: email,
         course_id: courseId,
+        checkout_type: user ? "account" : "guest",
       },
     }),
   });
@@ -476,11 +531,12 @@ async function handleCourseOrder(request, env) {
   await requireKv(env).put(
     `course-order:${order.id}`,
     JSON.stringify({
-      uid: user.uid,
-      email: user.email,
+      uid: user?.uid || null,
+      email,
       courseId,
       amount: courseAccessAmount,
       currency: PASS_CURRENCY,
+      checkoutType: user ? "account" : "guest",
       createdAt: new Date().toISOString(),
     }),
     { expirationTtl: 86400 }
@@ -493,11 +549,13 @@ async function handleCourseOrder(request, env) {
     keyId: getRazorpayCredentials(env).keyId,
     courseId,
     courseTitle: COURSE_TITLES[courseId],
+    email,
+    checkoutType: user ? "account" : "guest",
   });
 }
 
 async function handleCourseVerify(request, env) {
-  const user = await verifyFirebaseToken(request);
+  const user = await getOptionalFirebaseUser(request);
   const body = await readJson(request);
   const courseId = String(body.courseId || "");
   validateCourseId(courseId);
@@ -512,13 +570,11 @@ async function handleCourseVerify(request, env) {
 
   const kv = requireKv(env);
   const pending = await kv.get(`course-order:${orderId}`, "json");
-  if (
-    !pending ||
-    pending.uid !== user.uid ||
-    pending.email !== user.email ||
-    pending.courseId !== courseId
-  ) {
-    return json({ error: "Payment order does not belong to this course or student." }, 403);
+  if (!pending || pending.courseId !== courseId) {
+    return json({ error: "Payment order does not belong to this course." }, 403);
+  }
+  if (pending.uid && (!user || pending.uid !== user.uid)) {
+    return json({ error: "Payment order does not belong to this student." }, 403);
   }
 
   const expectedSignature = await hmacHex(
@@ -544,29 +600,42 @@ async function handleCourseVerify(request, env) {
     return json({ error: "Payment has not been captured successfully." }, 409);
   }
 
+  const purchasedAt = new Date().toISOString();
   const entitlement = {
     active: true,
     courseId,
     courseTitle: COURSE_TITLES[courseId],
     amountPaid: courseAccessAmount / 100,
     currency: PASS_CURRENCY,
-    purchasedAt: new Date().toISOString(),
+    purchasedAt,
     razorpayOrderId: orderId,
     razorpayPaymentId: paymentId,
-    uid: user.uid,
-    email: user.email,
+    uid: user?.uid || null,
+    email: pending.email,
+    checkoutType: pending.checkoutType,
   };
 
-  await kv.put(courseEntitlementKey(user.uid, courseId), JSON.stringify(entitlement));
+  if (user) {
+    await kv.put(
+      courseEntitlementKey(user.uid, courseId),
+      JSON.stringify({ ...entitlement, uid: user.uid })
+    );
+  } else {
+    await kv.put(
+      guestCourseEntitlementKey(pending.email, courseId),
+      JSON.stringify(entitlement)
+    );
+  }
   await kv.delete(`course-order:${orderId}`);
 
   return json({
-    active: true,
+    active: Boolean(user),
     courseId,
-    purchasedAt: entitlement.purchasedAt,
+    purchasedAt,
+    requiresSignIn: !user,
+    email: pending.email,
   });
 }
-
 const ASSESSMENT_DURATION_MS = 30 * 60 * 1000;
 const REASSESSMENT_WINDOW_MS = 15 * 24 * 60 * 60 * 1000;
 const CERTIFICATION_CONFIG = {
