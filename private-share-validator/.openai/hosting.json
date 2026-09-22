@@ -1,0 +1,9 @@
+{
+  "project_id": "appgprj_6aa80f57824c8191a0479de76db5b000",
+  "static": {
+    "directory": "public"
+  },
+  "worker": {
+    "entrypoint": "worker.js"
+  }
+}

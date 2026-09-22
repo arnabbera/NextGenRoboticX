@@ -72,7 +72,8 @@ const projects = [
     title: "Robotics Foundation Course | NextGenRoboticX",
     description:
       "Learn robotics, electronics, Arduino, sensors, actuators and robot design through 10 structured chapters, practical projects, quizzes, mock test and certification assessment.",
-    image: "/images/courses/robotics.jpg",
+    image: "/images/courses/robotics-social-1200x675.png",
+    imageType: "image/png",
     type: "website",
   },
   {
@@ -80,7 +81,8 @@ const projects = [
     title: "Arduino Programming Course | NextGenRoboticX",
     description:
       "Learn Arduino programming, Embedded C, GPIO, analogue input, PWM, interrupts, communication protocols, sensors and smart automation through 10 structured chapters.",
-    image: "/images/courses/arduino.jpg",
+    image: "/images/courses/arduino-social-1200x675.png",
+    imageType: "image/png",
     type: "website",
   },
   {
@@ -88,7 +90,8 @@ const projects = [
     title: "Raspberry Pi Development Course | NextGenRoboticX",
     description:
       "Learn Raspberry Pi hardware, Linux, Python, GPIO, networking, MQTT, web APIs and computer vision through 10 structured chapters and a complete IoT capstone.",
-    image: "/images/courses/raspberrypi.jpg",
+    image: "/images/courses/raspberrypi-social-1200x675.png",
+    imageType: "image/png",
     type: "website",
   },
   {
@@ -96,7 +99,8 @@ const projects = [
     title: "Drone Technology Course | NextGenRoboticX",
     description:
       "Learn multirotor flight, drone hardware, flight controllers, radio systems, GPS navigation, autonomous missions and safe quadcopter construction through 10 structured chapters.",
-    image: "/images/courses/drone.jpg",
+    image: "/images/courses/drone-social-1200x675.png",
+    imageType: "image/png",
     type: "website",
   },
   {
@@ -105,6 +109,42 @@ const projects = [
     description:
       "Explore Embedded Systems from NextGenRoboticX: Design reliable embedded applications using microcontrollers, Embedded C, peripherals, communication protocols, RTOS concepts, power management and systematic debugging.",
     image: "/images/courses/embedded-social-1200x675.png",
+    imageType: "image/png",
+    type: "website",
+  },
+  {
+    path: "courses/internet-of-things",
+    title: "Internet of Things Course | NextGenRoboticX",
+    description:
+      "Learn MQTT, cloud integration, ESP32, Wi-Fi, sensors, dashboards and reliable real-time IoT application development through hands-on projects.",
+    image: "/images/courses/iot-social-1200x675.png",
+    imageType: "image/png",
+    type: "website",
+  },
+  {
+    path: "courses/pcb-design-hardware-development",
+    title: "PCB Design & Hardware Development Course | NextGenRoboticX",
+    description:
+      "Learn schematic capture, PCB layout, routing, prototyping, design-for-manufacture principles and practical hardware validation.",
+    image: "/images/courses/pcb-social-1200x675.png",
+    imageType: "image/png",
+    type: "website",
+  },
+  {
+    path: "courses/artificial-intelligence",
+    title: "Artificial Intelligence Course | NextGenRoboticX",
+    description:
+      "Explore artificial intelligence, machine learning, computer vision, robotics intelligence and practical AI applications.",
+    image: "/images/courses/ai-social-1200x675.png",
+    imageType: "image/png",
+    type: "website",
+  },
+  {
+    path: "courses/sensors-and-actuators",
+    title: "Sensors & Actuators Course | NextGenRoboticX",
+    description:
+      "Learn how sensors, motors, relays, servos and actuators interact with microcontrollers in practical robotics and automation projects.",
+    image: "/images/courses/sensors-social-1200x675.png",
     imageType: "image/png",
     type: "website",
   },

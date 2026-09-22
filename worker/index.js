@@ -43,6 +43,55 @@ const COURSE_TITLES = {
   "sensors-and-actuators": "Sensors & Actuators",
 };
 
+
+const COURSE_SOCIAL_META = {
+  "robotics-foundation": {
+    title: "Robotics Foundation Course | NextGenRoboticX",
+    description: "Learn robotics, electronics, Arduino, sensors, actuators and robot design through 10 structured chapters, practical projects, quizzes, mock test and certification assessment.",
+    image: "/images/courses/robotics-social-1200x675.png",
+  },
+  "arduino-programming": {
+    title: "Arduino Programming Course | NextGenRoboticX",
+    description: "Learn Arduino programming, Embedded C, GPIO, analogue input, PWM, interrupts, communication protocols, sensors and smart automation through 10 structured chapters.",
+    image: "/images/courses/arduino-social-1200x675.png",
+  },
+  "raspberry-pi": {
+    title: "Raspberry Pi Development Course | NextGenRoboticX",
+    description: "Learn Raspberry Pi hardware, Linux, Python, GPIO, networking, MQTT, web APIs and computer vision through 10 structured chapters and a complete IoT capstone.",
+    image: "/images/courses/raspberrypi-social-1200x675.png",
+  },
+  "internet-of-things": {
+    title: "Internet of Things Course | NextGenRoboticX",
+    description: "Learn MQTT, cloud integration, ESP32, Wi-Fi, sensors, dashboards and reliable real-time IoT application development through hands-on projects.",
+    image: "/images/courses/iot-social-1200x675.png",
+  },
+  "embedded-systems": {
+    title: "Embedded Systems Course | NextGenRoboticX",
+    description: "Design reliable embedded applications using microcontrollers, Embedded C, peripherals, communication protocols, RTOS concepts, power management and systematic debugging.",
+    image: "/images/courses/embedded-social-1200x675.png",
+  },
+  "pcb-design-hardware-development": {
+    title: "PCB Design & Hardware Development Course | NextGenRoboticX",
+    description: "Learn schematic capture, PCB layout, routing, prototyping, design-for-manufacture principles and practical hardware validation.",
+    image: "/images/courses/pcb-social-1200x675.png",
+  },
+  "artificial-intelligence": {
+    title: "Artificial Intelligence Course | NextGenRoboticX",
+    description: "Explore artificial intelligence, machine learning, computer vision, robotics intelligence and practical AI applications.",
+    image: "/images/courses/ai-social-1200x675.png",
+  },
+  "drone-technology": {
+    title: "Drone Technology Course | NextGenRoboticX",
+    description: "Learn multirotor flight, drone hardware, flight controllers, radio systems, GPS navigation, autonomous missions and safe quadcopter construction.",
+    image: "/images/courses/drone-social-1200x675.png",
+  },
+  "sensors-and-actuators": {
+    title: "Sensors & Actuators Course | NextGenRoboticX",
+    description: "Learn how sensors, motors, relays, servos and actuators interact with microcontrollers in practical robotics and automation projects.",
+    image: "/images/courses/sensors-social-1200x675.png",
+  },
+};
+
 let firebaseCertificateCache = null;
 let firebaseCertificateExpiresAt = 0;
 
@@ -1318,6 +1367,36 @@ class ContentHandler {
   }
 }
 
+
+function applyCourseMeta(response, courseId) {
+  const meta = COURSE_SOCIAL_META[courseId];
+  const canonicalUrl = `https://www.nextgenroboticx.com/courses/${courseId}`;
+  const imageUrl = `https://www.nextgenroboticx.com${meta.image}`;
+  const imageAlt = `${COURSE_TITLES[courseId]} course thumbnail`;
+
+  return new HTMLRewriter()
+    .on("title", new ContentHandler(meta.title))
+    .on('link[rel="canonical"]', new AttributeHandler("href", canonicalUrl))
+    .on('meta[name="description"]', new AttributeHandler("content", meta.description))
+    .on('meta[property="og:type"]', new AttributeHandler("content", "website"))
+    .on('meta[property="og:site_name"]', new AttributeHandler("content", "NextGenRoboticX"))
+    .on('meta[property="og:title"]', new AttributeHandler("content", meta.title))
+    .on('meta[property="og:description"]', new AttributeHandler("content", meta.description))
+    .on('meta[property="og:url"]', new AttributeHandler("content", canonicalUrl))
+    .on('meta[property="og:image"]', new AttributeHandler("content", imageUrl))
+    .on('meta[property="og:image:secure_url"]', new AttributeHandler("content", imageUrl))
+    .on('meta[property="og:image:type"]', new AttributeHandler("content", "image/png"))
+    .on('meta[property="og:image:width"]', new AttributeHandler("content", "1200"))
+    .on('meta[property="og:image:height"]', new AttributeHandler("content", "675"))
+    .on('meta[property="og:image:alt"]', new AttributeHandler("content", imageAlt))
+    .on('meta[name="twitter:card"]', new AttributeHandler("content", "summary_large_image"))
+    .on('meta[name="twitter:title"]', new AttributeHandler("content", meta.title))
+    .on('meta[name="twitter:description"]', new AttributeHandler("content", meta.description))
+    .on('meta[name="twitter:image"]', new AttributeHandler("content", imageUrl))
+    .on('meta[name="twitter:image:alt"]', new AttributeHandler("content", imageAlt))
+    .transform(response);
+}
+
 function applyExpertMentorshipMeta(response) {
   const meta = EXPERT_MENTORSHIP_META;
 
@@ -1364,6 +1443,24 @@ export default {
       ) {
         url.pathname = url.pathname.replace(/\/$/, "");
         return Response.redirect(url.toString(), 301);
+      }
+
+      const courseMatch = url.pathname.match(/^\\/courses\\/([^/]+)\\/?$/);
+      const courseId = courseMatch?.[1];
+      if (
+        request.method === "GET" &&
+        courseId &&
+        COURSE_SOCIAL_META[courseId]
+      ) {
+        const shellUrl = new URL(request.url);
+        shellUrl.pathname = "/index.html";
+        shellUrl.search = "";
+        const shellResponse = await env.ASSETS.fetch(
+          new Request(shellUrl.toString(), request)
+        );
+        if (shellResponse.headers.get("content-type")?.includes("text/html")) {
+          return applyCourseMeta(shellResponse, courseId);
+        }
       }
 
       const assetResponse = await env.ASSETS.fetch(request);
