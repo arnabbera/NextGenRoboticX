@@ -188,7 +188,7 @@ const products = [
     category: "Tools & Soldering",
     description:
       "Beginner-friendly 25W corded soldering kit with essential accessories for electronics projects, circuit-board work, DIY repairs and practical soldering practice.",
-    image: null,
+    image: "https://images-na.ssl-images-amazon.com/images/P/B07PM6134P.01.LZZZZZZZ.jpg",
     discount: null,
     rating: "3.7",
     link: "https://www.amazon.in/THEMISTO-passion-Themisto-Beginners-Soldering/dp/B07PM6134P?psc=1&linkCode=ll2&tag=arnabbera05-21&linkId=340ce94cbf548fc7d4ec44d9bd0dc81f&ref_=as_li_ss_tl",
