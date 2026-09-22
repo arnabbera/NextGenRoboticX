@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const items = [
   ["Home", "top"],
-  ["Courses", "courses"],
+  ["Courses", "/courses", "route"],
   ["Projects", "projects"],
   ["Shop", "/shop", "route"],
   ["Why Us", "why-us"],
