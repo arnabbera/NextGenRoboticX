@@ -7,7 +7,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
-import { db } from "./firebase";
+import { auth, db } from "./firebase";
 import { generateStudentId } from "./counterService";
 
 /**
@@ -137,10 +137,29 @@ export async function getUserProfile(uid) {
  */
 
 export async function updateProfile(uid, data) {
-  await updateDoc(doc(db, "users", uid), {
+  const firebaseUser = auth.currentUser;
+  if (!firebaseUser || firebaseUser.uid !== uid) {
+    throw new Error("Sign in to update your own profile.");
+  }
+
+  const userRef = doc(db, "users", uid);
+  const existing = await getDoc(userRef);
+  const initialData = existing.exists()
+    ? {}
+    : {
+        uid,
+        email: firebaseUser.email || "",
+        role: "student",
+        provider: firebaseUser.providerData[0]?.providerId || "password",
+        createdAt: serverTimestamp(),
+        isActive: true,
+      };
+
+  await setDoc(userRef, {
+    ...initialData,
     ...data,
     updatedAt: serverTimestamp(),
-  });
+  }, { merge: true });
 }
 
 /**
