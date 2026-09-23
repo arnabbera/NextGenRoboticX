@@ -9,6 +9,9 @@ import {
   signInWithGoogle,
   login,
   register,
+  resetPassword,
+  resendVerificationEmail,
+  refreshEmailVerification,
   logout,
   subscribeToAuthChanges,
   getCurrentUserProfile,
@@ -90,6 +93,9 @@ export function AuthProvider({ children }) {
 
     login,
     register,
+    resetPassword,
+    resendVerificationEmail,
+    refreshEmailVerification,
 
     loginWithGoogle,
 
