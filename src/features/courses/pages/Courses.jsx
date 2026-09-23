@@ -1,8 +1,14 @@
+import { useSearchParams } from "react-router-dom";
 import courses from "../data/courses";
 import CourseGrid from "../components/CourseGrid";
 import { Footer, Navbar } from "../../../components/home";
 
 function CatalogueContent({ publicView }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get("search") || "";
+  const visibleCourses = courses.filter((course) =>
+    `${course.title} ${course.description || ""}`.toLowerCase().includes(search.trim().toLowerCase())
+  );
   return (
     <div className={publicView ? "mx-auto max-w-7xl px-5 py-12 sm:px-6 lg:py-16" : "space-y-8"}>
       <div className={publicView ? "mb-10 text-center" : ""}>
@@ -24,11 +30,18 @@ function CatalogueContent({ publicView }) {
           type="text"
           placeholder="Search courses..."
           aria-label="Search courses"
+          value={search}
+          onChange={(event) => {
+            const next = new URLSearchParams(searchParams);
+            if (event.target.value) next.set("search", event.target.value);
+            else next.delete("search");
+            setSearchParams(next, { replace: true });
+          }}
           className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
-      <CourseGrid courses={courses} />
+      <CourseGrid courses={visibleCourses} />
     </div>
   );
 }
