@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
+import BrandLogo from "../BrandLogo";
 
 export default function Footer() {
   return (
     <footer className="border-t border-slate-800 bg-slate-950 text-slate-300">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-3">
         <div>
-          <Link to="/" className="text-2xl font-bold text-white">
-            NextGenRoboticX
-          </Link>
+          <BrandLogo className="w-56" />
           <p className="mt-4 max-w-sm leading-7 text-slate-400">
             Practical robotics, AI, IoT, embedded systems and drone technology
             education through hands-on learning.
