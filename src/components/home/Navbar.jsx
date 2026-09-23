@@ -1,6 +1,7 @@
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import BrandLogo from "../BrandLogo";
 
 const items = [
   ["Home", "top"],
@@ -52,14 +53,8 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
-        <div className="flex items-center justify-between py-4">
-          <Link
-            to="/"
-            onClick={() => scrollTo("top")}
-            className="text-xl font-bold tracking-tight text-blue-700 sm:text-2xl"
-          >
-            NextGenRoboticX
-          </Link>
+        <div className="flex items-center justify-between gap-3 py-2">
+          <BrandLogo className="w-40 sm:w-52" />
 
           <nav className="hidden items-center gap-8 md:flex" aria-label="Main navigation">
             {items.map(([label, target, type]) =>

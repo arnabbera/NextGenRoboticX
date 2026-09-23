@@ -10,6 +10,7 @@ import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import courses from "../../courses/data/courses";
 import { trackEvent } from "../../../services/analytics";
+import BrandLogo from "../../../components/BrandLogo";
 
 function getSafeRedirect(value) {
   if (!value || !value.startsWith("/") || value.startsWith("//")) {
@@ -61,9 +62,7 @@ export default function LoginPage() {
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 px-5 py-10 sm:px-6 sm:py-14">
       <div className="mx-auto grid w-full max-w-6xl gap-7 lg:grid-cols-[1fr_0.9fr] lg:items-start">
         <section className="rounded-3xl bg-white p-7 text-center shadow-2xl sm:p-10">
-          <Link to="/" className="text-3xl font-bold text-blue-600 sm:text-4xl">
-            NextGenRoboticX
-          </Link>
+          <BrandLogo className="w-60 sm:w-80" />
 
           <span className="mt-7 inline-flex rounded-full bg-emerald-100 px-4 py-2 text-sm font-bold text-emerald-700">
             Secure learner access
