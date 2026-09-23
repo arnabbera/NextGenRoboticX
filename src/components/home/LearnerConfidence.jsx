@@ -7,6 +7,7 @@ import {
   ShieldCheck,
   Wrench,
 } from "lucide-react";
+import CertificateLogo from "../CertificateLogo";
 
 const REASONS = [
   {
@@ -67,7 +68,7 @@ export default function LearnerConfidence() {
               <div className="pointer-events-none absolute inset-0 flex -rotate-12 items-center justify-center text-6xl font-black text-slate-900/5 sm:text-7xl">
                 SAMPLE
               </div>
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-blue-800">NextGenRoboticX</p>
+              <CertificateLogo className="w-52 sm:w-64" />
               <Award className="mx-auto mt-4 text-amber-500" size={42} />
               <p className="mt-3 font-serif text-3xl font-bold">Certificate of Completion</p>
               <p className="mt-5 text-sm text-slate-600">Presented to</p>
