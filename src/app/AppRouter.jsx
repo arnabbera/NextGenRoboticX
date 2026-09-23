@@ -27,6 +27,7 @@ import Projects from "../features/projects/pages/Projects";
 import Certificates from "../features/projects/pages/Certificates";
 import Profile from "../features/projects/pages/Profile";
 import Settings from "../features/projects/pages/Settings";
+import Help from "../features/projects/pages/Help";
 import ViewOnlyProjectRoute from "../features/projects/components/ViewOnlyProjectRoute";
 import ObstacleAvoidingRobotPage from "../features/projects/pages/ObstacleAvoidingRobotPage";
 import LineFollowingRobotPage from "../features/projects/pages/LineFollowingRobotPage";
@@ -95,6 +96,7 @@ export default function AppRouter() {
             <Route path="/certificates" element={<Certificates />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/help" element={<Help />} />
           </Route>
         </Route>
 
