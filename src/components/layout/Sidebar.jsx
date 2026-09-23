@@ -3,7 +3,6 @@ import {
   BookOpen,
   ChevronLeft,
   ChevronRight,
-  Cpu,
   GraduationCap,
   FolderKanban,
   ShoppingBag,
@@ -12,6 +11,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import BrandLogo from "../BrandLogo";
 
 const menuItems = [
   { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
@@ -30,15 +30,14 @@ export default function Sidebar() {
     <aside className={`${collapsed ? "w-20" : "w-72"} flex min-h-screen flex-col bg-slate-900 text-white shadow-2xl transition-all duration-300`}>
       <div className="border-b border-slate-800 p-5">
         <div className="flex items-center justify-between">
-          {!collapsed && (
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600"><Cpu size={24} /></div>
+          <div className="min-w-0">
+            {collapsed ? <BrandLogo className="w-10" /> : (
               <div>
-                <h1 className="text-lg font-bold">NextGenRoboticX</h1>
-                <p className="text-xs text-slate-400">Student Learning Portal</p>
+                <BrandLogo className="w-44" />
+                <p className="mt-2 text-xs text-slate-400">Student Learning Portal</p>
               </div>
-            </div>
-          )}
+            )}
+          </div>
           <button type="button" onClick={() => setCollapsed(!collapsed)} className="rounded-lg p-2 hover:bg-slate-800" aria-label={collapsed ? "Expand menu" : "Collapse menu"}>
             {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
           </button>
