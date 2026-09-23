@@ -2,22 +2,38 @@ import { useCallback, useEffect, useState } from "react";
 import { Award, CalendarDays, Download, LoaderCircle, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import CertificateLogo from "../../../components/CertificateLogo";
+
+const CERTIFICATE_COURSES = [
+  "robotics-foundation",
+  "arduino-programming",
+  "raspberry-pi",
+  "internet-of-things",
+  "pcb-design-hardware-development",
+  "drone-technology",
+];
 
 export default function Certificates() {
-  const { user } = useAuth();
-  const [certificate, setCertificate] = useState(null);
+  const { user, profile } = useAuth();
+  const [certificates, setCertificates] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const loadCertificate = useCallback(async () => {
+  const loadCertificates = useCallback(async () => {
     try {
       const token = await user.getIdToken();
-      const response = await fetch("/api/certification/robotics-foundation/status", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Unable to load certificates.");
-      setCertificate(data.certificate || null);
+      const results = await Promise.all(CERTIFICATE_COURSES.map(async (courseId) => {
+        const response = await fetch(`/api/certification/${courseId}/status`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Unable to load certificates.");
+        return data.certificate;
+      }));
+      const earned = results.filter(Boolean);
+      setCertificates(earned);
+      setSelectedCourse((current) => earned.some((item) => item.courseId === current) ? current : earned[0]?.courseId || "");
     } catch (loadError) {
       setError(loadError.message);
     } finally {
@@ -26,8 +42,12 @@ export default function Certificates() {
   }, [user]);
 
   useEffect(() => {
-    loadCertificate();
-  }, [loadCertificate]);
+    loadCertificates();
+  }, [loadCertificates]);
+
+  const certificate = certificates.find((item) => item.courseId === selectedCourse);
+  const profileName = [profile?.firstName, profile?.lastName].filter(Boolean).join(" ").trim();
+  const learnerName = certificate?.studentName === user?.email && profileName ? profileName : certificate?.studentName;
 
   if (loading) {
     return (
@@ -48,17 +68,24 @@ export default function Certificates() {
         <div className="mt-8 rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center">
           <Award className="mx-auto text-slate-400" size={54} />
           <h2 className="mt-4 text-2xl font-bold">No certificate earned yet</h2>
-          <p className="mt-3 text-slate-600">Pass the Robotics Foundation assessment with at least 80/100 marks to generate your certificate.</p>
-          <Link to="/courses/robotics-foundation" className="mt-6 inline-block rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white">Go to Course</Link>
+          <p className="mt-3 text-slate-600">Pass a course's final assessment with at least 80/100 marks to generate its certificate.</p>
+          <Link to="/courses/available" className="mt-6 inline-block rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white">Browse Courses</Link>
         </div>
       ) : (
         <div className="mt-8">
+          {certificates.length > 1 && (
+            <label className="mb-5 block font-semibold text-slate-800">Choose an earned certificate
+              <select value={selectedCourse} onChange={(event) => setSelectedCourse(event.target.value)} className="mt-2 block w-full max-w-md rounded-xl border border-slate-300 bg-white px-4 py-3">
+                {certificates.map((item) => <option key={item.id} value={item.courseId}>{item.courseTitle}</option>)}
+              </select>
+            </label>
+          )}
           <div id="robotics-certificate" className="rounded-3xl border-[10px] border-double border-blue-800 bg-gradient-to-br from-white via-blue-50 to-amber-50 p-8 text-center shadow-2xl md:p-14">
-            <div className="text-sm font-bold uppercase tracking-[0.3em] text-blue-800">NextGenRoboticX</div>
+            <CertificateLogo className="w-56 md:w-72" />
             <Award className="mx-auto mt-5 text-yellow-500" size={62} />
             <h2 className="mt-5 font-serif text-4xl font-bold text-slate-900 md:text-5xl">Certificate of Completion</h2>
             <p className="mt-7 text-lg text-slate-600">This certificate is presented to</p>
-            <p className="mt-3 border-b-2 border-slate-400 pb-2 font-serif text-3xl font-bold text-blue-900">{certificate.studentName}</p>
+            <p className="mt-3 border-b-2 border-slate-400 pb-2 font-serif text-3xl font-bold text-blue-900">{learnerName}</p>
             <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-slate-700">
               for successfully completing the <strong>{certificate.courseTitle}</strong> course and passing the certification assessment with a score of <strong>{certificate.score}/100</strong>.
             </p>
