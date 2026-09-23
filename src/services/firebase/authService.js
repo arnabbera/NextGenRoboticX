@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
+  sendEmailVerification,
   updateProfile,
 } from "firebase/auth";
 
@@ -65,12 +66,25 @@ export async function register(name, email, password) {
     });
   }
 
+  await sendEmailVerification(result.user);
   const profile = await createOrUpdateUser(result.user);
 
   return {
     firebaseUser: result.user,
     profile,
   };
+}
+
+export async function resendVerificationEmail() {
+  if (!auth.currentUser) throw new Error("Sign in before requesting a verification email.");
+  await sendEmailVerification(auth.currentUser);
+}
+
+export async function refreshEmailVerification() {
+  if (!auth.currentUser) return false;
+  await auth.currentUser.reload();
+  await auth.currentUser.getIdToken(true);
+  return auth.currentUser.emailVerified;
 }
 
 /**

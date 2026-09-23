@@ -202,7 +202,7 @@ export default function CourseEnrollment({ course, onStatusChange, onOfferChange
           </div>
           <p className="mt-3 text-emerald-50">
             Your course purchase is safely reserved for <strong>{guestPaidEmail}</strong>.
-            Sign in with the same Google email to claim permanent access.
+            Sign in with the same verified email to claim permanent access.
           </p>
           <Link
             to={`/login?redirect=${redirect}`}
@@ -221,7 +221,7 @@ export default function CourseEnrollment({ course, onStatusChange, onOfferChange
           <strong className="text-xl">Enroll without signing in</strong>
         </div>
         <p className="mt-3 text-blue-100">
-          Enter your email and complete the ₹{price} payment. After payment, sign in with the same Google email to claim permanent course access.
+          Enter your email and complete the ₹{price} payment. After payment, sign in or create an account using the same email to claim permanent course access.
         </p>
         {offer.launchActive ? (
           <div className="mt-4 rounded-xl border border-amber-300/40 bg-amber-300/10 p-3 text-sm text-amber-50">
@@ -286,7 +286,7 @@ export default function CourseEnrollment({ course, onStatusChange, onOfferChange
   return (
     <div className="mt-8 max-w-xl rounded-2xl border border-white/20 bg-slate-950/25 p-5 text-white">
       <div className="flex items-center gap-3"><LockKeyhole /><strong className="text-xl">Enroll to unlock this course</strong></div>
-      <p className="mt-3 text-blue-100">Pay ₹{price} once. Access is linked permanently to your signed-in Gmail account: <strong>{user.email}</strong>.</p>
+      <p className="mt-3 text-blue-100">Pay ₹{price} once. Access is linked permanently to your signed-in verified email: <strong>{user.email}</strong>.</p>
       {offer.launchActive ? (
         <div className="mt-4 rounded-xl border border-amber-300/40 bg-amber-300/10 p-3 text-sm text-amber-50">
           <strong>Launch offer ₹{price}</strong>{" "}

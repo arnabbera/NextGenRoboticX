@@ -65,7 +65,7 @@ export default function CourseAccessRoute() {
       <div className="mx-auto mt-12 max-w-xl rounded-3xl bg-white p-10 text-center shadow-xl">
         <LockKeyhole className="mx-auto text-amber-500" size={52} />
         <h1 className="mt-5 text-3xl font-bold">Course Enrollment Required</h1>
-        <p className="mt-4 text-slate-600">This learning material is available after a successful ₹{course?.price ?? 99} payment linked to your signed-in Gmail account.</p>
+        <p className="mt-4 text-slate-600">This learning material is available after a successful ₹{course?.price ?? 99} payment linked to your signed-in verified email.</p>
         {state.error && <p className="mt-3 text-sm text-red-600">{state.error}</p>}
         <Link to={`/courses/${courseId}`} className="mt-7 inline-block rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white">View Course & Enroll</Link>
       </div>

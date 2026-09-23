@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Bot,
   CheckCircle2,
@@ -21,7 +22,13 @@ function getSafeRedirect(value) {
 }
 
 export default function LoginPage() {
-  const { user, loading, loginWithGoogle } = useAuth();
+  const { user, loading, loginWithGoogle, login, register, resetPassword, resendVerificationEmail, refreshEmailVerification, logout } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [mode, setMode] = useState("sign-in");
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState("");
+  const [formError, setFormError] = useState("");
   const [searchParams] = useSearchParams();
   const redirectPath = getSafeRedirect(searchParams.get("redirect"));
   const courseRedirect = redirectPath.startsWith("/courses/");
@@ -34,6 +41,25 @@ export default function LoginPage() {
       <div className="flex min-h-screen items-center justify-center bg-slate-100">
         <h2 className="text-xl font-semibold text-slate-700">Loading...</h2>
       </div>
+    );
+  }
+
+  if (user?.email && !user.emailVerified) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-slate-950 px-5">
+        <section className="w-full max-w-lg rounded-3xl bg-white p-8 text-slate-900 shadow-xl">
+          <BrandLogo className="w-60" />
+          <h1 className="mt-6 text-2xl font-bold">Verify your email to access courses</h1>
+          <p className="mt-3 text-slate-600">We sent a verification link to <strong>{user.email}</strong>. Open it, then return here to continue. Check your spam folder if you cannot find it.</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <button type="button" onClick={async () => { setFormError(""); try { if (await refreshEmailVerification()) window.location.reload(); else setMessage("Email is not verified yet. Open the link in your inbox first."); } catch (error) { setFormError(error.message); } }} className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white">I verified my email</button>
+            <button type="button" onClick={async () => { setFormError(""); try { await resendVerificationEmail(); setMessage("Verification email sent."); } catch (error) { setFormError(error.message); } }} className="rounded-xl border px-5 py-3 font-semibold">Resend email</button>
+            <button type="button" onClick={() => logout()} className="rounded-xl border px-5 py-3 font-semibold">Use another account</button>
+          </div>
+          {message && <p className="mt-4 text-sm text-emerald-700">{message}</p>}
+          {formError && <p className="mt-4 text-sm text-red-700">{formError}</p>}
+        </section>
+      </main>
     );
   }
 
@@ -58,6 +84,30 @@ export default function LoginPage() {
     }
   }
 
+  async function handleEmailSubmit(event) {
+    event.preventDefault();
+    setBusy(true);
+    setFormError("");
+    setMessage("");
+    try {
+      if (mode === "reset") {
+        await resetPassword(email.trim());
+        setMessage("Password reset link sent. Check your inbox.");
+      } else if (mode === "register") {
+        if (password.length < 6) throw new Error("Use a password with at least 6 characters.");
+        await register("", email.trim(), password);
+        setMessage("Check your inbox to verify your email.");
+      } else {
+        await login(email.trim(), password);
+        trackEvent("email_login_complete", { courseId: redirectedCourseId });
+      }
+    } catch (error) {
+      setFormError(error.message || "Unable to continue. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 px-5 py-10 sm:px-6 sm:py-14">
       <div className="mx-auto grid w-full max-w-6xl gap-7 lg:grid-cols-[1fr_0.9fr] lg:items-start">
@@ -74,7 +124,7 @@ export default function LoginPage() {
 
           <p className="mx-auto mt-4 max-w-xl leading-7 text-slate-600">
             {courseRedirect
-              ? `Continue with the Google email used for your ₹${enrollmentPrice} enrollment. You will return directly to ${redirectedCourse?.title || "the selected course"}.`
+              ? `Sign in with the email used for your ₹${enrollmentPrice} enrollment. You will return directly to ${redirectedCourse?.title || "the selected course"}.`
               : "Sign in to manage your courses, continue lessons, track assessments and access earned certificates."}
           </p>
 
@@ -102,6 +152,27 @@ export default function LoginPage() {
             Google sign-in protects your course ownership and lets you return on any device.
             Your payment details are handled securely by Razorpay.
           </p>
+
+          <div className="mt-7 border-t border-slate-200 pt-7 text-left">
+            <h2 className="text-xl font-bold text-slate-900">Use any email address</h2>
+            <p className="mt-2 text-sm text-slate-600">Yahoo, Outlook and other email addresses are welcome. Use the exact address entered at checkout.</p>
+            <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+              <button type="button" onClick={() => { setMode("sign-in"); setFormError(""); setMessage(""); }} className={mode === "sign-in" ? "text-blue-700 underline" : "text-slate-600"}>Sign in</button>
+              <button type="button" onClick={() => { setMode("register"); setFormError(""); setMessage(""); }} className={mode === "register" ? "text-blue-700 underline" : "text-slate-600"}>Create account</button>
+              <button type="button" onClick={() => { setMode("reset"); setFormError(""); setMessage(""); }} className={mode === "reset" ? "text-blue-700 underline" : "text-slate-600"}>Forgot password?</button>
+            </div>
+            <form onSubmit={handleEmailSubmit} className="mt-4 space-y-3">
+              <label className="block text-sm font-semibold text-slate-700">Email address
+                <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900" />
+              </label>
+              {mode !== "reset" && <label className="block text-sm font-semibold text-slate-700">Password
+                <input type="password" required minLength={mode === "register" ? 6 : undefined} autoComplete={mode === "register" ? "new-password" : "current-password"} value={password} onChange={(event) => setPassword(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900" />
+              </label>}
+              <button type="submit" disabled={busy} className="w-full rounded-xl bg-slate-900 px-5 py-3 font-bold text-white disabled:opacity-60">{busy ? "Please wait..." : mode === "register" ? "Create account and verify email" : mode === "reset" ? "Send reset link" : "Sign in with email"}</button>
+            </form>
+            {message && <p role="status" className="mt-3 text-sm text-emerald-700">{message}</p>}
+            {formError && <p role="alert" className="mt-3 text-sm text-red-700">{formError}</p>}
+          </div>
 
           <details className="mt-7 rounded-2xl border border-slate-200 bg-slate-50 text-left">
             <summary className="cursor-pointer px-5 py-4 font-bold text-slate-800">
@@ -135,7 +206,7 @@ export default function LoginPage() {
           <div className="mt-8 rounded-2xl border border-emerald-300/25 bg-emerald-400/10 p-5">
             <p className="font-bold text-emerald-200">What happens next?</p>
             <ol className="mt-3 space-y-2 text-sm leading-6 text-blue-50">
-              <li>1. Choose your verified Google account.</li>
+              <li>1. Sign in with your verified checkout email.</li>
               <li>2. Return automatically to the selected course.</li>
               <li>3. Start or continue learning immediately when access is active.</li>
             </ol>
