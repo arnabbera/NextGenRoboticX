@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Bot,
   CheckCircle2,
@@ -45,22 +45,7 @@ export default function LoginPage() {
   }
 
   if (user?.email && !user.emailVerified) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-950 px-5">
-        <section className="w-full max-w-lg rounded-3xl bg-white p-8 text-slate-900 shadow-xl">
-          <BrandLogo className="w-60" />
-          <h1 className="mt-6 text-2xl font-bold">Verify your email to access courses</h1>
-          <p className="mt-3 text-slate-600">We sent a verification link to <strong>{user.email}</strong>. Open it, then return here to continue. Check your spam folder if you cannot find it.</p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <button type="button" onClick={async () => { setFormError(""); try { if (await refreshEmailVerification()) window.location.reload(); else setMessage("Email is not verified yet. Open the link in your inbox first."); } catch (error) { setFormError(error.message); } }} className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white">I verified my email</button>
-            <button type="button" onClick={async () => { setFormError(""); try { await resendVerificationEmail(); setMessage("Verification email sent."); } catch (error) { setFormError(error.message); } }} className="rounded-xl border px-5 py-3 font-semibold">Resend email</button>
-            <button type="button" onClick={() => logout()} className="rounded-xl border px-5 py-3 font-semibold">Use another account</button>
-          </div>
-          {message && <p className="mt-4 text-sm text-emerald-700">{message}</p>}
-          {formError && <p className="mt-4 text-sm text-red-700">{formError}</p>}
-        </section>
-      </main>
-    );
+    return <VerifyEmailPanel user={user} refreshEmailVerification={refreshEmailVerification} resendVerificationEmail={resendVerificationEmail} logout={logout} />;
   }
 
   if (user) {
@@ -102,7 +87,7 @@ export default function LoginPage() {
         trackEvent("email_login_complete", { courseId: redirectedCourseId });
       }
     } catch (error) {
-      setFormError(error.message || "Unable to continue. Please try again.");
+      setFormError(friendlyAuthError(error));
     } finally {
       setBusy(false);
     }
@@ -269,5 +254,93 @@ function LegalDisclosures() {
         </p>
       </article>
     </div>
+  );
+}
+
+const RESEND_COOLDOWN_MS = 60 * 1000;
+const CHECK_COOLDOWN_MS = 10 * 1000;
+
+function friendlyAuthError(error) {
+  if (error?.code === "auth/too-many-requests") {
+    return "Firebase has temporarily limited verification requests. Wait and try again later. Repeated clicks will not speed this up.";
+  }
+  return error?.message || "Unable to continue. Please try again.";
+}
+
+function VerifyEmailPanel({ user, refreshEmailVerification, resendVerificationEmail, logout }) {
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [checking, setChecking] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [now, setNow] = useState(Date.now());
+  const key = `nextgen:verification-resend:${user.email.toLowerCase()}`;
+  const [resendUntil, setResendUntil] = useState(() => Number(sessionStorage.getItem(key)) || 0);
+  const [checkUntil, setCheckUntil] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const resendSeconds = Math.max(0, Math.ceil((resendUntil - now) / 1000));
+  const checkSeconds = Math.max(0, Math.ceil((checkUntil - now) / 1000));
+
+  async function checkVerification() {
+    if (checking || Date.now() < checkUntil) return;
+    setChecking(true);
+    setError("");
+    setMessage("");
+    setCheckUntil(Date.now() + CHECK_COOLDOWN_MS);
+    try {
+      if (await refreshEmailVerification()) {
+        window.location.reload();
+        return;
+      }
+      setMessage("Your email is not verified yet. Open the verification link in your inbox, then check again.");
+    } catch (checkError) {
+      setError(friendlyAuthError(checkError));
+    } finally {
+      setChecking(false);
+    }
+  }
+
+  async function resend() {
+    if (sending || Date.now() < resendUntil) return;
+    setSending(true);
+    setError("");
+    setMessage("");
+    const nextAllowed = Date.now() + RESEND_COOLDOWN_MS;
+    setResendUntil(nextAllowed);
+    sessionStorage.setItem(key, String(nextAllowed));
+    try {
+      await resendVerificationEmail();
+      setMessage("Verification email sent. Check your inbox and spam folder.");
+    } catch (sendError) {
+      setError(friendlyAuthError(sendError));
+      // Preserve the cooldown after a Firebase rate-limit response.
+      if (sendError?.code !== "auth/too-many-requests") {
+        setResendUntil(0);
+        sessionStorage.removeItem(key);
+      }
+    } finally {
+      setSending(false);
+    }
+  }
+
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-slate-950 px-5">
+      <section className="w-full max-w-lg rounded-3xl bg-white p-8 text-slate-900 shadow-xl">
+        <BrandLogo className="w-60" />
+        <h1 className="mt-6 text-2xl font-bold">Verify your email to access courses</h1>
+        <p className="mt-3 text-slate-600">Check <strong>{user.email}</strong> for a verification link. Open the link before checking here. Also look in your spam folder.</p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <button type="button" disabled={checking || checkSeconds > 0} onClick={checkVerification} className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white disabled:opacity-50">{checking ? "Checking..." : checkSeconds ? `Check again in ${checkSeconds}s` : "I verified my email"}</button>
+          <button type="button" disabled={sending || resendSeconds > 0} onClick={resend} className="rounded-xl border px-5 py-3 font-semibold disabled:opacity-50">{sending ? "Sending..." : resendSeconds ? `Resend in ${resendSeconds}s` : "Resend email"}</button>
+          <button type="button" onClick={() => logout()} className="rounded-xl border px-5 py-3 font-semibold">Use another account</button>
+        </div>
+        {message && <p role="status" className="mt-4 text-sm text-slate-700">{message}</p>}
+        {error && <p role="alert" className="mt-4 text-sm text-red-700">{error}</p>}
+      </section>
+    </main>
   );
 }
