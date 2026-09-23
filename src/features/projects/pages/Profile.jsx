@@ -102,7 +102,7 @@ export default function Profile() {
         dateOfBirth: form.dateOfBirth, profileImageURL,
         education: { course: form.educationCourse.trim(), institution: form.educationInstitution.trim(), status: form.educationStatus, passingYear: form.passingYear.trim(), finalMarks: form.finalMarks.trim() },
         address: { line1: form.addressLine1.trim(), line2: form.addressLine2.trim(), city: form.city.trim(), state: form.state.trim(), postalCode: form.postalCode.trim(), country: form.country.trim() },
-        profileCompleted: completion === 100,
+        profileCompleted: Boolean(form.firstName.trim() && form.lastName.trim()),
       });
       await refreshProfile(); setImageFile(null);
       setMessage({ type: "success", text: "Your student profile has been updated successfully." });
@@ -117,7 +117,7 @@ export default function Profile() {
     <div className="mx-auto max-w-3xl rounded-3xl border border-slate-200 bg-white p-10 text-center shadow-sm">
       <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-100 text-amber-700"><LockKeyhole size={30} /></div>
       <h1 className="mt-5 text-3xl font-bold text-slate-900">Student profile unlocks after enrollment</h1>
-      <p className="mx-auto mt-3 max-w-2xl leading-7 text-slate-600">Enroll in at least one course using this Gmail account. You can then add your personal details, education, address and profile image.</p>
+      <p className="mx-auto mt-3 max-w-2xl leading-7 text-slate-600">Enroll in at least one course using this account. You can then add your personal details, education, address and profile image.</p>
       {enrollment.error && <p className="mt-4 rounded-xl bg-red-50 p-3 text-red-700">{enrollment.error}</p>}
       <Link to="/courses/available" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white"><BookOpen size={19} /> Browse Courses</Link>
     </div>
@@ -127,7 +127,7 @@ export default function Profile() {
     <div className="mx-auto max-w-7xl space-y-6">
       <header className="rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-violet-700 p-6 text-white shadow-lg md:p-8">
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-          <div><p className="font-semibold uppercase tracking-[0.18em] text-blue-200">Student learning portal</p><h1 className="mt-2 text-3xl font-bold">My Student Profile</h1><p className="mt-2 text-blue-100">Keep your academic and contact information accurate.</p></div>
+          <div><p className="font-semibold uppercase tracking-[0.18em] text-blue-200">Student learning portal</p><h1 className="mt-2 text-3xl font-bold">My Student Profile</h1><p className="mt-2 text-blue-100">Only your first and last name are required. Other details are optional.</p></div>
           <div className="rounded-2xl bg-white/15 px-5 py-3"><p className="text-sm text-blue-100">Profile completion</p><p className="text-2xl font-bold">{completion}%</p></div>
         </div>
       </header>
@@ -156,20 +156,20 @@ export default function Profile() {
           </div></FormSection>
 
           <FormSection icon={GraduationCap} title="Education — Graduation"><div className="grid gap-5 md:grid-cols-2">
-            <InputField required label="Course" name="educationCourse" value={form.educationCourse} onChange={change} placeholder="For example: B.Tech, B.Sc, Diploma" />
-            <InputField required label="University / Institution" name="educationInstitution" value={form.educationInstitution} onChange={change} />
-            <SelectField required label="Status" name="educationStatus" value={form.educationStatus} onChange={change} options={["Pursuing", "Completed"]} />
-            <InputField required label={form.educationStatus === "Pursuing" ? "Expected Passing Year" : "Passing Year"} name="passingYear" value={form.passingYear} onChange={change} inputMode="numeric" maxLength={4} />
+            <InputField label="Course" name="educationCourse" value={form.educationCourse} onChange={change} placeholder="For example: B.Tech, B.Sc, Diploma" />
+            <InputField label="University / Institution" name="educationInstitution" value={form.educationInstitution} onChange={change} />
+            <SelectField label="Status" name="educationStatus" value={form.educationStatus} onChange={change} options={["Pursuing", "Completed"]} />
+            <InputField label={form.educationStatus === "Pursuing" ? "Expected Passing Year" : "Passing Year"} name="passingYear" value={form.passingYear} onChange={change} inputMode="numeric" maxLength={4} />
             <InputField label="Final Year Marks / CGPA" name="finalMarks" value={form.finalMarks} onChange={change} placeholder="Optional" />
           </div></FormSection>
 
           <FormSection icon={MapPin} title="Address"><div className="grid gap-5 md:grid-cols-2">
-            <InputField required label="Address Line 1" name="addressLine1" value={form.addressLine1} onChange={change} className="md:col-span-2" />
+            <InputField label="Address Line 1" name="addressLine1" value={form.addressLine1} onChange={change} className="md:col-span-2" />
             <InputField label="Address Line 2" name="addressLine2" value={form.addressLine2} onChange={change} className="md:col-span-2" />
-            <InputField required label="City" name="city" value={form.city} onChange={change} />
-            <InputField required label="State" name="state" value={form.state} onChange={change} />
-            <InputField required label="PIN / Postal Code" name="postalCode" value={form.postalCode} onChange={change} inputMode="numeric" />
-            <InputField required label="Country" name="country" value={form.country} onChange={change} />
+            <InputField label="City" name="city" value={form.city} onChange={change} />
+            <InputField label="State" name="state" value={form.state} onChange={change} />
+            <InputField label="PIN / Postal Code" name="postalCode" value={form.postalCode} onChange={change} inputMode="numeric" />
+            <InputField label="Country" name="country" value={form.country} onChange={change} />
           </div></FormSection>
 
           {message.text && <div className={`flex items-center gap-3 rounded-xl border p-4 ${message.type === "success" ? "border-emerald-200 bg-emerald-50 text-emerald-800" : "border-red-200 bg-red-50 text-red-700"}`}>{message.type === "success" && <CheckCircle2 size={20} />}{message.text}</div>}
