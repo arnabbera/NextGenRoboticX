@@ -66,7 +66,7 @@ export default function Sidebar() {
 
       {!collapsed && (
         <div className="border-t border-slate-800 p-5">
-          <p className="text-xs leading-5 text-slate-400">Course access and certificates are securely linked to your signed-in Gmail account.</p>
+          <p className="text-xs leading-5 text-slate-400">Course access and certificates are securely linked to your verified email account.</p>
         </div>
       )}
     </aside>
