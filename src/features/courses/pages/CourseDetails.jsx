@@ -7,6 +7,7 @@ import { useAuth } from "../../../context/AuthContext";
 import ProjectShare from "../../projects/components/ProjectShare";
 import CourseSummaryVideo from "../components/CourseSummaryVideo";
 import { trackEvent } from "../../../services/analytics";
+import CertificateLogo from "../../../components/CertificateLogo";
 
 const COURSE_OVERVIEWS = {
   "robotics-foundation": {
@@ -609,7 +610,7 @@ function CourseTrustSection({ course }) {
             SAMPLE
           </span>
           <div className="relative">
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-blue-700">NextGenRoboticX</p>
+            <CertificateLogo className="w-52 sm:w-72" />
             <h3 className="mt-4 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">Certificate of Completion</h3>
             <p className="mt-4 text-slate-600">This sample demonstrates the certificate format awarded for</p>
             <p className="mt-2 text-2xl font-black text-blue-800">{course.title}</p>

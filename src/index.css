@@ -11,3 +11,18 @@ html {
 .student-dark input, .student-dark select, .student-dark textarea { background-color: #334155; color: #f8fafc; border-color: #64748b; }
 .student-dark input::placeholder, .student-dark textarea::placeholder { color: #cbd5e1; }
 .student-dark [class~="hover:bg-slate-100"]:hover { background-color: #334155 !important; }
+.student-dark #robotics-certificate [class*="text-slate-"] { color: #334155 !important; }
+
+/* Print the earned certificate itself, including the company logo. */
+@media print {
+  body:has(#robotics-certificate) * { visibility: hidden !important; }
+  #robotics-certificate, #robotics-certificate * { visibility: visible !important; }
+  #robotics-certificate {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    box-shadow: none !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
