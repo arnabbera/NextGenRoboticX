@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import BrandLogo from "../BrandLogo";
 
 export default function Footer() {
