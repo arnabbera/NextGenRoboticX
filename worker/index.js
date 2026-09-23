@@ -155,6 +155,7 @@ async function verifyFirebaseToken(request) {
   return {
     uid: payload.sub,
     email: payload.email || "",
+    emailVerified: payload.email_verified === true,
     name: payload.name || "",
   };
 }
@@ -577,7 +578,7 @@ async function getCourseEntitlement(env, uid, courseId) {
 
 async function claimGuestCourseEntitlement(env, user, courseId) {
   const email = normalizeEmail(user.email);
-  if (!email) return getCourseEntitlement(env, user.uid, courseId);
+  if (!email || !user.emailVerified) return getCourseEntitlement(env, user.uid, courseId);
 
   const kv = requireKv(env);
   const current = await getCourseEntitlement(env, user.uid, courseId);
@@ -661,7 +662,7 @@ async function handleCourseOrder(request, env) {
     );
     if (guestExisting?.active) {
       return json({
-        error: "This email already owns the course. Sign in with the same Google email to access it.",
+        error: "This email already owns the course. Sign in with the same verified email to access it.",
       }, 409);
     }
   }
