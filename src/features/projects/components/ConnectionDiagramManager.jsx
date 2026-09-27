@@ -1,6 +1,6 @@
 import { Image as ImageIcon, LoaderCircle, Upload } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
 import { isAdministrator } from "../../../components/auth/AdminRoute";
 import { useAuth } from "../../../context/AuthContext";
 
@@ -12,6 +12,8 @@ export default function ConnectionDiagramManager() {
   const slug = pathname.split("/").filter(Boolean).pop();
   const { user, profile } = useAuth();
   const admin = isAdministrator(user, profile);
+  const { canCopy = false } = useOutletContext() || {};
+  const canUseImage = admin || canCopy;
   const [metadata, setMetadata] = useState(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -81,7 +83,7 @@ export default function ConnectionDiagramManager() {
               <ImageIcon className="text-blue-700" size={28} />
               <h2 id={`${slug}-diagram-heading`} className="text-3xl font-bold text-slate-900">Connection Diagram</h2>
             </div>
-            <p className="mt-2 text-slate-600">View-only wiring reference for this project.</p>
+            <p className="mt-2 text-slate-600">{canUseImage ? "You can copy or save this wiring reference." : "Enroll in any one course to copy or save this wiring reference."}</p>
           </div>
           {admin && (
             <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white hover:bg-blue-800 has-[:disabled]:opacity-60">
@@ -93,9 +95,9 @@ export default function ConnectionDiagramManager() {
         </div>
 
         {metadata?.diagramUrl ? (
-          <div className="mt-6 overflow-hidden rounded-3xl border border-slate-200 bg-white p-4 shadow" onContextMenu={(event) => { if (!admin) event.preventDefault(); }}>
-            <img src={metadata.diagramUrl} alt={`${metadata.title || slug} connection diagram`} draggable="false" className={`mx-auto max-h-[900px] w-auto max-w-full select-none object-contain ${admin ? "" : "pointer-events-none"}`} />
-            <p className="mt-3 text-center text-sm text-slate-500">Online viewing only. No download control is provided.</p>
+          <div className="mt-6 overflow-hidden rounded-3xl border border-slate-200 bg-white p-4 shadow">
+            <img src={metadata.diagramUrl} alt={`${metadata.title || slug} connection diagram`} draggable={canUseImage} className={`mx-auto max-h-[900px] w-auto max-w-full object-contain ${canUseImage ? "" : "pointer-events-none select-none"}`} />
+            {canUseImage && <a href={metadata.diagramUrl} download={metadata.diagram?.fileName || `${slug}-diagram`} className="mt-4 inline-block rounded-xl bg-blue-700 px-5 py-2 font-semibold text-white">Save diagram image</a>}
           </div>
         ) : (
           <div className="mt-6 rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center text-slate-500">No connection diagram uploaded yet.</div>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FileText, LoaderCircle } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
-export default function ProjectResources() {
+export default function ProjectResources({ canCopy = false }) {
   const { pathname } = useLocation();
   const slug = pathname.split("/").filter(Boolean).pop();
   const [metadata, setMetadata] = useState(null);
@@ -70,11 +70,15 @@ export default function ProjectResources() {
               <div className="mt-5 overflow-hidden rounded-2xl border bg-slate-200">
                 <iframe
                   title={`${metadata.title || slug} project PDF`}
-                  src={`${metadata.pdfUrl}#toolbar=0&navpanes=0&scrollbar=1`}
+                  src={`${metadata.pdfUrl}#toolbar=${canCopy ? 1 : 0}&navpanes=0&scrollbar=1`}
                   className="h-[75vh] min-h-[600px] w-full"
                 />
               </div>
-              <p className="mt-3 text-sm text-slate-500">Displayed for online reading. The download control is intentionally hidden.</p>
+              {canCopy ? (
+                <a href={metadata.pdfUrl} target="_blank" rel="noreferrer" className="mt-4 inline-block font-semibold text-blue-700 underline">Open project guide to copy or save</a>
+              ) : (
+                <p className="mt-3 text-sm text-slate-500">Enroll in any one course to copy or save this guide.</p>
+              )}
             </article>
           )}
         </div>
