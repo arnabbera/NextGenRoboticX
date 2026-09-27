@@ -1,12 +1,19 @@
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import courses from "../data/courses";
 import CourseGrid from "../components/CourseGrid";
 import { Footer, Navbar } from "../../../components/home";
+import { useAuth } from "../../../context/AuthContext";
+import { isAdministrator } from "../../../components/auth/AdminRoute";
+import useCourseEnrollments from "../hooks/useCourseEnrollments";
 
 function CatalogueContent({ publicView }) {
+  const { user, profile } = useAuth();
+  const admin = isAdministrator(user, profile);
+  const { courseIds, loading, error } = useCourseEnrollments(!publicView && !admin);
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search") || "";
-  const visibleCourses = courses.filter((course) =>
+  const availableCourses = publicView || admin ? courses : courses.filter((course) => !courseIds.includes(course.id));
+  const visibleCourses = availableCourses.filter((course) =>
     `${course.title} ${course.description || ""}`.toLowerCase().includes(search.trim().toLowerCase())
   );
   return (
@@ -18,10 +25,12 @@ function CatalogueContent({ publicView }) {
           </p>
         )}
         <h1 className={publicView ? "mt-3 text-4xl font-black text-slate-900 sm:text-5xl" : "text-3xl font-bold text-slate-800"}>
-          Robotics and Technology Courses
+          {publicView || admin ? "Robotics and Technology Courses" : "Available Courses"}
         </h1>
         <p className={publicView ? "mx-auto mt-4 max-w-3xl text-lg leading-8 text-slate-600" : "mt-2 text-slate-600"}>
-          Explore practical courses in robotics, Arduino, Raspberry Pi, embedded systems, IoT, PCB design and drone technology. View every course before signing in or paying.
+          {publicView || admin
+            ? "Explore practical courses in robotics, Arduino, Raspberry Pi, embedded systems, IoT, PCB design and drone technology. View every course before signing in or paying."
+            : "Browse courses you have not enrolled in yet. Your purchased courses are under Enrolled Courses."}
         </p>
       </div>
 
@@ -41,7 +50,18 @@ function CatalogueContent({ publicView }) {
         />
       </div>
 
-      <CourseGrid courses={visibleCourses} />
+      {loading ? (
+        <p role="status" className="text-slate-600">Loading available courses...</p>
+      ) : error ? (
+        <p role="alert" className="rounded-xl bg-red-50 p-5 text-red-700">{error}</p>
+      ) : !publicView && !admin && availableCourses.length === 0 ? (
+        <div className="rounded-2xl bg-white p-8 text-center text-slate-700">
+          <p>All courses are in your enrolled list.</p>
+          <Link to="/courses/enrolled" className="mt-4 inline-block font-semibold text-blue-700 underline">View Enrolled Courses</Link>
+        </div>
+      ) : (
+        <CourseGrid courses={visibleCourses} />
+      )}
     </div>
   );
 }

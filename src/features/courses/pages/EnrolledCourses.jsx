@@ -44,7 +44,7 @@ export default function EnrolledCourses() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-slate-800">Enrolled Courses</h1>
-        <p className="mt-2 text-slate-600">Courses purchased using your signed-in Gmail account.</p>
+        <p className="mt-2 text-slate-600">Courses purchased using your verified email account.</p>
       </div>
 
       {error && <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-700">{error}</div>}
@@ -53,7 +53,7 @@ export default function EnrolledCourses() {
         <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-12 text-center">
           <BookOpen className="mx-auto text-slate-400" size={52} />
           <h2 className="mt-5 text-2xl font-bold text-slate-900">No enrolled courses yet</h2>
-          <p className="mt-3 text-slate-600">After a successful ₹99 payment, the selected course will appear here automatically.</p>
+          <p className="mt-3 text-slate-600">After a successful enrollment, the selected course will appear here automatically.</p>
           <Link to="/courses/available" className="mt-6 inline-block rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white">Browse Available Courses</Link>
         </div>
       ) : (
