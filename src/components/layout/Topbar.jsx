@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Search,
   Bell,
@@ -10,6 +10,7 @@ import {
   LogOut,
   ChevronDown,
   HelpCircle,
+  Menu,
 } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext";
@@ -19,10 +20,12 @@ export default function Topbar({ darkMode, toggleDarkMode }) {
   const navigate = useNavigate();
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const menuRef = useRef(null);
   const notificationsRef = useRef(null);
+  const mobileRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -31,6 +34,9 @@ export default function Topbar({ darkMode, toggleDarkMode }) {
       }
       if (notificationsRef.current && !notificationsRef.current.contains(event.target)) {
         setNotificationsOpen(false);
+      }
+      if (mobileRef.current && !mobileRef.current.contains(event.target)) {
+        setMobileOpen(false);
       }
     }
 
@@ -52,13 +58,32 @@ export default function Topbar({ darkMode, toggleDarkMode }) {
 
   function openPage(path) {
     setMenuOpen(false);
+    setMobileOpen(false);
     navigate(path);
   }
 
   return (
-    <header className="flex h-20 items-center justify-between border-b border-slate-200 bg-white px-8 shadow-sm">
+    <header className="relative flex h-20 items-center justify-between gap-3 border-b border-slate-200 bg-white px-3 shadow-sm sm:px-8">
+      <div className="relative lg:hidden" ref={mobileRef}>
+        <button type="button" aria-label="Student navigation" aria-expanded={mobileOpen} onClick={() => setMobileOpen(!mobileOpen)} className="rounded-lg p-2 text-slate-700 hover:bg-slate-100"><Menu size={25} /></button>
+        {mobileOpen && (
+          <nav aria-label="Student navigation" className="absolute left-0 top-full z-50 mt-3 w-64 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
+            {[
+              ["Dashboard", "/dashboard"],
+              ["Available Courses", "/courses/available"],
+              ["Enrolled Courses", "/courses/enrolled"],
+              ["Available Projects", "/projects/available"],
+              ["Enrolled Projects", "/projects/enrolled"],
+              ["Certificates", "/certificates"],
+              ["My Profile", "/profile"],
+            ].map(([label, path]) => (
+              <Link key={path} to={path} onClick={() => setMobileOpen(false)} className="block rounded-lg px-4 py-3 font-medium text-slate-800 hover:bg-slate-100">{label}</Link>
+            ))}
+          </nav>
+        )}
+      </div>
       {/* Search */}
-      <form className="relative w-full max-w-xl" onSubmit={(event) => {
+      <form className="relative hidden w-full max-w-xl sm:block" onSubmit={(event) => {
         event.preventDefault();
         navigate(`/courses/available?search=${encodeURIComponent(query.trim())}`);
       }}>
@@ -78,7 +103,7 @@ export default function Topbar({ darkMode, toggleDarkMode }) {
       </form>
 
       {/* Right Side */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-2 sm:gap-6">
         {/* Notifications */}
         <div className="relative" ref={notificationsRef}>
           <button type="button" aria-label="Notifications" aria-expanded={notificationsOpen} onClick={() => setNotificationsOpen(!notificationsOpen)} className="rounded-lg p-2 transition hover:bg-slate-100"><Bell size={24} className="text-slate-600" /></button>
@@ -93,6 +118,9 @@ export default function Topbar({ darkMode, toggleDarkMode }) {
         {/* Profile */}
         <div className="relative" ref={menuRef}>
           <button
+            type="button"
+            aria-label="Account menu"
+            aria-expanded={menuOpen}
             onClick={() => setMenuOpen(!menuOpen)}
             className="flex items-center gap-3 rounded-xl p-2 transition hover:bg-slate-100"
           >
@@ -146,8 +174,6 @@ export default function Topbar({ darkMode, toggleDarkMode }) {
 
           <button
             type="button"
-            aria-label="Account menu"
-            aria-expanded={menuOpen}
                 onClick={handleLogout}
                 className="flex w-full items-center gap-3 px-5 py-3 text-left text-red-600 hover:bg-red-50"
               >
