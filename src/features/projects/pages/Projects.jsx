@@ -76,7 +76,7 @@ const projects = [
   },
 ];
 
-export default function Projects() {
+export default function Projects({ heading = "Student Projects", description = "Explore robotics, AI and IoT projects built during the NextGenRoboticX learning journey.", enrolled = false }) {
   return (
     <div className="min-h-screen bg-slate-50 p-8">
 
@@ -85,12 +85,11 @@ export default function Projects() {
         <div className="mb-10">
 
           <h1 className="text-5xl font-bold text-slate-900">
-            Student Projects
+            {heading}
           </h1>
 
           <p className="mt-3 text-lg text-slate-600">
-            Explore robotics, AI and IoT projects built during the
-            NextGenRoboticX learning journey.
+            {description}
           </p>
 
         </div>
@@ -150,7 +149,7 @@ export default function Projects() {
                   className="mt-6 block w-full rounded-xl bg-blue-600 py-3 text-center font-semibold text-white transition hover:bg-blue-700"
                   aria-label={`View ${project.title}`}
                 >
-                  View Project
+                  {enrolled ? "Open Project" : "Preview Project"}
                 </Link>
 
               </div>
