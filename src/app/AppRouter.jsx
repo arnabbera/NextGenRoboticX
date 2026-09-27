@@ -24,6 +24,7 @@ import VoiceControlledRobotChapterPage from "../features/learning/pages/VoiceCon
 import AIRobotIntegrationChapterPage from "../features/learning/pages/AIRobotIntegrationChapterPage";
 import FinalProjectChapterPage from "../features/learning/pages/FinalProjectChapterPage";
 import Projects from "../features/projects/pages/Projects";
+import StudentProjects from "../features/projects/pages/StudentProjects";
 import Certificates from "../features/projects/pages/Certificates";
 import Profile from "../features/projects/pages/Profile";
 import Settings from "../features/projects/pages/Settings";
@@ -92,7 +93,9 @@ export default function AppRouter() {
             <Route path="/courses/robotics-foundation/learn/chapter-9" element={<AIRobotIntegrationChapterPage />} />
               <Route path="/courses/robotics-foundation/learn/chapter-10" element={<FinalProjectChapterPage />} />
             </Route>
-            <Route path="/projects" element={<Projects />} />
+            <Route path="/projects" element={<StudentProjects view="auto" />} />
+            <Route path="/projects/available" element={<StudentProjects view="available" />} />
+            <Route path="/projects/enrolled" element={<StudentProjects view="enrolled" />} />
             <Route path="/certificates" element={<Certificates />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
