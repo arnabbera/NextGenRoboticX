@@ -2,9 +2,11 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import BrandLogo from "../BrandLogo";
+import { useAuth } from "../../context/AuthContext";
 
 const items = [
   ["Home", "top"],
+  ["Dashboard", "dashboard", "dashboard"],
   ["Courses", "/courses", "route"],
   ["Projects", "projects"],
   ["Shop", "/shop", "route"],
@@ -16,6 +18,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const dashboardPath = user ? "/dashboard" : "/login?redirect=%2Fdashboard&mode=register";
 
   useEffect(() => {
     if (location.pathname !== "/") return;
@@ -58,10 +62,10 @@ export default function Navbar() {
 
           <nav className="hidden items-center gap-8 md:flex" aria-label="Main navigation">
             {items.map(([label, target, type]) =>
-              type === "route" ? (
+              type === "route" || type === "dashboard" ? (
                 <Link
                   key={target}
-                  to={target}
+                  to={type === "dashboard" ? dashboardPath : target}
                   className="font-medium text-slate-700 transition hover:text-blue-600"
                 >
                   {label}
@@ -94,10 +98,10 @@ export default function Navbar() {
         {open && (
           <nav id="mobile-navigation" className="border-t border-slate-200 py-3 md:hidden" aria-label="Mobile navigation">
             {items.map(([label, target, type]) =>
-              type === "route" ? (
+              type === "route" || type === "dashboard" ? (
                 <Link
                   key={target}
-                  to={target}
+                  to={type === "dashboard" ? dashboardPath : target}
                   onClick={() => setOpen(false)}
                   className="block w-full rounded-xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-700"
                 >
