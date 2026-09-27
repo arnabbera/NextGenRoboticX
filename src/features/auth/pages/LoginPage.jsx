@@ -25,7 +25,7 @@ export default function LoginPage() {
   const { user, loading, loginWithGoogle, login, register, resetPassword, resendVerificationEmail, refreshEmailVerification, logout } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [mode, setMode] = useState("sign-in");
+  const [mode, setMode] = useState(() => new URLSearchParams(window.location.search).get("mode") === "register" ? "register" : "sign-in");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [formError, setFormError] = useState("");
@@ -104,7 +104,7 @@ export default function LoginPage() {
           </span>
 
           <h1 className="mt-5 text-3xl font-black text-slate-900 sm:text-4xl">
-            {courseRedirect ? "Access your course and start learning" : "Welcome to your learning portal"}
+            {courseRedirect ? "Access your course and start learning" : mode === "register" ? "Create your learner account" : "Welcome to your learning portal"}
           </h1>
 
           <p className="mx-auto mt-4 max-w-xl leading-7 text-slate-600">
